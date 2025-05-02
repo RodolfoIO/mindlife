@@ -1,0 +1,50 @@
+---
+let name = 'Clinicas Mindlife Web'
+import BenefitsSection from '../components/BenefitsSection.astro'
+import CTASection from '../components/CTASection.astro'
+import FinalCTA from '../components/FinalCTA.astro'
+import Footer from '../components/Footer.astro'
+import HeroSection from '../components/HeroSection.astro'
+import Navbar from '../components/Navbar.astro'
+import Packages from '../components/Packages.astro'
+import Testimonial from '../components/Testimonial.astro'
+import './src/styles/global.css'
+---
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindlife - Psicología Integral | 10 Años Transformando Vidas</title>
+    <!-- Meta tags para SEO -->
+    <meta name="description" content="Mindlife: 10 años ofreciendo terapia psicológica profesional. Agenda tu cita hoy y comienza tu camino hacia el bienestar emocional.">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png">
+</head>
+<body class="font-sans bg-white text-gray-800">
+    <!-- Header/Navbar -->
+    <Navbar />
+
+    <!-- Hero Section -->
+    <HeroSection />
+
+    <!-- Beneficios Section -->
+    <BenefitsSection />
+
+    <!-- CTA Section -->
+    <CTASection />
+
+    <!-- Engagement/Refuerzo Section -->
+    <Testimonial />
+
+	<!-- Precios -->
+
+	<Packages />
+
+    <!-- Argumento final y CTA -->
+    <FinalCTA />
+
+    <!-- Footer -->
+    <Footer />
+</body>
+</html>
