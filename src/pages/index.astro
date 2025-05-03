@@ -1,5 +1,5 @@
 ---
-let name = 'Clinicas Mindlife Web'
+import Approach from '../components/Approach.astro'
 import BenefitsSection from '../components/BenefitsSection.astro'
 import CTASection from '../components/CTASection.astro'
 import FinalCTA from '../components/FinalCTA.astro'
@@ -8,7 +8,7 @@ import HeroSection from '../components/HeroSection.astro'
 import Navbar from '../components/Navbar.astro'
 import Packages from '../components/Packages.astro'
 import Testimonial from '../components/Testimonial.astro'
-import './src/styles/global.css'
+import '../styles/global.css'
 ---
 
 <html lang="es">
@@ -19,7 +19,7 @@ import './src/styles/global.css'
     <!-- Meta tags para SEO -->
     <meta name="description" content="Mindlife: 10 años ofreciendo terapia psicológica profesional. Agenda tu cita hoy y comienza tu camino hacia el bienestar emocional.">
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="icon" type="image/png" href="/logo-mindlife-redondo.png">
 </head>
 <body class="font-sans bg-white text-gray-800">
     <!-- Header/Navbar -->
@@ -35,6 +35,10 @@ import './src/styles/global.css'
     <CTASection />
 
     <!-- Engagement/Refuerzo Section -->
+    <Approach />
+ 
+    <!-- Testimonios Section -->
+
     <Testimonial />
 
 	<!-- Precios -->
