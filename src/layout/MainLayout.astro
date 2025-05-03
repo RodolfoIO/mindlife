@@ -1,4 +1,25 @@
 ---
 
+import Navbar from '../components/Navbar.astro';
+import '../styles/global.css'
+
+interface Props {
+    title: string;
+}
+const {title} = Astro.props;
 ---
 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="/logo-mindlife-redondo.png">
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Mindlife: 10 años ofreciendo terapia psicológica profesional. Agenda tu cita hoy y comienza tu camino hacia el bienestar emocional.">
+    <meta name="generator" content={Astro.generator} >
+    <title>{title}</title>
+</head>
+<body>
+    <Navbar />
+    <slot />
+</body>
+</html>
