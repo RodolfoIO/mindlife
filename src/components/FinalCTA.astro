@@ -10,29 +10,88 @@
             
             <div class="bg-white p-8 rounded-xl shadow-lg inline-block text-left max-w-md w-full">
                 <h3 class="text-2xl font-bold text-blue-800 mb-4">Agenda tu cita hoy</h3>
-                <form>
+                <form id="citaForm">
                     <div class="mb-4">
                         <label for="name" class="block text-gray-700 mb-2">Nombre completo</label>
-                        <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        <input type="text" id="name" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
                     </div>
                     <div class="mb-4">
                         <label for="email" class="block text-gray-700 mb-2">Correo electrónico</label>
-                        <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        <input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
                     </div>
-                    <div class="mb-6">
+                    <div class="mb-4">
                         <label for="service" class="block text-gray-700 mb-2">Servicio de interés</label>
-                        <select id="service" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        <select id="service" name="service" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
                             <option value="">Selecciona una opción</option>
-                            <option value="individual">Terapia individual</option>
-                            <option value="pareja">Terapia de pareja</option>
-                            <option value="familiar">Terapia familiar</option>
-                            <option value="infantil">Terapia infantil</option>
-                            <option value="otros">Otros</option>
+                            <option value="Terapia individual">Terapia individual</option>
+                            <option value="Terapia de pareja">Terapia de pareja</option>
+                            <option value="Terapia familiar">Terapia familiar</option>
+                            <option value="Terapia infantil">Terapia infantil</option>
+                            <option value="Otros">Otros</option>
                         </select>
                     </div>
-                    <a class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300" href="https://wa.me/50243605982?text=Hola%20quiero%20más%20información">Solicitar cita</a>
+                    <div class="mb-6">
+                        <label for="package" class="block text-gray-700 mb-2">Paquete de interés</label>
+                        <select id="package" name="package" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            <option value="">Selecciona un paquete</option>
+                            <option value="Sesión Individual">Sesión Individual</option>
+                            <option value="Paquete 4 sesiones">Paquete 4 sesiones</option>
+                            <option value="Paquete 6 sesiones">Paquete 6 sesiones</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 cursor-pointer">
+                        Solicitar cita por WhatsApp
+                    </button>
                 </form>
             </div>
         </div>
     </div>
 </section>
+
+<script>
+    type FormElements = {
+        name: HTMLInputElement;
+        email: HTMLInputElement;
+        service: HTMLSelectElement;
+        package: HTMLSelectElement;
+      };
+      
+      const handleFormSubmit = (event: Event): void => {
+        event.preventDefault();
+        
+        const form = event.target as HTMLFormElement;
+        const elements = form.elements as unknown as FormElements;
+      
+        const name = elements.name.value.trim();
+        const email = elements.email.value.trim();
+        const service = elements.service.value;
+        const selectedPackage = elements.package.value;
+      
+        // Validación básica
+        if (!name || !email || !service || !selectedPackage) {
+          alert('Por favor complete todos los campos');
+          return;
+        }
+      
+        // Construir mensaje para WhatsApp
+        const message = `Hola, soy ${encodeURIComponent(name)}, mi correo es ${encodeURIComponent(
+          email
+        )}, estoy interesado en ${encodeURIComponent(service)} y deseo adquirir el paquete ${encodeURIComponent(
+          selectedPackage
+        )}`;
+      
+        // Abrir WhatsApp
+        window.open(`https://wa.me/50243605982?text=${message}`, '_blank');
+      };
+      
+      // Inicialización cuando el DOM esté listo
+      document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('citaForm') as HTMLFormElement | null;
+        
+        if (form) {
+          form.addEventListener('submit', handleFormSubmit);
+        } else {
+          console.error('No se encontró el formulario con ID "citaForm"');
+        }
+      });
+</script>

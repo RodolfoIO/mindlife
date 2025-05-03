@@ -2,154 +2,592 @@
 
 ---
 
-
 <div class="py-16 bg-white" id="precios">
   <div class="container mx-auto px-6">
     <h2 class="text-3xl md:text-4xl font-bold text-center text-purple-800 mb-4">Nuestros Paquetes de Terapia</h2>
-    <p class="text-xl text-center text-gray-600 mb-12 max-w-2xl mx-auto">Invierte en tu bienestar emocional con nuestros paquetes y ahorra en cada sesión</p>
+    <p class="text-xl text-center text-gray-600 mb-12 max-w-2xl mx-auto">Selecciona el tipo de terapia para ver los paquetes disponibles</p>
     
-    <div class="grid md:grid-cols-3 gap-8">
-      <!-- Paquete Individual -->
-      <div class="bg-white border-2 border-purple-200 rounded-xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden flex flex-col">
-        <div class="bg-purple-100 p-6 text-center">
-          <h3 class="text-2xl font-bold text-purple-800">Sesión Individual</h3>
-        </div>
-        <div class="p-8 flex-grow">
-          <div class="text-center mb-6">
-            <span class="text-4xl font-bold text-gray-800">Q250</span>
-            <span class="text-gray-600 block">por sesión</span>
+    <!-- Pestañas -->
+    <div class="flex flex-wrap justify-center mb-8">
+      <button onclick="changeTab('individual-linea')" class="tab-button active px-6 py-3 mx-2 mb-2 rounded-lg bg-purple-600 text-white font-medium transition-colors">
+        Individual en Línea
+      </button>
+      <button onclick="changeTab('individual-presencial')" class="tab-button px-6 py-3 mx-2 mb-2 rounded-lg bg-purple-100 text-purple-800 font-medium hover:bg-purple-200 transition-colors">
+        Individual Presencial
+      </button>
+      <button onclick="changeTab('pareja-familia')" class="tab-button px-6 py-3 mx-2 mb-2 rounded-lg bg-purple-100 text-purple-800 font-medium hover:bg-purple-200 transition-colors">
+        Pareja/Familia en Línea
+      </button>
+      <button onclick="changeTab('estudiantes')" class="tab-button px-6 py-3 mx-2 mb-2 rounded-lg bg-purple-100 text-purple-800 font-medium hover:bg-purple-200 transition-colors">
+        Para Estudiantes
+      </button>
+    </div>
+    
+    <!-- Contenido de pestañas -->
+    <div>
+      <!-- Terapia Individual en Línea -->
+      <div id="individual-linea" class="tab-content active">
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Paquete Individual -->
+          <div class="bg-white border-2 border-purple-200 rounded-xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden flex flex-col">
+            <div class="bg-purple-100 p-6 text-center">
+              <h3 class="text-2xl font-bold text-purple-800">Sesión</h3>
+            </div>
+            <div class="p-8 flex-grow">
+              <div class="text-center mb-6">
+                <span class="text-4xl font-bold text-gray-800">Q250</span>
+                <span class="text-gray-600 block">por sesión de 45 min</span>
+              </div>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>1 sesión de 45 minutos</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Flexibilidad de horario</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Sin compromiso a largo plazo</span>
+                </li>
+              </ul>
+            </div>
+            <div class="px-8 pb-8 mt-auto">
+              <div class="text-center mb-4">
+                <span class="text-gray-500 text-sm">Precio regular: Q250</span>
+              </div>
+              <a class="block w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 cursor-pointer text-center" href="#contacto">
+                Agendar ahora
+              </a>
+            </div>
           </div>
-          <ul class="space-y-3 mb-8">
-            <li class="flex items-center">
-              <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span>1 sesión de 45 minutos</span>
-            </li>
-            <li class="flex items-center">
-              <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span>Flexibilidad de horario</span>
-            </li>
-            <li class="flex items-center">
-              <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span>Sin compromiso a largo plazo</span>
-            </li>
-          </ul>
-        </div>
-        <div class="px-8 pb-8 mt-auto">
-          <div class="text-center mb-4">
-            <span class="text-gray-500 text-sm">Precio regular: Q250</span>
+
+          <!-- Paquete de 4 sesiones -->
+          <div class="bg-white border-2 border-blue-200 rounded-xl shadow-lg hover:shadow-xl transition duration-300 overflow-hidden transform hover:-translate-y-1 relative flex flex-col">
+            <div class="absolute top-0 right-0 bg-blue-500 text-white px-4 py-1 text-sm font-bold rounded-bl-lg">
+              ¡Más popular!
+            </div>
+            <div class="bg-blue-100 p-6 text-center">
+              <h3 class="text-2xl font-bold text-blue-800">Paquete Básico</h3>
+            </div>
+            <div class="p-8 flex-grow">
+              <div class="text-center mb-6">
+                <span class="text-4xl font-bold text-gray-800">Q750</span>
+                <span class="text-gray-600 block">por 4 sesiones</span>
+              </div>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>4 sesiones de 45 minutos</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Precio por sesión: Q187.50</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Ahorro total: Q250</span>
+                </li>
+              </ul>
+            </div>
+            <div class="px-8 pb-8 mt-auto">
+              <div class="text-center mb-4">
+                <span class="text-gray-500 text-sm line-through">Precio regular: Q1,000</span>
+              </div>
+              <a class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 cursor-pointer text-center" href="#contacto">
+                Comprar paquete
+              </a>
+            </div>
           </div>
-          <a class="block w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 cursor-pointer text-center" href="#contacto">
-            Agendar ahora
-          </a>
+
+          <!-- Paquete de 6 sesiones -->
+          <div class="bg-white border-2 border-green-200 rounded-xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden flex flex-col">
+            <div class="bg-green-100 p-6 text-center">
+              <h3 class="text-2xl font-bold text-green-800">Paquete Completo</h3>
+            </div>
+            <div class="p-8 flex-grow">
+              <div class="text-center mb-6">
+                <span class="text-4xl font-bold text-gray-800">Q950</span>
+                <span class="text-gray-600 block">por 6 sesiones</span>
+              </div>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>6 sesiones de 45 minutos</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Precio por sesión: Q158.33</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Ahorro total: Q550</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Sesiones adicionales con descuento</span>
+                </li>
+              </ul>
+            </div>
+            <div class="px-8 pb-8 mt-auto">
+              <div class="text-center mb-4">
+                <span class="text-gray-500 text-sm line-through">Precio regular: Q1,500</span>
+              </div>
+              <a class="block w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 cursor-pointer text-center" href="#contacto">
+                Comprar paquete
+              </a>
+            </div>
+          </div>
         </div>
       </div>
+      
+      <!-- Terapia Individual Presencial -->
+      <div id="individual-presencial" class="tab-content hidden">
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Paquete Individual -->
+          <div class="bg-white border-2 border-purple-200 rounded-xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden flex flex-col">
+            <div class="bg-purple-100 p-6 text-center">
+              <h3 class="text-2xl font-bold text-purple-800">Sesión</h3>
+            </div>
+            <div class="p-8 flex-grow">
+              <div class="text-center mb-6">
+                <span class="text-4xl font-bold text-gray-800">Q350</span>
+                <span class="text-gray-600 block">por sesión presencial</span>
+              </div>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>1 sesión presencial de 45 min</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>En nuestras instalaciones</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Ambiente privado y confidencial</span>
+                </li>
+              </ul>
+            </div>
+            <div class="px-8 pb-8 mt-auto">
+              <div class="text-center mb-4">
+                <span class="text-gray-500 text-sm">Precio regular: Q350</span>
+              </div>
+              <a class="block w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 cursor-pointer text-center" href="#contacto">
+                Agendar ahora
+              </a>
+            </div>
+          </div>
 
-      <!-- Paquete de 4 sesiones -->
-      <div class="bg-white border-2 border-blue-200 rounded-xl shadow-lg hover:shadow-xl transition duration-300 overflow-hidden transform hover:-translate-y-1 relative flex flex-col">
-        <div class="absolute top-0 right-0 bg-blue-500 text-white px-4 py-1 text-sm font-bold rounded-bl-lg">
-          ¡Más popular!
-        </div>
-        <div class="bg-blue-100 p-6 text-center">
-          <h3 class="text-2xl font-bold text-blue-800">Paquete Básico</h3>
-        </div>
-        <div class="p-8 flex-grow">
-          <div class="text-center mb-6">
-            <span class="text-4xl font-bold text-gray-800">Q750</span>
-            <span class="text-gray-600 block">por 4 sesiones</span>
+          <!-- Paquete de 4 sesiones -->
+          <div class="bg-white border-2 border-blue-200 rounded-xl shadow-lg hover:shadow-xl transition duration-300 overflow-hidden transform hover:-translate-y-1 relative flex flex-col">
+            <div class="absolute top-0 right-0 bg-blue-500 text-white px-4 py-1 text-sm font-bold rounded-bl-lg">
+              ¡Recomendado!
+            </div>
+            <div class="bg-blue-100 p-6 text-center">
+              <h3 class="text-2xl font-bold text-blue-800">Paquete Básico</h3>
+            </div>
+            <div class="p-8 flex-grow">
+              <div class="text-center mb-6">
+                <span class="text-4xl font-bold text-gray-800">Q1,100</span>
+                <span class="text-gray-600 block">por 4 sesiones</span>
+              </div>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>4 sesiones presenciales</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Precio por sesión: Q275</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Ahorro total: Q300</span>
+                </li>
+              </ul>
+            </div>
+            <div class="px-8 pb-8 mt-auto">
+              <div class="text-center mb-4">
+                <span class="text-gray-500 text-sm line-through">Precio regular: Q1,400</span>
+              </div>
+              <a class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 cursor-pointer text-center" href="#contacto">
+                Comprar paquete
+              </a>
+            </div>
           </div>
-          <ul class="space-y-3 mb-8">
-            <li class="flex items-center">
-              <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span>4 sesiones de 45 minutos</span>
-            </li>
-            <li class="flex items-center">
-              <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span>Precio por sesión: Q187.50</span>
-            </li>
-            <li class="flex items-center">
-              <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span>Ahorras Q62.50 por sesión</span>
-            </li>
-            <li class="flex items-center">
-              <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span>Ahorro total: Q250</span>
-            </li>
-          </ul>
-        </div>
-        <div class="px-8 pb-8 mt-auto">
-          <div class="text-center mb-4">
-            <span class="text-gray-500 text-sm line-through">Precio regular: Q1,000</span>
+
+          <!-- Paquete de 6 sesiones -->
+          <div class="bg-white border-2 border-green-200 rounded-xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden flex flex-col">
+            <div class="bg-green-100 p-6 text-center">
+              <h3 class="text-2xl font-bold text-green-800">Paquete Completo</h3>
+            </div>
+            <div class="p-8 flex-grow">
+              <div class="text-center mb-6">
+                <span class="text-4xl font-bold text-gray-800">Q1,500</span>
+                <span class="text-gray-600 block">por 6 sesiones</span>
+              </div>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>6 sesiones presenciales</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Precio por sesión: Q250</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Ahorro total: Q600</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Prioridad en agendamiento</span>
+                </li>
+              </ul>
+            </div>
+            <div class="px-8 pb-8 mt-auto">
+              <div class="text-center mb-4">
+                <span class="text-gray-500 text-sm line-through">Precio regular: Q2,100</span>
+              </div>
+              <a class="block w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 cursor-pointer text-center" href="#contacto">
+                Comprar paquete
+              </a>
+            </div>
           </div>
-          <a class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 cursor-pointer text-center" href="#contacto">
-            Comprar paquete
-          </a>
         </div>
       </div>
+      
+      <!-- Terapia Pareja/Familia en Línea -->
+      <div id="pareja-familia" class="tab-content hidden">
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Paquete Individual -->
+          <div class="bg-white border-2 border-purple-200 rounded-xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden flex flex-col">
+            <div class="bg-purple-100 p-6 text-center">
+              <h3 class="text-2xl font-bold text-purple-800">Sesión</h3>
+            </div>
+            <div class="p-8 flex-grow">
+              <div class="text-center mb-6">
+                <span class="text-4xl font-bold text-gray-800">Q350</span>
+                <span class="text-gray-600 block">por sesión de 90 min</span>
+              </div>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>1 sesión de 90 minutos</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Para 2-4 participantes</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Sesiones grupales en línea</span>
+                </li>
+              </ul>
+            </div>
+            <div class="px-8 pb-8 mt-auto">
+              <div class="text-center mb-4">
+                <span class="text-gray-500 text-sm">Precio regular: Q350</span>
+              </div>
+              <a class="block w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 cursor-pointer text-center" href="#contacto">
+                Agendar ahora
+              </a>
+            </div>
+          </div>
 
-      <!-- Paquete de 6 sesiones -->
-      <div class="bg-white border-2 border-green-200 rounded-xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden flex flex-col">
-        <div class="bg-green-100 p-6 text-center">
-          <h3 class="text-2xl font-bold text-green-800">Paquete Completo</h3>
-        </div>
-        <div class="p-8 flex-grow">
-          <div class="text-center mb-6">
-            <span class="text-4xl font-bold text-gray-800">Q950</span>
-            <span class="text-gray-600 block">por 6 sesiones</span>
+          <!-- Paquete de 4 sesiones -->
+          <div class="bg-white border-2 border-blue-200 rounded-xl shadow-lg hover:shadow-xl transition duration-300 overflow-hidden transform hover:-translate-y-1 relative flex flex-col">
+            <div class="absolute top-0 right-0 bg-blue-500 text-white px-4 py-1 text-sm font-bold rounded-bl-lg">
+              ¡Más popular!
+            </div>
+            <div class="bg-blue-100 p-6 text-center">
+              <h3 class="text-2xl font-bold text-blue-800">Paquete Básico</h3>
+            </div>
+            <div class="p-8 flex-grow">
+              <div class="text-center mb-6">
+                <span class="text-4xl font-bold text-gray-800">Q1,100</span>
+                <span class="text-gray-600 block">por 4 sesiones</span>
+              </div>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>4 sesiones de 90 minutos</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Precio por sesión: Q275</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Ahorro total: Q300</span>
+                </li>
+              </ul>
+            </div>
+            <div class="px-8 pb-8 mt-auto">
+              <div class="text-center mb-4">
+                <span class="text-gray-500 text-sm line-through">Precio regular: Q1,400</span>
+              </div>
+              <a class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 cursor-pointer text-center" href="#contacto">
+                Comprar paquete
+              </a>
+            </div>
           </div>
-          <ul class="space-y-3 mb-8">
-            <li class="flex items-center">
-              <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span>6 sesiones de 45 minutos</span>
-            </li>
-            <li class="flex items-center">
-              <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span>Precio por sesión: Q158.33</span>
-            </li>
-            <li class="flex items-center">
-              <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span>Ahorras Q91.67 por sesión</span>
-            </li>
-            <li class="flex items-center">
-              <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span>Ahorro total: Q550</span>
-            </li>
-            <li class="flex items-center">
-              <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              <span>Sesiones adicionales con descuento</span>
-            </li>
-          </ul>
-        </div>
-        <div class="px-8 pb-8 mt-auto">
-          <div class="text-center mb-4">
-            <span class="text-gray-500 text-sm line-through">Precio regular: Q1,500</span>
+
+          <!-- Paquete de 6 sesiones -->
+          <div class="bg-white border-2 border-green-200 rounded-xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden flex flex-col">
+            <div class="bg-green-100 p-6 text-center">
+              <h3 class="text-2xl font-bold text-green-800">Paquete Completo</h3>
+            </div>
+            <div class="p-8 flex-grow">
+              <div class="text-center mb-6">
+                <span class="text-4xl font-bold text-gray-800">Q1,500</span>
+                <span class="text-gray-600 block">por 6 sesiones</span>
+              </div>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>6 sesiones de 90 minutos</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Precio por sesión: Q250</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Ahorro total: Q600</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Seguimiento personalizado</span>
+                </li>
+              </ul>
+            </div>
+            <div class="px-8 pb-8 mt-auto">
+              <div class="text-center mb-4">
+                <span class="text-gray-500 text-sm line-through">Precio regular: Q2,100</span>
+              </div>
+              <a class="block w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 cursor-pointer text-center" href="#contacto">
+                Comprar paquete
+              </a>
+            </div>
           </div>
-          <a class="block w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 cursor-pointer text-center" href="#contacto">
-            Comprar paquete
-          </a>
+        </div>
+      </div>
+      
+      <!-- Terapia para Estudiantes -->
+      <div id="estudiantes" class="tab-content hidden">
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Paquete Individual -->
+          <div class="bg-white border-2 border-purple-200 rounded-xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden flex flex-col">
+            <div class="bg-purple-100 p-6 text-center">
+              <h3 class="text-2xl font-bold text-purple-800">Sesión</h3>
+            </div>
+            <div class="p-8 flex-grow">
+              <div class="text-center mb-6">
+                <span class="text-4xl font-bold text-gray-800">Q150</span>
+                <span class="text-gray-600 block">por sesión</span>
+              </div>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>1 sesión de 45 minutos</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Descuento estudiantil</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Horarios flexibles</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Presentando carnet vigente</span>
+                </li>
+              </ul>
+            </div>
+            <div class="px-8 pb-8 mt-auto">
+              <div class="text-center mb-4">
+                <span class="text-gray-500 text-sm">Precio regular: Q150</span>
+              </div>
+              <a class="block w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 cursor-pointer text-center" href="#contacto">
+                Agendar ahora
+              </a>
+            </div>
+          </div>
+
+          <!-- Paquete de 4 sesiones -->
+          <div class="bg-white border-2 border-blue-200 rounded-xl shadow-lg hover:shadow-xl transition duration-300 overflow-hidden transform hover:-translate-y-1 relative flex flex-col">
+            <div class="absolute top-0 right-0 bg-blue-500 text-white px-4 py-1 text-sm font-bold rounded-bl-lg">
+              ¡Más popular!
+            </div>
+            <div class="bg-blue-100 p-6 text-center">
+              <h3 class="text-2xl font-bold text-blue-800">Paquete Básico</h3>
+            </div>
+            <div class="p-8 flex-grow">
+              <div class="text-center mb-6">
+                <span class="text-4xl font-bold text-gray-800">Q560</span>
+                <span class="text-gray-600 block">por 4 sesiones</span>
+              </div>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>4 sesiones de 45 minutos</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Precio por sesión: Q140</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Ahorro total: Q40</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Presentando carnet vigente</span>
+                </li>
+              </ul>
+            </div>
+            <div class="px-8 pb-8 mt-auto">
+              <div class="text-center mb-4">
+                <span class="text-gray-500 text-sm line-through">Precio regular: Q600</span>
+              </div>
+              <a class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 cursor-pointer text-center" href="#contacto">
+                Comprar paquete
+              </a>
+            </div>
+          </div>
+
+          <!-- Paquete de 6 sesiones -->
+          <div class="bg-white border-2 border-green-200 rounded-xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden flex flex-col">
+            <div class="bg-green-100 p-6 text-center">
+              <h3 class="text-2xl font-bold text-green-800">Paquete Completo</h3>
+            </div>
+            <div class="p-8 flex-grow">
+              <div class="text-center mb-6">
+                <span class="text-4xl font-bold text-gray-800">Q750</span>
+                <span class="text-gray-600 block">por 6 sesiones</span>
+              </div>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>6 sesiones de 45 minutos</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Precio por sesión: Q125</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Ahorro total: Q150</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Soporte entre sesiones</span>
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>Presentando carnet vigente</span>
+                </li>
+              </ul>
+            </div>
+            <div class="px-8 pb-8 mt-auto">
+              <div class="text-center mb-4">
+                <span class="text-gray-500 text-sm line-through">Precio regular: Q900</span>
+              </div>
+              <a class="block w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 cursor-pointer text-center" href="#contacto">
+                Comprar paquete
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -159,3 +597,27 @@
     </div>
   </div>
 </div>
+
+<script is:inline>
+function changeTab(tabId) {
+  // Ocultar todos los contenidos de pestañas
+  document.querySelectorAll('.tab-content').forEach(tab => {
+    tab.classList.add('hidden');
+    tab.classList.remove('active');
+  });
+  
+  // Mostrar la pestaña seleccionada
+  document.getElementById(tabId).classList.remove('hidden');
+  document.getElementById(tabId).classList.add('active');
+  
+  // Actualizar botones de pestañas
+  document.querySelectorAll('.tab-button').forEach(button => {
+    button.classList.remove('bg-purple-600', 'text-white');
+    button.classList.add('bg-purple-100', 'text-purple-800', 'hover:bg-purple-200');
+  });
+  
+  // Resaltar el botón activo
+  event.currentTarget.classList.remove('bg-purple-100', 'text-purple-800', 'hover:bg-purple-200');
+  event.currentTarget.classList.add('bg-purple-600', 'text-white');
+}
+</script>
