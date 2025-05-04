@@ -1,0 +1,292 @@
+---
+import MainLayout from "../layout/MainLayout.astro";
+---
+
+<MainLayout title="Agendar | Clinicas Mindlife">
+    <!-- Instrucciones -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <h2
+                    class="text-3xl md:text-4xl font-bold text-center text-purple-800 mb-12"
+                >
+                    ¿Cómo agendar tu cita?
+                </h2>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-purple-50 p-6 rounded-xl text-center">
+                        <div
+                            class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4"
+                        >
+                            <span class="text-purple-600 text-2xl font-bold"
+                                >1</span
+                            >
+                        </div>
+                        <h3 class="text-xl font-bold text-purple-800 mb-3">
+                            Elige fecha y hora
+                        </h3>
+                        <p class="text-gray-600">
+                            Selecciona un horario disponible que se ajuste a tu
+                            agenda.
+                        </p>
+                    </div>
+
+                    <div class="bg-blue-50 p-6 rounded-xl text-center">
+                        <div
+                            class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4"
+                        >
+                            <span class="text-blue-600 text-2xl font-bold"
+                                >2</span
+                            >
+                        </div>
+                        <h3 class="text-xl font-bold text-blue-800 mb-3">
+                            Selecciona tu servicio
+                        </h3>
+                        <p class="text-gray-600">
+                            Elige entre terapia individual, de pareja o familiar
+                            según tus necesidades.
+                        </p>
+                    </div>
+
+                    <div class="bg-green-50 p-6 rounded-xl text-center">
+                        <div
+                            class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"
+                        >
+                            <span class="text-green-600 text-2xl font-bold"
+                                >3</span
+                            >
+                        </div>
+                        <h3 class="text-xl font-bold text-green-800 mb-3">
+                            Confirma tu cita
+                        </h3>
+                        <p class="text-gray-600">
+                            Recibirás un correo de confirmación con los detalles
+                            de tu sesión.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calendario -->
+    <section id="calendario" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold text-purple-800 mb-6">
+                    Selecciona fecha y horario para tu sesión
+                </h2>
+                <p class="text-gray-600 mb-8">
+                    Por favor elige un horario disponible en el calendario:
+                </p>
+
+                <!-- Google Calendar Embed -->
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <!-- Google Calendar Appointment Scheduling begin -->
+                    <iframe
+                        src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3rRJrpsdI8FtsudpZ9fLBU-MQkfYqku6xxE-JIRYY9ChHsV73J9ClP_JMFixCItZjUZd5lz6vM?gv=true"
+                        style="border: 0"
+                        width="100%"
+                        height="1100"
+                        frameborder="0"></iframe>
+                    <!-- end Google Calendar Appointment Scheduling -->
+                </div>
+
+                <div class="mt-6 bg-blue-50 border-l-4 border-blue-500 p-4">
+                    <p class="text-blue-700">
+                        <strong>Nota:</strong> Si no encuentras un horario que se
+                        ajuste a tus necesidades, por favor <a
+                            href="#contacto"
+                            class="text-blue-600 underline">contáctanos</a
+                        > y haremos lo posible por acomodarte.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="py-16 bg-purple-50">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-md text-center">
+                <div class="mb-6">
+                    <svg class="w-16 h-16 text-purple-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-purple-800 mb-4">¡Cita agendada con éxito!</h2>
+                <p class="text-gray-600 mb-8 text-lg">
+                    Por favor completa nuestro formulario de información del paciente para preparar mejor tu sesión.
+                </p>
+                <a 
+                    href="/formulario" 
+                    class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-lg inline-block transition duration-300 shadow-md"
+                >
+                    Ir al formulario
+                </a>
+                <p class="text-gray-500 mt-4 text-sm">
+                    (Este paso es opcional pero nos ayuda a brindarte un mejor servicio)
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Información adicional -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-center text-purple-800 mb-8">
+                    Preparación para tu cita
+                </h2>
+
+                <div class="bg-gray-50 rounded-xl p-8">
+                    <div class="mb-6">
+                        <h3 class="text-xl font-bold text-purple-700 mb-3">
+                            Antes de tu sesión
+                        </h3>
+                        <ul class="space-y-3 text-gray-600">
+                            <li class="flex items-start">
+                                <svg
+                                    class="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span
+                                    >Encuentra un lugar tranquilo y privado para
+                                    tu sesión (si es en línea)</span
+                                >
+                            </li>
+                            <li class="flex items-start">
+                                <svg
+                                    class="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span
+                                    >Llena el formulario de información de inicio (Recomendado, no obligatorio)</span
+                                >
+                            </li>
+                            <li class="flex items-start">
+                                <svg
+                                    class="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span
+                                    >Prepara cualquier pregunta o tema que
+                                    quieras abordar</span
+                                >
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-bold text-purple-700 mb-3">
+                            Políticas de cancelación
+                        </h3>
+                        <ul class="space-y-3 text-gray-600">
+                            <li class="flex items-start">
+                                <svg
+                                    class="w-5 h-5 text-blue-500 mr-2 mt-0.5 flex-shrink-0"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    ></path>
+                                </svg>
+                                <span
+                                    >Cancelaciones con más de 4 horas de
+                                    anticipación no tienen costo</span
+                                >
+                            </li>
+                            <li class="flex items-start">
+                                <svg
+                                    class="w-5 h-5 text-blue-500 mr-2 mt-0.5 flex-shrink-0"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    ></path>
+                                </svg>
+                                <span
+                                    >Cancelaciones con menos de 4 horas tienen
+                                    un cargo del 50%</span
+                                >
+                            </li>
+                            <li class="flex items-start">
+                                <svg
+                                    class="w-5 h-5 text-blue-500 mr-2 mt-0.5 flex-shrink-0"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    ></path>
+                                </svg>
+                                <span
+                                    >No presentarse a la cita incurre en el
+                                    cargo completo</span
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section
+        class="py-16 bg-gradient-to-r from-blue-500 to-purple-600 text-white"
+    >
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">
+                ¿Necesitas ayuda para agendar?
+            </h2>
+            <p class="text-xl mb-10 max-w-2xl mx-auto">
+                Nuestro equipo está disponible para ayudarte a encontrar el
+                horario perfecto para tus necesidades.
+            </p>
+            <a
+                href="https://wa.me/50243605982?text=Hola, Necesito ayuda para agendar una cita por favor"
+                class="bg-white hover:bg-gray-100 text-purple-700 font-bold py-4 px-12 rounded-full inline-block transition duration-300 shadow-lg"
+                target="_blank"
+            >
+                Contáctanos
+            </a>
+        </div>
+    </section>
+</MainLayout>
