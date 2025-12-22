@@ -1,13 +1,13 @@
 ---
-import Approach from "../components/Approach.astro";
+import MainLayout from "../layout/MainLayout.astro";
+import HeroSection from "../components/HeroSection.astro";
 import BenefitsSection from "../components/BenefitsSection.astro";
 import CTASection from "../components/CTASection.astro";
-import FinalCTA from "../components/FinalCTA.astro";
-import Footer from "../components/Footer.astro";
-import HeroSection from "../components/HeroSection.astro";
-import Packages from "../components/Packages.astro";
+import Approach from "../components/Approach.astro";
 import Testimonial from "../components/Testimonial.astro";
-import MainLayout from "../layout/MainLayout.astro";
+import Packages from "../components/Packages.astro";
+import Footer from "../components/Footer.astro";
+import FinalCTA from "../components/FinalCTA.astro";
 import "../styles/global.css";
 ---
 
@@ -20,7 +20,7 @@ import "../styles/global.css";
     <BenefitsSection />
 
     <!-- CTA Section -->
-    <CTASection />
+    <CTASection title="¿Listo para comenzar tu transformación?" subtitle="Agenda tu primera cita hoy mismo y da el primer paso hacia tu bienestar emocional." />
 
     <!-- Engagement/Refuerzo Section -->
     <Approach />
@@ -34,8 +34,7 @@ import "../styles/global.css";
     <Packages />
 
     <!-- Argumento final y CTA -->
-    <FinalCTA />
+    <!-- <FinalCTA /> -->
+    <CTASection title="Tu bienestar emocional comienza aquí" subtitle="En Mindlife llevamos 10 años ayudando a personas como tú a superar desafíos emocionales, mejorar relaciones y encontrar paz interior. Nuestro equipo de profesionales está listo para acompañarte en este viaje de autodescubrimiento y crecimiento." />
 
-    <!-- Footer -->
-    <Footer />
 </MainLayout>

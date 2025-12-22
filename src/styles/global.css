@@ -1,1 +1,155 @@
+:root {
+	/* Palette (use these variables across the site) */
+	--color-primary: #1F3361; /* main brand color (dark indigo) */
+	--color-bg: #FFFFFF; /* page background */
+	--color-accent: #8E6BA5; /* secondary / accent (purple) */
+	--color-text: #000000; /* primary text color */
+	--color-muted: #6b7280;
+	--color-on-primary: #ffffff; /* text on primary */
+	--shadow-primary: rgba(31, 51, 97, 0.35);
+	--radius-lg: 40px;
+
+	/* Font */
+	--font-primary: "Metro Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Semantic color scales for components (mapped to Tailwind names) */
+:root {
+	/* Purple */
+	--purple-100: #F3E8FF;
+	--purple-200: #E9D5FF;
+	--purple-500: #8E6BA5;
+	--purple-600: #7C3AED;
+	--purple-700: #6D28D9;
+	--purple-800: #5B21B6;
+
+	/* Blue */
+	--blue-100: #DBEAFE;
+	--blue-200: #BFDBFE;
+	--blue-500: #3B82F6;
+	--blue-600: #2563EB;
+	--blue-700: #1D4ED8;
+	--blue-800: #1E40AF;
+
+	/* Indigo */
+	--indigo-100: #E0E7FF;
+	--indigo-200: #C7D2FE;
+	--indigo-500: #6366F1;
+	--indigo-600: #4F46E5;
+	--indigo-700: #4338CA;
+	--indigo-800: #3730A3;
+}
+
 @import "tailwindcss";
+
+/* Basic element defaults that use variables */
+html, body {
+	height: 100%;
+}
+body {
+	background-color: var(--color-bg);
+	color: var(--color-text);
+	font-family: var(--font-primary);
+}
+
+/* If you have Metro Sans font files (woff/woff2), place them in `public/fonts/` and uncomment
+	 the @font-face rules below, adjusting file names and formats as needed. Example:
+
+@font-face {
+	font-family: 'Metro Sans';
+	src: url('/fonts/MetroSans-Regular.woff2') format('woff2'),
+			 url('/fonts/MetroSans-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Metro Sans';
+	src: url('/fonts/MetroSans-Bold.woff2') format('woff2'),
+			 url('/fonts/MetroSans-Bold.woff') format('woff');
+	font-weight: 700;
+	font-style: bold;
+	font-display: swap;
+}
+
+*/
+
+/* Small helper class for the primary button used in the 404 template */
+.btn-primary {
+	background: var(--color-primary);
+	color: var(--color-on-primary);
+	padding: 0.75rem 1.5rem;
+	border-radius: var(--radius-lg);
+	box-shadow: 0px 4px 15px -5px var(--shadow-primary);
+	display: inline-block;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+/* Simple color utility classes (use these instead of Tailwind color utilities) */
+.bg-primary { background: var(--color-primary) !important; }
+.bg-accent { background: var(--color-accent) !important; }
+.bg-white { background: var(--color-bg) !important; }
+.text-primary { color: var(--color-primary) !important; }
+.text-accent { color: var(--color-accent) !important; }
+.text-body { color: var(--color-text) !important; }
+.text-on-primary { color: var(--color-on-primary) !important; }
+.border-muted { border-color: rgba(0,0,0,0.08) !important; }
+.hover-text-primary:hover { color: var(--color-primary) !important; }
+.hover-text-accent:hover { color: var(--color-accent) !important; }
+
+/* Mobile-first safe utilities and responsive helpers (do not override base Tailwind classes) */
+/* Use `.site-container` when you need controlled padding instead of overriding `.container` */
+.site-container { padding-left: 1rem; padding-right: 1rem; max-width: 100%; margin-left: 0; margin-right: 0; }
+
+/* Compact card padding utility (use `.card-p-sm` where needed) */
+.card-p-sm { padding: 1rem; }
+.card-p-md { padding-left: 1rem; padding-right: 1rem; }
+
+/* Headline scale utilities for small screens (use `.h4-sm`, `.h3-sm` instead of overriding Tailwind) */
+.h4-sm { font-size: 1.5rem; line-height: 1.15; }
+.h3-sm { font-size: 1.25rem; }
+.h2-sm { font-size: 1.05rem; }
+.text-smish { font-size: 0.95rem; }
+
+/* Spacing utilities */
+.gap-sm { gap: 0.75rem; }
+.space-y-sm { gap: 0.6rem; }
+
+/* CTA utility to make an anchor behave full-width on small screens */
+.cta-full { display: block; width: 100%; box-sizing: border-box; }
+
+/* Utilities for icon sizing (use these instead of overriding Tailwind's w- classes) */
+.icon-16 { width: 3rem; height: 3rem; }
+.icon-12 { width: 2.4rem; height: 2.4rem; }
+.icon-10 { width: 2.1rem; height: 2.1rem; }
+.icon-6 { width: 1.2rem; height: 1.2rem; }
+
+/* Make iframes, images and svgs responsive */
+iframe, img, svg { max-width: 100%; height: auto; }
+
+/* Targeted responsive helpers */
+.responsive-wrap { flex-wrap: wrap; }
+.responsive-wrap > * { min-width: 0; }
+.package-card { min-width: 0; }
+
+/* Shadows and radii utilities (do not override Tailwind global shadows) */
+.shadow-smobile { box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+.card-radius-sm { border-radius: 12px; }
+
+/* Restore / larger-screen helpers (apply these with a class on containers, not by overriding base classes) */
+@media (min-width: 640px) {
+	.site-container { padding-left: 2rem; padding-right: 2rem; }
+	.card-p-sm { padding: 2rem; }
+	.card-p-md { padding-left: 2rem; padding-right: 2rem; }
+	.h4-sm { font-size: 2.25rem; line-height: 1.1; }
+	.h3-sm { font-size: 1.875rem; }
+	.h2-sm { font-size: 1.5rem; }
+	.text-smish { font-size: 1.25rem; }
+	.gap-sm { gap: 2rem; }
+	.cta-full { display: inline-block; width: auto; }
+	.shadow-smobile { box-shadow: 0 12px 30px rgba(31, 51, 97, 0.12); }
+	.card-radius-sm { border-radius: var(--radius-lg); }
+}
+
