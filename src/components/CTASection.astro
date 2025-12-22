@@ -3,13 +3,21 @@ interface Props {
     title: string;
     subtitle: string;
 }
-const {title, subtitle} = Astro.props;
+const { title, subtitle } = Astro.props;
 ---
 
-<section id="CTA" class="py-16 bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-    <div class="container mx-auto px-6 text-center">
+<section
+    id="CTA"
+    class="py-16 text-white"
+    style="background: var(--color-primary);"
+>
+    <div class="w-full site-container px-4 sm:px-6 text-center">
         <h2 class="text-3xl md:text-4xl font-bold mb-6">{title}</h2>
         <p class="text-xl mb-10 max-w-2xl mx-auto">{subtitle}</p>
-        <a href="/agendar" class="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-12 rounded-full inline-block transition duration-300 shadow-lg">Agendar cita ahora</a>
+        <a
+            href="/agendar"
+            class="bg-accent hover:bg-purple-600 text-white font-bold py-4 px-4 sm:px-12 rounded-full inline-block transition duration-300 shadow-lg"
+            >Agendar cita ahora</a
+        >
     </div>
 </section>

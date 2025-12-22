@@ -20,7 +20,7 @@ interface TerapiaData {
 
 const terapiasData: TerapiaData[] = [
   {
-    title: "Individual en Línea",
+    title: "Individual",
     id: "individual-linea",
     packages: [
       {
@@ -68,7 +68,7 @@ const terapiasData: TerapiaData[] = [
       },
     ],
   },
-  {
+  /* {
     title: "Individual Presencial",
     id: "individual-presencial",
     packages: [
@@ -116,9 +116,9 @@ const terapiasData: TerapiaData[] = [
         color: "green",
       },
     ],
-  },
+  }, */
   {
-    title: "Pareja/Familia en Línea",
+    title: "Pareja/Familia",
     id: "pareja-familia",
     packages: [
       {
@@ -165,7 +165,7 @@ const terapiasData: TerapiaData[] = [
         color: "green",
       },
     ],
-  },
+  } /* 
   {
     title: "Para Estudiantes",
     id: "estudiantes",
@@ -214,7 +214,7 @@ const terapiasData: TerapiaData[] = [
         color: "green",
       },
     ],
-  },
+  }, */,
 ];
 
 let activeTab = "individual-linea";
@@ -233,11 +233,11 @@ const generateWhatsAppMessage = (
 ---
 
 <div class="py-16 bg-white" id="precios">
-  <div class="container mx-auto px-6">
-    <h2 class="text-3xl md:text-4xl font-bold text-center text-purple-800 mb-4">
+  <div class="w-full site-container px-4 sm:px-6">
+    <h2 class="text-3xl md:text-4xl font-bold text-center text-primary mb-4">
       Nuestros Paquetes de Terapia
     </h2>
-    <p class="text-xl text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+    <p class="text-xl text-center text-body mb-12 max-w-2xl mx-auto">
       Selecciona el tipo de terapia para ver los paquetes disponibles
     </p>
 
@@ -246,12 +246,9 @@ const generateWhatsAppMessage = (
       {
         terapiasData.map((terapia) => (
           <button
+            data-tab={terapia.id}
             onclick={`changeTab('${terapia.id}')`}
-            class={`tab-button px-6 py-3 mx-2 mb-2 rounded-lg font-medium transition-colors ${
-              activeTab === terapia.id
-                ? "bg-purple-600 text-white"
-                : "bg-purple-100 text-purple-800 hover:bg-purple-200"
-            }`}
+            class="tab-button px-4 md:px-6 py-3 mx-2 mb-2 rounded-lg font-medium transition-colors bg-white text-primary"
           >
             {terapia.title}
           </button>
@@ -263,65 +260,26 @@ const generateWhatsAppMessage = (
     <div>
       {
         terapiasData.map((terapia) => (
-          <div
-            id={terapia.id}
-            class={`tab-content ${activeTab === terapia.id ? "active block" : "hidden"}`}
-          >
-            <div class="grid md:grid-cols-3 gap-8">
-              {terapia.packages.map((pkg) => (
+          <div id={terapia.id} class="tab-content hidden">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {terapia.packages.map((pkg, idx) => (
                 <div
-                  class={`bg-white border-2 ${
-                    pkg.color === "purple"
-                      ? "border-purple-200"
-                      : pkg.color === "blue"
-                        ? "border-blue-200"
-                        : pkg.color === "green"
-                          ? "border-green-200"
-                          : "border-indigo-200"
-                  } rounded-xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden flex flex-col ${
+                  id={`${terapia.id}-pkg-${idx}`}
+                  onclick={`selectPackage('${terapia.id}','${terapia.id}-pkg-${idx}')`}
+                  class={`package-card min-w-0 bg-white border-2 border-muted rounded-xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden flex flex-col ${
                     pkg.popular ? "transform hover:-translate-y-1 relative" : ""
                   }`}
                 >
                   {pkg.popular && (
                     <div
-                      class={`absolute top-0 right-0 ${
-                        pkg.color === "purple"
-                          ? "bg-purple-500"
-                          : pkg.color === "blue"
-                            ? "bg-blue-500"
-                            : pkg.color === "green"
-                              ? "bg-green-500"
-                              : "bg-indigo-500"
-                      } text-white px-4 py-1 text-sm font-bold rounded-bl-lg`}
+                      class={`absolute top-0 right-0 bg-accent text-on-primary px-4 py-1 text-sm font-bold rounded-bl-lg`}
                     >
                       ¡Más popular!
                     </div>
                   )}
 
-                  <div
-                    class={`${
-                      pkg.color === "purple"
-                        ? "bg-purple-100"
-                        : pkg.color === "blue"
-                          ? "bg-blue-100"
-                          : pkg.color === "green"
-                            ? "bg-green-100"
-                            : "bg-indigo-100"
-                    } p-6 text-center`}
-                  >
-                    <h3
-                      class={`text-2xl font-bold ${
-                        pkg.color === "purple"
-                          ? "text-purple-800"
-                          : pkg.color === "blue"
-                            ? "text-blue-800"
-                            : pkg.color === "green"
-                              ? "text-green-800"
-                              : "text-indigo-800"
-                      }`}
-                    >
-                      {pkg.name}
-                    </h3>
+                  <div class="p-6 text-center bg-white">
+                    <h3 class="text-2xl font-bold text-primary">{pkg.name}</h3>
                   </div>
 
                   <div class="p-8 flex-grow">
@@ -340,7 +298,7 @@ const generateWhatsAppMessage = (
                       {pkg.features.map((feature) => (
                         <li class="flex items-center">
                           <svg
-                            class="w-5 h-5 text-green-500 mr-2"
+                            class="w-5 h-5 text-accent mr-2"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -358,7 +316,7 @@ const generateWhatsAppMessage = (
                     </ul>
                   </div>
 
-                  <div class="px-8 pb-8 mt-auto">
+                  <div class="px-4 sm:px-8 pb-8 mt-auto">
                     {pkg.regularPrice !== pkg.price ? (
                       <div class="text-center mb-4">
                         <span class="text-gray-500 text-sm line-through">
@@ -374,17 +332,10 @@ const generateWhatsAppMessage = (
                     )}
 
                     <a
-                      class={`block w-full ${
-                        pkg.color === "purple"
-                          ? "bg-purple-600 hover:bg-purple-700"
-                          : pkg.color === "blue"
-                            ? "bg-blue-600 hover:bg-blue-700"
-                            : pkg.color === "green"
-                              ? "bg-green-600 hover:bg-green-700"
-                              : "bg-indigo-600 hover:bg-indigo-700"
-                      } text-white font-bold py-3 px-6 rounded-lg transition duration-300 cursor-pointer text-center`}
+                      class={`block w-full bg-primary text-on-primary font-bold py-3 px-4 md:px-6 rounded-lg transition duration-300 cursor-pointer text-center`}
                       href={`https://wa.me/${whatsappNumber}?text=${generateWhatsAppMessage(pkg.name, pkg.price, terapia.title)}`}
                       target="_blank"
+                      onclick={`selectPackage('${terapia.id}','${terapia.id}-pkg-${idx}')`}
                     >
                       {pkg.sessions === 1 ? "Agendar ahora" : "Comprar paquete"}
                     </a>
@@ -421,48 +372,55 @@ const generateWhatsAppMessage = (
       opacity: 1;
     }
   }
+
+  /* Selected package visual state */
+  .package-card.selected {
+    border-width: 3px;
+    border-color: var(--color-accent);
+    box-shadow: 0 12px 30px rgba(31, 51, 97, 0.12);
+    transform: translateY(-6px);
+  }
 </style>
 
 <script is:inline>
+  // Tab activo por defecto
+  let clientActiveTab = "individual-linea";
+
   function changeTab(tabId) {
-    // Ocultar todos los contenidos de pestañas y actualizar clases
+    clientActiveTab = tabId;
+
+    // Ocultar todos los contenidos
     document.querySelectorAll(".tab-content").forEach((tab) => {
       tab.classList.add("hidden");
       tab.classList.remove("active", "block");
     });
 
-    // Mostrar la pestaña seleccionada
+    // Mostrar contenido activo
     const activeContent = document.getElementById(tabId);
     if (activeContent) {
       activeContent.classList.remove("hidden");
       activeContent.classList.add("active", "block");
     }
 
-    // Actualizar botones de pestañas
+    // Actualizar botones correctamente
     document.querySelectorAll(".tab-button").forEach((button) => {
-      button.classList.remove("bg-purple-600", "text-white");
-      button.classList.add(
-        "bg-purple-100",
-        "text-purple-800",
-        "hover:bg-purple-200",
-      );
+      const isActive = button.dataset.tab === tabId;
 
-      // Resaltar el botón activo si coincide con el tabId
-      if (button.getAttribute("onclick")?.includes(tabId)) {
-        button.classList.remove(
-          "bg-purple-100",
-          "text-purple-800",
-          "hover:bg-purple-200",
-        );
-        button.classList.add("bg-purple-600", "text-white");
+      if (isActive) {
+        button.classList.remove("bg-white", "text-primary");
+        button.classList.add("bg-primary", "text-on-primary");
+        button.setAttribute("aria-selected", "true");
+      } else {
+        button.classList.remove("bg-primary", "text-on-primary");
+        button.classList.add("bg-white", "text-primary");
+        button.setAttribute("aria-selected", "false");
       }
     });
 
-    // Actualizar URL sin recargar
-    history.pushState(null, "", `#${tabId}`);
+    // Actualizar URL
   }
 
-  // Inicializar con la pestaña correcta basada en el hash de la URL
+  // Cargar estado inicial de tabs
   document.addEventListener("DOMContentLoaded", () => {
     const hash = window.location.hash.substring(1);
     const validTabs = [
@@ -474,6 +432,21 @@ const generateWhatsAppMessage = (
 
     if (hash && validTabs.includes(hash)) {
       changeTab(hash);
+    } else {
+      changeTab(clientActiveTab);
     }
   });
+
+  // Seleccionar paquete
+  function selectPackage(tabId, pkgId) {
+    const container = document.getElementById(tabId);
+    if (!container) return;
+
+    container
+      .querySelectorAll(".package-card")
+      .forEach((el) => el.classList.remove("selected"));
+
+    const selected = document.getElementById(pkgId);
+    if (selected) selected.classList.add("selected");
+  }
 </script>

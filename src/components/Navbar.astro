@@ -1,55 +1,80 @@
 ---
 
 ---
-<header class="bg-white shadow-md sticky top-0 z-50">
-    <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+
+<header class="sticky top-0 inset-x-0 bg-white shadow-md z-[9999]">
+    <nav
+        class="w-full site-container px-4 sm:px-6 py-3 flex justify-between items-center"
+    >
         <div class="flex items-center space-x-2">
-            <div class="w-15 h-15 rounded-full flex items-center justify-center">
-                <img src="/logo-mindlife-redondo.png" alt="logo clinicas mindlife">
+            <div class="max-w-[140px] w-full flex items-center">
+                <img
+                    src="/logo-nuevo.png"
+                    alt="logo clinicas mindlife"
+                    class="max-w-[140px] w-full h-auto"
+                />
             </div>
-            <span class="text-xl font-bold text-purple-800">Mindlife</span>
         </div>
-        
-        <!-- Menú para desktop (oculto en móviles) -->
+
         <div class="hidden md:flex space-x-8">
-            <a href="/" class="text-purple-700 hover:text-blue-600">Inicio</a>
-            <a href="/#beneficios" class="text-gray-600 hover:text-blue-600">Beneficios</a>
-            <a href="/#testimonios" class="text-gray-600 hover:text-blue-600">Testimonios</a>
-            <a href="/#precios" class="text-gray-600 hover:text-blue-600">Precios</a>
-            <a href="#footer" class="text-gray-600 hover:text-blue-600">Contacto</a>
+            <a href="/" class="text-accent hover-text-primary">Inicio</a>
+            <a href="/#beneficios" class="text-body hover-text-primary"
+                >Beneficios</a
+            >
+            <a href="/#testimonios" class="text-body hover-text-primary"
+                >Testimonios</a
+            >
+            <a href="/#precios" class="text-body hover-text-primary">Precios</a>
+            <a href="#footer" class="text-body hover-text-primary">Contacto</a>
         </div>
-        
-        <!-- Botón hamburguesa (solo visible en móviles) -->
+
         <button id="mobile-menu-button" class="md:hidden focus:outline-none">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor">
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
         </button>
     </nav>
-    
-    <!-- Menú móvil (oculto por defecto) - Texto centrado -->
-    <div id="mobile-menu" class="md:hidden hidden bg-white w-full px-6 pb-4">
-        <div class="flex flex-col space-y-4 items-center text-center"> <!-- Añadido items-center y text-center -->
-            <a href="/" class="text-purple-700 hover:text-blue-600 w-full py-2">Inicio</a>
-            <a href="/#beneficios" class="text-gray-600 hover:text-blue-600 w-full py-2">Beneficios</a>
-            <a href="/#testimonios" class="text-gray-600 hover:text-blue-600 w-full py-2">Testimonios</a>
-            <a href="/#precios" class="text-gray-600 hover:text-blue-600 w-full py-2">Precios</a>
-            <a href="#footer" class="text-gray-600 hover:text-blue-600 w-full py-2">Contacto</a>
+
+    <div id="mobile-menu" class="md:hidden hidden bg-white w-full px-4 pb-4">
+        <div class="flex flex-col space-y-3 items-center text-center">
+            <a href="/" class="text-accent hover-text-primary w-full py-2"
+                >Inicio</a
+            >
+            <a
+                href="/#beneficios"
+                class="text-body hover-text-primary w-full py-2">Beneficios</a
+            >
+            <a
+                href="/#testimonios"
+                class="text-body hover-text-primary w-full py-2">Testimonios</a
+            >
+            <a href="/#precios" class="text-body hover-text-primary w-full py-2"
+                >Precios</a
+            >
+            <a href="#footer" class="text-body hover-text-primary w-full py-2"
+                >Contacto</a
+            >
         </div>
     </div>
 </header>
 
 <script is:inline>
     // Toggle del menú móvil
-    document.getElementById('mobile-menu-button').addEventListener('click', function() {
-        const menu = document.getElementById('mobile-menu');
-        menu.classList.toggle('hidden');
-    });
-    
+    document
+        .getElementById("mobile-menu-button")
+        .addEventListener("click", function () {
+            const menu = document.getElementById("mobile-menu");
+            menu.classList.toggle("hidden");
+        });
+
     // Cerrar el menú al hacer clic en un enlace (útil para anchor links)
-    document.querySelectorAll('#mobile-menu a').forEach(link => {
-        link.addEventListener('click', function() {
-            document.getElementById('mobile-menu').classList.add('hidden');
+    document.querySelectorAll("#mobile-menu a").forEach((link) => {
+        link.addEventListener("click", function () {
+            document.getElementById("mobile-menu").classList.add("hidden");
         });
     });
 </script>

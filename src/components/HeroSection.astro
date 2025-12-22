@@ -2,8 +2,10 @@
 
 ---
 
-<section id="inicio" class="relative bg-blue-900 text-white py-20">
-    <div class="container mx-auto px-6 flex flex-col md:flex-row items-center">
+<section id="inicio" class="relative bg-primary text-on-primary py-20">
+    <div
+        class="w-full site-container px-4 sm:px-6 flex flex-col md:flex-row items-center"
+    >
         <div class="md:w-1/2 mb-10 md:mb-0">
             <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">
                 Transforma tu vida con Mindlife
@@ -13,16 +15,16 @@
                 bienestar emocional.
             </p>
             <div
-                class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"
+                class="flex responsive-wrap flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"
             >
                 <a
                     href="/agendar"
-                    class="bg-fuchsia-300 hover:bg-fuchsia-600 text-white font-bold py-3 px-8 rounded-full text-center transition duration-300"
+                    class="bg-accent text-on-primary font-bold py-3 px-4 sm:px-8 rounded-full text-center transition duration-300 cta-full sm:w-auto"
                     >Agendar cita</a
                 >
                 <a
                     href="#beneficios"
-                    class="bg-white hover:bg-gray-200 text-purple-700 font-bold py-3 px-8 rounded-full text-center transition duration-300"
+                    class="bg-white text-accent font-bold py-3 px-4 sm:px-8 rounded-full text-center transition duration-300 cta-full sm:w-auto"
                     >Conoce más</a
                 >
             </div>
@@ -35,8 +37,5 @@
             />
         </div>
     </div>
-    <div
-        class="absolute bottom-0 left-0 right-0 h-16 bg-white transform skew-y-1 -mb-8 z-10"
-    >
-    </div>
+    <!-- Divider removed to avoid unexpected white stripe across layouts -->
 </section>
