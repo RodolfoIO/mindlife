@@ -35,7 +35,7 @@ a, button, input, select, textarea { font: inherit; }
 a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 3px; }
 img, svg, iframe { max-width: 100%; }
 .site-container { width: min(100% - 2rem, 1180px); margin-inline: auto; }
-.section-space { padding-block: clamp(4rem, 8vw, 7rem); }
+.section-space { padding-block: clamp(3.5rem, 8vw, 7rem); }
 .eyebrow { color: var(--color-accent-dark); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
 .surface-soft { background: var(--color-surface); }
 .bg-primary { background: var(--color-primary) !important; }

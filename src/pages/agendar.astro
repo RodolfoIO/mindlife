@@ -12,9 +12,9 @@ import MainLayout from "../layout/MainLayout.astro";
     </section>
 
     <section class="section-space surface-soft">
-        <div class="site-container grid gap-8 lg:grid-cols-[0.7fr_1.3fr]">
+        <div class="site-container grid gap-6 sm:gap-8 lg:grid-cols-[0.7fr_1.3fr]">
             <aside class="space-y-5 lg:sticky lg:top-28 lg:self-start" aria-labelledby="antes-agendar">
-                <div class="card-brand p-7">
+                <div class="card-brand p-6 sm:p-7">
                     <h2 id="antes-agendar" class="text-2xl font-bold text-primary">Antes de agendar</h2>
                     <ol class="mt-6 space-y-5">
                         <li class="flex gap-3"><span class="font-bold text-accent">01</span><span>Elige la fecha y el horario que más te convengan.</span></li>
@@ -34,6 +34,11 @@ import MainLayout from "../layout/MainLayout.astro";
                 <p class="mt-2 text-muted">El calendario es administrado mediante Google Calendar.</p>
                 <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3rRJrpsdI8FtsudpZ9fLBU-MQkfYqku6xxE-JIRYY9ChHsV73J9ClP_JMFixCItZjUZd5lz6vM?gv=true" title="Calendario de citas de Mindlife" class="mt-6 min-h-[720px] w-full rounded-xl border border-muted" loading="lazy"></iframe>
                 <p class="mt-5 text-sm text-muted">Al utilizar el calendario, Google puede procesar los datos necesarios para la reservación conforme a sus propias políticas. Evita incluir información clínica sensible en campos de notas.</p>
+                <div class="mt-6 rounded-2xl bg-accent-soft p-5 sm:p-6">
+                    <h3 class="text-xl font-bold text-primary">¿Ya agendaste tu cita?</h3>
+                    <p class="mt-2 text-muted">El siguiente paso es completar el formulario de información previa.</p>
+                    <a href="/formulario" class="button-primary mt-5 w-full sm:w-auto">Llenar formulario de información</a>
+                </div>
             </div>
         </div>
     </section>

@@ -2,30 +2,35 @@
 import MainLayout from "../layout/MainLayout.astro";
 ---
 
-<MainLayout title="Información previa | Mindlife" description="Indicaciones para compartir información previa a una sesión con Mindlife.">
+<MainLayout title="Formulario de información | Mindlife" description="Completa la información previa para tu sesión en Mindlife.">
     <section class="section-space bg-primary text-white">
         <div class="site-container max-w-4xl text-center">
             <p class="text-sm font-bold uppercase tracking-[0.14em] text-white/75">Antes de tu sesión</p>
-            <h1 class="mt-3 text-4xl font-bold sm:text-5xl">Protegemos la información que compartes</h1>
-            <p class="mx-auto mt-5 max-w-2xl text-lg text-white/85">La información clínica requiere un manejo cuidadoso. Por eso, el formulario de ingreso se comparte directamente con cada paciente después de confirmar su cita.</p>
+            <h1 class="mt-3 text-4xl font-bold sm:text-5xl">Formulario de información previa</h1>
+            <p class="mx-auto mt-5 max-w-2xl text-lg text-white/85">Completa este formulario después de agendar tu cita para que podamos preparar mejor tu atención.</p>
         </div>
     </section>
     <section class="section-space surface-soft">
-        <div class="site-container max-w-3xl">
-            <div class="card-brand p-7 sm:p-10">
-                <h2 class="text-2xl font-bold text-primary">¿Qué debes hacer?</h2>
-                <ol class="mt-6 space-y-5">
-                    <li class="flex gap-4"><span class="font-bold text-accent">01</span><span>Agenda y confirma tu sesión.</span></li>
-                    <li class="flex gap-4"><span class="font-bold text-accent">02</span><span>Espera las instrucciones enviadas por el equipo de Mindlife.</span></li>
-                    <li class="flex gap-4"><span class="font-bold text-accent">03</span><span>Completa únicamente el formulario recibido por el canal confirmado.</span></li>
-                </ol>
-                <div class="mt-8 rounded-xl bg-accent-soft p-5">
-                    <p class="font-bold text-primary">No envíes información clínica detallada por WhatsApp, correo electrónico ni formularios que no hayas recibido directamente de Mindlife.</p>
+        <div class="site-container max-w-5xl">
+            <div class="card-brand p-4 sm:p-8">
+                <div class="mx-auto max-w-3xl text-center">
+                    <h2 class="text-2xl font-bold text-primary">Completa tus datos con calma</h2>
+                    <p class="mt-3 text-muted">Los campos marcados como obligatorios deben completarse antes de enviar el formulario.</p>
                 </div>
-                <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-                    <a href="/agendar" class="button-primary">Agendar cita</a>
-                    <a href="https://wa.me/50243605982?text=Hola,%20ya%20agendé%20mi%20cita%20y%20necesito%20las%20instrucciones%20del%20formulario." target="_blank" rel="noopener noreferrer" class="button-secondary">Solicitar instrucciones</a>
+                <div class="mt-7 overflow-hidden rounded-xl border border-muted bg-white">
+                    <iframe
+                        src="https://docs.google.com/forms/d/e/1FAIpQLSfvqis7nOKCFuR6bdJJSR_t3P1EmCJYwEdj_jin7moZoUaArw/viewform?embedded=true"
+                        title="Formulario de información previa de Mindlife"
+                        width="640"
+                        height="3032"
+                        frameborder="0"
+                        marginheight="0"
+                        marginwidth="0"
+                        class="block h-[3032px] w-full border-0"
+                        loading="lazy"
+                    >Cargando…</iframe>
                 </div>
+                <p class="mx-auto mt-5 max-w-3xl text-center text-sm text-muted">Este formulario es administrado por Google Forms. Al completarlo, Google y Mindlife tratarán la información proporcionada conforme a sus políticas aplicables.</p>
             </div>
         </div>
     </section>
