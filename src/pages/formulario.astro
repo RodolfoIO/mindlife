@@ -1,4 +1,5 @@
 ---
+import UserForm from "../components/UserForm.astro";
 import MainLayout from "../layout/MainLayout.astro";
 ---
 
@@ -149,13 +150,15 @@ import MainLayout from "../layout/MainLayout.astro";
 
                     <!-- Google Form Embed -->
                     <div class="border border-muted rounded-lg overflow-hidden">
-                        <iframe
+                        <!-- <iframe
                             src="https://docs.google.com/forms/d/e/1FAIpQLSfvqis7nOKCFuR6bdJJSR_t3P1EmCJYwEdj_jin7moZoUaArw/viewform?embedded=true"
                             width="100%"
                             height="3032"
                             class="w-full min-h-[600px] sm:min-h-[900px]"
-                            >Cargando…</iframe
                         >
+                            Cargando…
+                        </iframe> -->
+                        <UserForm />
                     </div>
 
                     <div class="mt-6 bg-white border-l-4 border-primary p-4">
