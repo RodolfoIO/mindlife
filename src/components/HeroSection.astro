@@ -1,41 +1,25 @@
----
-
----
-
-<section id="inicio" class="relative bg-primary text-on-primary py-20">
-    <div
-        class="w-full site-container px-4 sm:px-6 flex flex-col md:flex-row items-center"
-    >
-        <div class="md:w-1/2 mb-10 md:mb-0">
-            <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">
-                Transforma tu vida con Mindlife
-            </h1>
-            <p class="text-xl mb-8">
-                10 años ayudando a nuestros pacientes a encontrar equilibrio y
-                bienestar emocional.
-            </p>
-            <div
-                class="flex responsive-wrap flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"
-            >
-                <a
-                    href="/agendar"
-                    class="bg-accent text-on-primary font-bold py-3 px-4 sm:px-8 rounded-full text-center transition duration-300 cta-full sm:w-auto"
-                    >Agendar cita</a
-                >
-                <a
-                    href="#beneficios"
-                    class="bg-white text-accent font-bold py-3 px-4 sm:px-8 rounded-full text-center transition duration-300 cta-full sm:w-auto"
-                    >Conoce más</a
-                >
+<section id="inicio" class="relative overflow-hidden bg-primary text-on-primary section-space">
+    <div class="absolute inset-0 opacity-10" aria-hidden="true">
+        <div class="absolute -right-20 -top-32 h-96 w-96 rounded-full border-[56px] border-white"></div>
+    </div>
+    <div class="site-container relative grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+        <div>
+            <p class="mb-4 text-sm font-bold uppercase tracking-[0.14em] text-white/80">Clínica psicológica · Ciudad de Guatemala</p>
+            <h1 class="max-w-3xl text-4xl font-bold sm:text-5xl lg:text-6xl">Un espacio profesional para cuidar tu bienestar emocional</h1>
+            <p class="mt-6 max-w-2xl text-lg text-white/90 sm:text-xl">Atención psicológica individual, de pareja y familiar, en modalidad presencial y en línea. Te acompañamos con respeto, confidencialidad y objetivos claros.</p>
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a href="/agendar" class="button-secondary">Agendar una cita</a>
+                <a href="#servicios" class="button-light">Conocer los servicios</a>
             </div>
+            <ul class="mt-8 flex flex-col gap-3 text-sm text-white/85 sm:flex-row sm:flex-wrap" aria-label="Características del servicio">
+                <li class="flex items-center gap-2"><span aria-hidden="true">✓</span> Atención presencial y en línea</li>
+                <li class="flex items-center gap-2"><span aria-hidden="true">✓</span> Proceso confidencial</li>
+                <li class="flex items-center gap-2"><span aria-hidden="true">✓</span> Horarios por reservación</li>
+            </ul>
         </div>
-        <div class="md:w-1/2">
-            <img
-                src="/imagen-hero-libertad.jpg"
-                alt="Terapia psicológica profesional"
-                class="rounded-lg shadow-2xl max-w-full h-auto rotate-y-180"
-            />
+        <div class="relative">
+            <div class="absolute -inset-4 rounded-[2rem] border border-white/25" aria-hidden="true"></div>
+            <img src="/imagen-hero-libertad.webp" alt="Persona en un entorno tranquilo, representando bienestar emocional" width="1200" height="800" class="relative aspect-[3/2] w-full rounded-[1.5rem] object-cover shadow-2xl" fetchpriority="high" />
         </div>
     </div>
-    <!-- Divider removed to avoid unexpected white stripe across layouts -->
 </section>

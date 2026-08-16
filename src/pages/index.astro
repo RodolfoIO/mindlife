@@ -1,40 +1,26 @@
 ---
 import MainLayout from "../layout/MainLayout.astro";
 import HeroSection from "../components/HeroSection.astro";
-import BenefitsSection from "../components/BenefitsSection.astro";
-import CTASection from "../components/CTASection.astro";
+import Services from "../components/Services.astro";
+import Process from "../components/Process.astro";
 import Approach from "../components/Approach.astro";
-import Testimonial from "../components/Testimonial.astro";
 import Packages from "../components/Packages.astro";
-import Footer from "../components/Footer.astro";
-import FinalCTA from "../components/FinalCTA.astro";
-import "../styles/global.css";
+import CTASection from "../components/CTASection.astro";
 ---
 
-<MainLayout title="Mindlife | Inicio">
-
-    <!-- Hero Section -->
+<MainLayout title="Mindlife | Clínica psicológica en Guatemala">
     <HeroSection />
-
-    <!-- Beneficios Section -->
-    <BenefitsSection />
-
-    <!-- CTA Section -->
-    <CTASection title="¿Listo para comenzar tu transformación?" subtitle="Agenda tu primera cita hoy mismo y da el primer paso hacia tu bienestar emocional." />
-
-    <!-- Engagement/Refuerzo Section -->
+    <Services />
+    <Process />
     <Approach />
-
-    <!-- Testimonios Section -->
-
-    <Testimonial />
-
-    <!-- Precios -->
-
     <Packages />
-
-    <!-- Argumento final y CTA -->
-    <!-- <FinalCTA /> -->
-    <CTASection title="Tu bienestar emocional comienza aquí" subtitle="En Mindlife llevamos 10 años ayudando a personas como tú a superar desafíos emocionales, mejorar relaciones y encontrar paz interior. Nuestro equipo de profesionales está listo para acompañarte en este viaje de autodescubrimiento y crecimiento." />
-
+    <section class="bg-accent-soft py-8" aria-labelledby="aviso-ayuda">
+        <div class="site-container flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div>
+                <h2 id="aviso-ayuda" class="text-xl font-bold text-primary">Si estás atravesando una emergencia</h2>
+                <p class="mt-1 text-muted">Mindlife no es un servicio de atención inmediata. Contacta a los servicios de emergencia de tu localidad o acude al centro asistencial más cercano.</p>
+            </div>
+        </div>
+    </section>
+    <CTASection id="comenzar" title="Tu bienestar merece un espacio y un tiempo" subtitle="Reserva una primera conversación para conocer tus necesidades y aclarar los siguientes pasos." />
 </MainLayout>

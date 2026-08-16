@@ -1,23 +1,16 @@
 ---
-interface Props {
-    title: string;
-    subtitle: string;
-}
-const { title, subtitle } = Astro.props;
+interface Props { title: string; subtitle: string; id?: string; }
+const { title, subtitle, id = "agenda" } = Astro.props;
 ---
 
-<section
-    id="CTA"
-    class="py-16 text-white"
-    style="background: var(--color-primary);"
->
-    <div class="w-full site-container px-4 sm:px-6 text-center">
-        <h2 class="text-3xl md:text-4xl font-bold mb-6">{title}</h2>
-        <p class="text-xl mb-10 max-w-2xl mx-auto">{subtitle}</p>
-        <a
-            href="/agendar"
-            class="bg-accent hover:bg-purple-600 text-white font-bold py-4 px-4 sm:px-12 rounded-full inline-block transition duration-300 shadow-lg"
-            >Agendar cita ahora</a
-        >
+<section id={id} class="section-space bg-primary text-white">
+    <div class="site-container text-center">
+        <p class="text-sm font-bold uppercase tracking-[0.14em] text-white/75">Da el primer paso</p>
+        <h2 class="mx-auto mt-3 max-w-3xl text-3xl font-bold sm:text-4xl">{title}</h2>
+        <p class="mx-auto mt-5 max-w-2xl text-lg text-white/85">{subtitle}</p>
+        <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+            <a href="/agendar" class="button-secondary">Agendar una cita</a>
+            <a href="https://wa.me/50243605982?text=Hola,%20deseo%20información%20sobre%20los%20servicios%20de%20Mindlife." target="_blank" rel="noopener noreferrer" class="button-light">Hacer una consulta</a>
+        </div>
     </div>
 </section>

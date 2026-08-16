@@ -1,452 +1,74 @@
 ---
-// src/components/Precios.astro
-
-interface Paquete {
-  name: string;
-  price: number;
-  regularPrice: number;
-  sessions: number;
-  duration: string;
-  features: string[];
-  popular: boolean;
-  color: "purple" | "blue" | "green" | "indigo";
-}
-
-interface TerapiaData {
-  title: string;
-  id: string;
-  packages: Paquete[];
-}
-
-const terapiasData: TerapiaData[] = [
-  {
-    title: "Individual",
-    id: "individual-linea",
-    packages: [
-      {
-        name: "Sesión",
-        price: 250,
-        regularPrice: 250,
-        sessions: 1,
-        duration: "45 min",
-        features: [
-          "1 sesión de 45 minutos",
-          "Flexibilidad de horario",
-          "Sin compromiso a largo plazo",
+const therapies = [
+    {
+        id: "individual",
+        label: "Individual",
+        packages: [
+            { name: "Sesión", price: 250, detail: "1 sesión de 45 minutos", note: "Sin compromiso de paquete" },
+            { name: "Paquete de 4", price: 750, detail: "4 sesiones de 45 minutos", note: "Q187.50 por sesión", featured: true },
+            { name: "Paquete de 6", price: 950, detail: "6 sesiones de 45 minutos", note: "Q158.33 por sesión" },
         ],
-        popular: false,
-        color: "purple",
-      },
-      {
-        name: "Paquete Básico",
-        price: 750,
-        regularPrice: 1000,
-        sessions: 4,
-        duration: "45 min",
-        features: [
-          "4 sesiones de 45 minutos",
-          "Precio por sesión: Q187.50",
-          "Ahorro total: Q250",
+    },
+    {
+        id: "pareja-familia",
+        label: "Pareja o familia",
+        packages: [
+            { name: "Sesión", price: 350, detail: "1 sesión de 90 minutos", note: "Para pareja o familia" },
+            { name: "Paquete de 4", price: 1100, detail: "4 sesiones de 90 minutos", note: "Q275 por sesión", featured: true },
+            { name: "Paquete de 6", price: 1500, detail: "6 sesiones de 90 minutos", note: "Q250 por sesión" },
         ],
-        popular: true,
-        color: "blue",
-      },
-      {
-        name: "Paquete Completo",
-        price: 950,
-        regularPrice: 1500,
-        sessions: 6,
-        duration: "45 min",
-        features: [
-          "6 sesiones de 45 minutos",
-          "Precio por sesión: Q158.33",
-          "Ahorro total: Q550",
-          "Sesiones adicionales con descuento",
-        ],
-        popular: false,
-        color: "green",
-      },
-    ],
-  },
-  /* {
-    title: "Individual Presencial",
-    id: "individual-presencial",
-    packages: [
-      {
-        name: "Sesión",
-        price: 350,
-        regularPrice: 350,
-        sessions: 1,
-        duration: "45 min",
-        features: [
-          "1 sesión presencial de 45 minutos",
-          "Flexibilidad de horario",
-          "Sin compromiso a largo plazo",
-        ],
-        popular: false,
-        color: "purple",
-      },
-      {
-        name: "Paquete Básico",
-        price: 1100,
-        regularPrice: 1400,
-        sessions: 4,
-        duration: "45 min",
-        features: [
-          "4 sesiones presenciales de 45 minutos",
-          "Precio por sesión: Q275",
-          "Ahorro total: Q300",
-        ],
-        popular: true,
-        color: "blue",
-      },
-      {
-        name: "Paquete Completo",
-        price: 1500,
-        regularPrice: 2100,
-        sessions: 6,
-        duration: "45 min",
-        features: [
-          "6 sesiones presenciales de 45 minutos",
-          "Precio por sesión: Q250",
-          "Ahorro total: Q600",
-          "Sesiones adicionales con descuento",
-        ],
-        popular: false,
-        color: "green",
-      },
-    ],
-  }, */
-  {
-    title: "Pareja/Familia",
-    id: "pareja-familia",
-    packages: [
-      {
-        name: "Sesión",
-        price: 350,
-        regularPrice: 350,
-        sessions: 1,
-        duration: "90 min",
-        features: [
-          "1 sesión de 90 minutos",
-          "Terapia para parejas o familias",
-          "Sin compromiso a largo plazo",
-        ],
-        popular: false,
-        color: "purple",
-      },
-      {
-        name: "Paquete Básico",
-        price: 1100,
-        regularPrice: 1400,
-        sessions: 4,
-        duration: "90 min",
-        features: [
-          "4 sesiones de 90 minutos",
-          "Precio por sesión: Q275",
-          "Ahorro total: Q300",
-        ],
-        popular: true,
-        color: "blue",
-      },
-      {
-        name: "Paquete Completo",
-        price: 1500,
-        regularPrice: 2100,
-        sessions: 6,
-        duration: "90 min",
-        features: [
-          "6 sesiones de 90 minutos",
-          "Precio por sesión: Q250",
-          "Ahorro total: Q600",
-          "Sesiones adicionales con descuento",
-        ],
-        popular: false,
-        color: "green",
-      },
-    ],
-  } /* 
-  {
-    title: "Para Estudiantes",
-    id: "estudiantes",
-    packages: [
-      {
-        name: "Sesión",
-        price: 150,
-        regularPrice: 150,
-        sessions: 1,
-        duration: "45 min",
-        features: [
-          "1 sesión de 45 minutos",
-          "Presentando carnet de estudiante vigente",
-          "Sin compromiso a largo plazo",
-        ],
-        popular: false,
-        color: "purple",
-      },
-      {
-        name: "Paquete Básico",
-        price: 560,
-        regularPrice: 600,
-        sessions: 4,
-        duration: "45 min",
-        features: [
-          "4 sesiones de 45 minutos",
-          "Precio por sesión: Q140",
-          "Ahorro total: Q40",
-        ],
-        popular: true,
-        color: "blue",
-      },
-      {
-        name: "Paquete Completo",
-        price: 750,
-        regularPrice: 900,
-        sessions: 6,
-        duration: "45 min",
-        features: [
-          "6 sesiones de 45 minutos",
-          "Precio por sesión: Q125",
-          "Ahorro total: Q150",
-          "Sesiones adicionales con descuento",
-        ],
-        popular: false,
-        color: "green",
-      },
-    ],
-  }, */,
+    },
 ];
 
-let activeTab = "individual-linea";
-
-const whatsappNumber = "50243605982";
-
-const generateWhatsAppMessage = (
-  packageName: string,
-  price: number,
-  therapyType: string,
-) => {
-  return encodeURIComponent(
-    `Hola, quiero realizar el pago del paquete "${packageName}" (Q${price}) para terapia ${therapyType}`,
-  );
-};
+const whatsapp = "50243605982";
+const message = (name: string, price: number, therapy: string) => encodeURIComponent(`Hola, deseo consultar disponibilidad para ${name} de terapia ${therapy} (Q${price}).`);
 ---
 
-<div class="py-16 bg-white" id="precios">
-  <div class="w-full site-container px-4 sm:px-6">
-    <h2 class="text-3xl md:text-4xl font-bold text-center text-primary mb-4">
-      Nuestros Paquetes de Terapia
-    </h2>
-    <p class="text-xl text-center text-body mb-12 max-w-2xl mx-auto">
-      Selecciona el tipo de terapia para ver los paquetes disponibles
-    </p>
-
-    <!-- Pestañas -->
-    <div class="flex flex-wrap justify-center mb-8">
-      {
-        terapiasData.map((terapia) => (
-          <button
-            data-tab={terapia.id}
-            onclick={`changeTab('${terapia.id}')`}
-            class="tab-button px-4 md:px-6 py-3 mx-2 mb-2 rounded-lg font-medium transition-colors bg-white text-primary cursor-pointer"
-          >
-            {terapia.title}
-          </button>
-        ))
-      }
-    </div>
-
-    <!-- Contenido de pestañas -->
-    <div>
-      {
-        terapiasData.map((terapia) => (
-          <div id={terapia.id} class="tab-content hidden">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {terapia.packages.map((pkg, idx) => (
-                <div
-                  id={`${terapia.id}-pkg-${idx}`}
-                  onclick={`selectPackage('${terapia.id}','${terapia.id}-pkg-${idx}')`}
-                  class={`package-card min-w-0 bg-white border-2 border-muted rounded-xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden flex flex-col ${
-                    pkg.popular ? "transform hover:-translate-y-1 relative" : ""
-                  }`}
-                >
-                  {pkg.popular && (
-                    <div
-                      class={`absolute top-0 right-0 bg-accent text-on-primary px-4 py-1 text-sm font-bold rounded-bl-lg`}
-                    >
-                      ¡Más popular!
-                    </div>
-                  )}
-
-                  <div class="p-6 text-center bg-white">
-                    <h3 class="text-2xl font-bold text-primary">{pkg.name}</h3>
-                  </div>
-
-                  <div class="p-8 flex-grow">
-                    <div class="text-center mb-6">
-                      <span class="text-4xl font-bold text-gray-800">
-                        Q{pkg.price}
-                      </span>
-                      <span class="text-gray-600 block">
-                        por {pkg.sessions}{" "}
-                        {pkg.sessions === 1 ? "sesión" : "sesiones"} de{" "}
-                        {pkg.duration}
-                      </span>
-                    </div>
-
-                    <ul class="space-y-3 mb-8">
-                      {pkg.features.map((feature) => (
-                        <li class="flex items-center">
-                          <svg
-                            class="w-5 h-5 text-accent mr-2"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M5 13l4 4L19 7"
-                            />
-                          </svg>
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div class="px-4 sm:px-8 pb-8 mt-auto">
-                    {pkg.regularPrice !== pkg.price ? (
-                      <div class="text-center mb-4">
-                        <span class="text-gray-500 text-sm line-through">
-                          Precio regular: Q{pkg.regularPrice}
-                        </span>
-                      </div>
-                    ) : (
-                      <div class="text-center mb-4">
-                        <span class="text-gray-500 text-sm">
-                          Precio regular: Q{pkg.regularPrice}
-                        </span>
-                      </div>
-                    )}
-
-                    <a
-                      class={`block w-full bg-primary text-on-primary font-bold py-3 px-4 md:px-6 rounded-lg transition duration-300 cursor-pointer text-center`}
-                      href={`https://wa.me/${whatsappNumber}?text=${generateWhatsAppMessage(pkg.name, pkg.price, terapia.title)}`}
-                      target="_blank"
-                      onclick={`selectPackage('${terapia.id}','${terapia.id}-pkg-${idx}')`}
-                    >
-                      {pkg.sessions === 1 ? "Agendar ahora" : "Comprar paquete"}
-                    </a>
-                  </div>
+<section id="precios" class="section-space bg-primary-soft">
+    <div class="site-container">
+        <div class="mx-auto max-w-3xl text-center">
+            <p class="eyebrow">Inversión</p>
+            <h2 class="mt-3 text-3xl font-bold text-primary sm:text-4xl">Opciones para dar continuidad a tu proceso</h2>
+            <p class="mt-5 text-lg text-muted">Selecciona el tipo de atención para consultar las opciones disponibles. Los precios se muestran en quetzales.</p>
+        </div>
+        <div class="mt-10 flex justify-center" role="tablist" aria-label="Tipo de terapia">
+            {therapies.map((therapy, index) => (
+                <button id={`tab-${therapy.id}`} class={`therapy-tab min-h-12 border border-primary px-5 py-2 font-semibold ${index === 0 ? "bg-primary text-white" : "bg-white text-primary"} first:rounded-l-full last:rounded-r-full`} type="button" role="tab" aria-selected={index === 0 ? "true" : "false"} aria-controls={`panel-${therapy.id}`} data-target={therapy.id}>{therapy.label}</button>
+            ))}
+        </div>
+        {therapies.map((therapy, therapyIndex) => (
+            <div id={`panel-${therapy.id}`} class={`therapy-panel mt-10 ${therapyIndex === 0 ? "" : "hidden"}`} role="tabpanel" aria-labelledby={`tab-${therapy.id}`}>
+                <div class="grid gap-6 md:grid-cols-3">
+                    {therapy.packages.map((pkg) => (
+                        <article class={`relative flex flex-col rounded-2xl bg-white p-7 ${pkg.featured ? "border-2 border-accent shadow-[var(--shadow-soft)]" : "border border-muted"}`}>
+                            {pkg.featured && <span class="absolute right-5 top-0 -translate-y-1/2 rounded-full bg-accent px-3 py-1 text-xs font-bold text-white">Opción frecuente</span>}
+                            <h3 class="text-xl font-bold text-primary">{pkg.name}</h3>
+                            <p class="mt-5 text-4xl font-bold text-primary">Q{pkg.price}</p>
+                            <p class="mt-4 text-body">{pkg.detail}</p>
+                            <p class="mt-2 text-sm text-muted">{pkg.note}</p>
+                            <a href={`https://wa.me/${whatsapp}?text=${message(pkg.name, pkg.price, therapy.label)}`} target="_blank" rel="noopener noreferrer" class="button-primary mt-7">Consultar disponibilidad</a>
+                        </article>
+                    ))}
                 </div>
-              ))}
             </div>
-          </div>
-        ))
-      }
+        ))}
+        <p class="mt-8 text-center text-sm text-muted">La compra de un paquete no garantiza resultados clínicos específicos. Consulta condiciones, vigencia y políticas antes de realizar un pago.</p>
     </div>
-  </div>
-</div>
-
-<style>
-  .tab-button {
-    transition: all 0.3s ease;
-  }
-
-  .tab-content {
-    display: none;
-  }
-
-  .tab-content.active {
-    display: block;
-    animation: fadeIn 0.5s ease;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  /* Selected package visual state */
-  .package-card.selected {
-    border-width: 3px;
-    border-color: var(--color-accent);
-    box-shadow: 0 12px 30px rgba(31, 51, 97, 0.12);
-    transform: translateY(-6px);
-  }
-</style>
+</section>
 
 <script is:inline>
-  // Tab activo por defecto
-  let clientActiveTab = "individual-linea";
-
-  function changeTab(tabId) {
-    clientActiveTab = tabId;
-
-    // Ocultar todos los contenidos
-    document.querySelectorAll(".tab-content").forEach((tab) => {
-      tab.classList.add("hidden");
-      tab.classList.remove("active", "block");
-    });
-
-    // Mostrar contenido activo
-    const activeContent = document.getElementById(tabId);
-    if (activeContent) {
-      activeContent.classList.remove("hidden");
-      activeContent.classList.add("active", "block");
-    }
-
-    // Actualizar botones correctamente
-    document.querySelectorAll(".tab-button").forEach((button) => {
-      const isActive = button.dataset.tab === tabId;
-
-      if (isActive) {
-        button.classList.remove("bg-white", "text-primary");
-        button.classList.add("bg-primary", "text-on-primary");
-        button.setAttribute("aria-selected", "true");
-      } else {
-        button.classList.remove("bg-primary", "text-on-primary");
-        button.classList.add("bg-white", "text-primary");
-        button.setAttribute("aria-selected", "false");
-      }
-    });
-
-    // Actualizar URL
-  }
-
-  // Cargar estado inicial de tabs
-  document.addEventListener("DOMContentLoaded", () => {
-    const hash = window.location.hash.substring(1);
-    const validTabs = [
-      "individual-linea",
-      "individual-presencial",
-      "pareja-familia",
-      "estudiantes",
-    ];
-
-    if (hash && validTabs.includes(hash)) {
-      changeTab(hash);
-    } else {
-      changeTab(clientActiveTab);
-    }
-  });
-
-  // Seleccionar paquete
-  function selectPackage(tabId, pkgId) {
-    const container = document.getElementById(tabId);
-    if (!container) return;
-
-    container
-      .querySelectorAll(".package-card")
-      .forEach((el) => el.classList.remove("selected"));
-
-    const selected = document.getElementById(pkgId);
-    if (selected) selected.classList.add("selected");
-  }
+    const tabs = document.querySelectorAll(".therapy-tab");
+    const panels = document.querySelectorAll(".therapy-panel");
+    tabs.forEach((tab) => tab.addEventListener("click", () => {
+        const target = tab.getAttribute("data-target");
+        tabs.forEach((item) => {
+            const active = item === tab;
+            item.setAttribute("aria-selected", String(active));
+            item.classList.toggle("bg-primary", active);
+            item.classList.toggle("text-white", active);
+            item.classList.toggle("bg-white", !active);
+            item.classList.toggle("text-primary", !active);
+        });
+        panels.forEach((panel) => panel.classList.toggle("hidden", panel.id !== `panel-${target}`));
+    }));
 </script>

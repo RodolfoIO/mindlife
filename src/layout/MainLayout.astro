@@ -3,29 +3,30 @@ import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
 
-interface Props {
-    title: string;
-}
-const { title } = Astro.props;
+interface Props { title: string; description?: string; }
+const { title, description = "Atención psicológica presencial y en línea en Ciudad de Guatemala. Conoce los servicios de Mindlife y agenda una cita." } = Astro.props;
 ---
 
+<!doctype html>
 <html lang="es">
     <head>
         <meta charset="UTF-8" />
-        <link rel="icon" type="image/png" href="/logo-nuevo-icono.svg" />
-        <meta name="viewport" content="width=device-width" />
-        <meta
-            name="description"
-            content="Mindlife: 10 años ofreciendo terapia psicológica profesional. Agenda tu cita hoy y comienza tu camino hacia el bienestar emocional."
-        />
-        <meta name="generator" content={Astro.generator} />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content={description} />
+        <meta name="theme-color" content="#1f3361" />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="es_GT" />
+        <meta property="og:site_name" content="Mindlife Clínica Psicológica" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content="/logo-nuevo.png" />
+        <link rel="icon" type="image/svg+xml" href="/logo-nuevo-icono.svg" />
         <title>{title}</title>
     </head>
     <body>
+        <a class="skip-link" href="#contenido">Saltar al contenido</a>
         <Navbar />
-        <main class="w-full">
-            <slot />
-        </main>
+        <main id="contenido" tabindex="-1"><slot /></main>
         <Footer />
     </body>
 </html>

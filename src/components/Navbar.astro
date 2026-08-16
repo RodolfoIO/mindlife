@@ -1,80 +1,55 @@
 ---
-
+const currentPath = Astro.url.pathname;
+const homeLink = currentPath === "/" ? "#inicio" : "/#inicio";
+const links = [
+    { href: currentPath === "/" ? "#servicios" : "/#servicios", label: "Servicios" },
+    { href: currentPath === "/" ? "#proceso" : "/#proceso", label: "Cómo funciona" },
+    { href: currentPath === "/" ? "#precios" : "/#precios", label: "Precios" },
+    { href: "#contacto", label: "Contacto" },
+];
 ---
 
-<header class="sticky top-0 inset-x-0 bg-white shadow-md z-[9999]">
-    <nav
-        class="w-full site-container px-4 sm:px-6 py-3 flex justify-between items-center"
-    >
-        <div class="flex items-center space-x-2">
-            <div class="max-w-[140px] w-full flex items-center">
-                <img
-                    src="/logo-nuevo.png"
-                    alt="logo clinicas mindlife"
-                    class="max-w-[140px] w-full h-auto"
-                />
-            </div>
+<header class="sticky top-0 inset-x-0 bg-white z-[9999] border-b border-muted">
+    <nav class="site-container py-3 flex justify-between items-center" aria-label="Navegación principal">
+        <a href={homeLink} aria-label="Mindlife Clínica Psicológica, ir al inicio" class="shrink-0">
+            <img src="/logo-nuevo.svg" alt="Mindlife Clínica Psicológica" width="194" height="59" class="w-[154px] sm:w-[178px] h-auto" />
+        </a>
+        <div class="hidden lg:flex items-center gap-7">
+            {links.map((link) => <a href={link.href} class="text-body font-medium hover-text-accent">{link.label}</a>)}
+            <a href="/agendar" class="button-primary">Agendar cita</a>
         </div>
-
-        <div class="hidden md:flex space-x-8">
-            <a href="/" class="text-accent hover-text-primary">Inicio</a>
-            <a href="/#beneficios" class="text-body hover-text-primary"
-                >Beneficios</a
-            >
-            <a href="/#testimonios" class="text-body hover-text-primary"
-                >Testimonios</a
-            >
-            <a href="/#precios" class="text-body hover-text-primary">Precios</a>
-            <a href="#footer" class="text-body hover-text-primary">Contacto</a>
-        </div>
-
-        <button id="mobile-menu-button" class="md:hidden focus:outline-none">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor">
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
+        <button id="mobile-menu-button" class="lg:hidden p-3 text-primary rounded-lg" type="button" aria-label="Abrir menú" aria-controls="mobile-menu" aria-expanded="false">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
         </button>
     </nav>
-
-    <div id="mobile-menu" class="md:hidden hidden bg-white w-full px-4 pb-4">
-        <div class="flex flex-col space-y-3 items-center text-center">
-            <a href="/" class="text-accent hover-text-primary w-full py-2"
-                >Inicio</a
-            >
-            <a
-                href="/#beneficios"
-                class="text-body hover-text-primary w-full py-2">Beneficios</a
-            >
-            <a
-                href="/#testimonios"
-                class="text-body hover-text-primary w-full py-2">Testimonios</a
-            >
-            <a href="/#precios" class="text-body hover-text-primary w-full py-2"
-                >Precios</a
-            >
-            <a href="#footer" class="text-body hover-text-primary w-full py-2"
-                >Contacto</a
-            >
+    <div id="mobile-menu" class="lg:hidden hidden bg-white border-t border-muted" aria-hidden="true">
+        <div class="site-container py-5 flex flex-col gap-1">
+            {links.map((link) => <a href={link.href} class="text-body font-medium py-3">{link.label}</a>)}
+            <a href="/agendar" class="button-primary mt-3">Agendar cita</a>
         </div>
     </div>
 </header>
 
 <script is:inline>
-    // Toggle del menú móvil
-    document
-        .getElementById("mobile-menu-button")
-        .addEventListener("click", function () {
-            const menu = document.getElementById("mobile-menu");
-            menu.classList.toggle("hidden");
-        });
-
-    // Cerrar el menú al hacer clic en un enlace (útil para anchor links)
-    document.querySelectorAll("#mobile-menu a").forEach((link) => {
-        link.addEventListener("click", function () {
-            document.getElementById("mobile-menu").classList.add("hidden");
-        });
+    const menuButton = document.getElementById("mobile-menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const closeMenu = () => {
+        if (!menuButton || !mobileMenu) return;
+        mobileMenu.classList.add("hidden");
+        mobileMenu.setAttribute("aria-hidden", "true");
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.setAttribute("aria-label", "Abrir menú");
+        document.body.classList.remove("menu-open");
+    };
+    menuButton?.addEventListener("click", () => {
+        if (!mobileMenu) return;
+        const willOpen = mobileMenu.classList.contains("hidden");
+        mobileMenu.classList.toggle("hidden", !willOpen);
+        mobileMenu.setAttribute("aria-hidden", String(!willOpen));
+        menuButton.setAttribute("aria-expanded", String(willOpen));
+        menuButton.setAttribute("aria-label", willOpen ? "Cerrar menú" : "Abrir menú");
+        document.body.classList.toggle("menu-open", willOpen);
     });
+    mobileMenu?.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+    document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeMenu(); });
 </script>
