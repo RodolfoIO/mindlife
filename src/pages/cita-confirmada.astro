@@ -1,0 +1,136 @@
+---
+import MainLayout from "../layout/MainLayout.astro";
+---
+
+<MainLayout title="Siguientes pasos de tu cita | Mindlife" description="Revisa la confirmación y completa la información previa para tu cita en Mindlife.">
+    <section class="section-space bg-primary text-white">
+        <div class="site-container max-w-4xl text-center">
+            <span class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white text-3xl font-bold text-primary" aria-hidden="true">✓</span>
+            <p class="mt-6 text-sm font-bold uppercase tracking-[0.14em] text-white/75">Siguientes pasos</p>
+            <h1 class="mt-3 text-4xl font-bold sm:text-5xl">Revisa la confirmación de tu cita</h1>
+            <p class="mx-auto mt-5 max-w-2xl text-lg text-white/85">Tu reservación es válida cuando recibes la confirmación de Google Calendar o del equipo de Mindlife.</p>
+        </div>
+    </section>
+
+    <section class="section-space surface-soft">
+        <div class="site-container max-w-5xl">
+            <div class="rounded-2xl border border-accent bg-accent-soft p-5 sm:p-6" role="note">
+                <h2 class="text-xl font-bold text-primary">Esta página no crea una reservación</h2>
+                <p class="mt-2 text-muted">Si aún no seleccionaste y confirmaste un horario, regresa al agendamiento antes de completar el formulario de información.</p>
+                <a id="back-to-booking-top" href="/agendar" class="mt-3 inline-block font-bold text-primary underline underline-offset-4">Volver a reservar un horario</a>
+            </div>
+
+            <div class="mt-6 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+                <aside class="card-brand p-6 sm:p-7 lg:self-start" aria-labelledby="resumen-cita">
+                    <p class="eyebrow">Tu selección</p>
+                    <h2 id="resumen-cita" class="mt-2 text-2xl font-bold text-primary">Resumen de la atención</h2>
+                    <dl class="mt-6 space-y-4">
+                        <div class="border-b border-muted pb-4">
+                            <dt class="text-sm font-bold text-muted">Servicio</dt>
+                            <dd id="confirmation-service" class="mt-1 font-bold text-primary">Terapia individual</dd>
+                        </div>
+                        <div class="border-b border-muted pb-4">
+                            <dt class="text-sm font-bold text-muted">Modalidad</dt>
+                            <dd id="confirmation-modality" class="mt-1 font-bold text-primary">En línea</dd>
+                        </div>
+                        <div class="border-b border-muted pb-4">
+                            <dt class="text-sm font-bold text-muted">Opción seleccionada</dt>
+                            <dd id="confirmation-package" class="mt-1 font-bold text-primary">Sesión única · Q250</dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm font-bold text-muted">Duración</dt>
+                            <dd id="confirmation-duration" class="mt-1 font-bold text-primary">45 minutos</dd>
+                        </div>
+                    </dl>
+                    <p class="mt-6 text-sm text-muted">La fecha y hora definitivas son las indicadas en el correo de Google Calendar.</p>
+                </aside>
+
+                <div class="space-y-6">
+                    <section class="card-brand p-6 sm:p-8" aria-labelledby="prepara-cita">
+                        <p class="eyebrow">Antes de la sesión</p>
+                        <h2 id="prepara-cita" class="mt-2 text-2xl font-bold text-primary">Prepara tu primera cita</h2>
+                        <ol class="mt-7 space-y-6">
+                            <li class="flex gap-4">
+                                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-soft font-bold text-primary">1</span>
+                                <div><h3 class="font-bold text-primary">Revisa la confirmación</h3><p class="mt-1 text-muted">En el correo de Google o mensaje de Mindlife, confirma que la fecha, hora, duración y modalidad sean correctas.</p></div>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-soft font-bold text-primary">2</span>
+                                <div><h3 class="font-bold text-primary">Completa la información previa</h3><p class="mt-1 text-muted">Llena el formulario con calma para que podamos preparar mejor tu atención.</p></div>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-soft font-bold text-primary">3</span>
+                                <div><h3 class="font-bold text-primary">Guarda los datos de acceso</h3><p id="access-instructions" class="mt-1 text-muted">Google enviará el enlace de Meet al correo utilizado para reservar.</p></div>
+                            </li>
+                        </ol>
+                        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+                            <a id="confirmation-intake-link" href="/formulario" class="button-primary w-full sm:w-auto">Completar formulario previo</a>
+                            <a id="back-to-booking" href="/agendar" class="button-light w-full border border-primary sm:w-auto">Cambiar selección</a>
+                        </div>
+                    </section>
+
+                    <section id="modality-details" class="rounded-2xl bg-primary p-6 text-white sm:p-7" aria-labelledby="detalle-modalidad">
+                        <h2 id="detalle-modalidad" class="text-xl font-bold">Para tu sesión en línea</h2>
+                        <p id="modality-copy" class="mt-2 text-white/85">Conéctate mediante el enlace de Google Meet incluido en la invitación. Te recomendamos ingresar cinco minutos antes.</p>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-white py-12">
+        <div class="site-container max-w-4xl">
+            <h2 class="text-2xl font-bold text-primary">Cambios y cancelaciones</h2>
+            <div class="mt-5 grid gap-4 md:grid-cols-3">
+                <p class="rounded-xl border border-muted p-5"><strong>Más de 4 horas:</strong><br />sin cargo por cancelación.</p>
+                <p class="rounded-xl border border-muted p-5"><strong>Menos de 4 horas:</strong><br />cargo del 50%.</p>
+                <p class="rounded-xl border border-muted p-5"><strong>Inasistencia:</strong><br />cargo completo de la sesión.</p>
+            </div>
+            <p class="mt-5 text-sm text-muted">Para solicitar ayuda, comunícate al <a href="https://wa.me/50243605982?text=Hola,%20necesito%20ayuda%20con%20una%20cita%20de%20Mindlife." target="_blank" rel="noopener noreferrer" class="font-bold text-primary underline underline-offset-4">WhatsApp de Mindlife</a>.</p>
+        </div>
+    </section>
+</MainLayout>
+
+<script is:inline>
+    const confirmationOptions = {
+        individual: {
+            label: "Terapia individual",
+            duration: "45 minutos",
+            packages: {
+                "sesion-unica": "Sesión única · Q250",
+                "paquete-4": "Paquete de 4 sesiones · Q750",
+                "paquete-6": "Paquete de 6 sesiones · Q950",
+            },
+        },
+        "pareja-familia": {
+            label: "Terapia de pareja o familia",
+            duration: "90 minutos",
+            packages: {
+                "sesion-unica": "Sesión única · Q350",
+                "paquete-4": "Paquete de 4 sesiones · Q1100",
+                "paquete-6": "Paquete de 6 sesiones · Q1500",
+            },
+        },
+    };
+
+    const confirmationParams = new URLSearchParams(window.location.search);
+    const serviceKey = Object.hasOwn(confirmationOptions, confirmationParams.get("servicio")) ? confirmationParams.get("servicio") : "individual";
+    const modalityKey = ["online", "presencial"].includes(confirmationParams.get("modalidad")) ? confirmationParams.get("modalidad") : "online";
+    const serviceConfig = confirmationOptions[serviceKey];
+    const packageKey = Object.hasOwn(serviceConfig.packages, confirmationParams.get("paquete")) ? confirmationParams.get("paquete") : "sesion-unica";
+    const cleanQuery = new URLSearchParams({ servicio: serviceKey, modalidad: modalityKey, paquete: packageKey });
+
+    document.getElementById("confirmation-service").textContent = serviceConfig.label;
+    document.getElementById("confirmation-modality").textContent = modalityKey === "online" ? "En línea" : "Presencial";
+    document.getElementById("confirmation-package").textContent = serviceConfig.packages[packageKey];
+    document.getElementById("confirmation-duration").textContent = serviceConfig.duration;
+    document.getElementById("confirmation-intake-link").href = `/formulario?${cleanQuery.toString()}`;
+    document.getElementById("back-to-booking").href = `/agendar?${cleanQuery.toString()}`;
+    document.getElementById("back-to-booking-top").href = `/agendar?${cleanQuery.toString()}`;
+
+    if (modalityKey === "presencial") {
+        document.getElementById("detalle-modalidad").textContent = "Para tu sesión presencial";
+        document.getElementById("modality-copy").textContent = "Te esperamos en Galerías Reforma, Avenida Reforma 8-60, zona 9, oficina 210, Ciudad de Guatemala. Llega con cinco minutos de anticipación.";
+        document.getElementById("access-instructions").textContent = "Guarda la dirección de la clínica y confirma cualquier indicación adicional enviada por el equipo.";
+    }
+</script>

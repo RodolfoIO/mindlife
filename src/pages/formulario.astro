@@ -1,5 +1,7 @@
 ---
 import MainLayout from "../layout/MainLayout.astro";
+
+const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfvqis7nOKCFuR6bdJJSR_t3P1EmCJYwEdj_jin7moZoUaArw/viewform?embedded=true";
 ---
 
 <MainLayout title="Formulario de información | Mindlife" description="Completa la información previa para tu sesión en Mindlife.">
@@ -12,14 +14,26 @@ import MainLayout from "../layout/MainLayout.astro";
     </section>
     <section class="section-space surface-soft">
         <div class="site-container max-w-5xl">
+            <div class="mb-6 rounded-2xl border border-accent bg-accent-soft p-5 sm:p-6" role="note">
+                <h2 class="text-xl font-bold text-primary">Completa este paso después de reservar</h2>
+                <p class="mt-2 text-muted">Si todavía no recibiste la confirmación de Google Calendar, regresa al agendamiento antes de compartir información personal.</p>
+                <p id="intake-booking-summary" class="mt-3 font-bold text-primary">Terapia individual · En línea · Sesión única</p>
+                <a id="intake-back-link" href="/agendar" class="mt-3 inline-block font-bold text-primary underline underline-offset-4">Volver al agendamiento</a>
+            </div>
             <div class="card-brand p-4 sm:p-8">
                 <div class="mx-auto max-w-3xl text-center">
                     <h2 class="text-2xl font-bold text-primary">Completa tus datos con calma</h2>
                     <p class="mt-3 text-muted">Los campos marcados como obligatorios deben completarse antes de enviar el formulario.</p>
+                    <a href={formUrl} target="_blank" rel="noopener noreferrer" class="mt-4 inline-block font-bold text-primary underline underline-offset-4">Abrir formulario en otra pestaña</a>
                 </div>
-                <div class="mt-7 overflow-hidden rounded-xl border border-muted bg-white">
+                <div class="relative mt-7 overflow-hidden rounded-xl border border-muted bg-white">
+                    <div id="intake-loading" class="absolute inset-x-0 top-0 z-10 flex min-h-48 flex-col items-center justify-center bg-white p-6 text-center" role="status">
+                        <span class="h-10 w-10 animate-spin rounded-full border-4 border-primary-soft border-t-accent" aria-hidden="true"></span>
+                        <p class="mt-4 font-bold text-primary">Cargando formulario…</p>
+                    </div>
                     <iframe
-                        src="https://docs.google.com/forms/d/e/1FAIpQLSfvqis7nOKCFuR6bdJJSR_t3P1EmCJYwEdj_jin7moZoUaArw/viewform?embedded=true"
+                        id="intake-form-frame"
+                        src={formUrl}
                         title="Formulario de información previa de Mindlife"
                         width="640"
                         height="3032"
@@ -35,3 +49,25 @@ import MainLayout from "../layout/MainLayout.astro";
         </div>
     </section>
 </MainLayout>
+
+<script is:inline>
+    const intakeOptions = {
+        individual: {
+            label: "Terapia individual",
+            packages: { "sesion-unica": "Sesión única", "paquete-4": "Paquete de 4 sesiones", "paquete-6": "Paquete de 6 sesiones" },
+        },
+        "pareja-familia": {
+            label: "Terapia de pareja o familia",
+            packages: { "sesion-unica": "Sesión única", "paquete-4": "Paquete de 4 sesiones", "paquete-6": "Paquete de 6 sesiones" },
+        },
+    };
+    const intakeParams = new URLSearchParams(window.location.search);
+    const intakeService = Object.hasOwn(intakeOptions, intakeParams.get("servicio")) ? intakeParams.get("servicio") : "individual";
+    const intakeModality = ["online", "presencial"].includes(intakeParams.get("modalidad")) ? intakeParams.get("modalidad") : "online";
+    const intakePackage = Object.hasOwn(intakeOptions[intakeService].packages, intakeParams.get("paquete")) ? intakeParams.get("paquete") : "sesion-unica";
+    const intakeQuery = new URLSearchParams({ servicio: intakeService, modalidad: intakeModality, paquete: intakePackage });
+
+    document.getElementById("intake-booking-summary").textContent = `${intakeOptions[intakeService].label} · ${intakeModality === "online" ? "En línea" : "Presencial"} · ${intakeOptions[intakeService].packages[intakePackage]}`;
+    document.getElementById("intake-back-link").href = `/agendar?${intakeQuery.toString()}`;
+    document.getElementById("intake-form-frame").addEventListener("load", () => document.getElementById("intake-loading").classList.add("hidden"));
+</script>

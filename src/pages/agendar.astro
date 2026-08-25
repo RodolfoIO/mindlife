@@ -1,44 +1,104 @@
 ---
 import MainLayout from "../layout/MainLayout.astro";
+
+const calendarUrl = "https://calendar.google.com/calendar/appointments/schedules/AcZssZ3rRJrpsdI8FtsudpZ9fLBU-MQkfYqku6xxE-JIRYY9ChHsV73J9ClP_JMFixCItZjUZd5lz6vM?gv=true";
 ---
 
-<MainLayout title="Agendar cita | Mindlife" description="Consulta horarios disponibles para atención psicológica en Mindlife Clínica Psicológica.">
+<MainLayout title="Agendar cita | Mindlife" description="Selecciona el tipo de atención y consulta horarios disponibles para una cita en Mindlife Clínica Psicológica.">
     <section class="section-space bg-primary text-white">
         <div class="site-container max-w-4xl text-center">
             <p class="text-sm font-bold uppercase tracking-[0.14em] text-white/75">Reservación</p>
             <h1 class="mt-3 text-4xl font-bold sm:text-5xl">Agenda un espacio para ti</h1>
-            <p class="mx-auto mt-5 max-w-2xl text-lg text-white/85">Selecciona un horario disponible. Antes de confirmar, revisa la duración, modalidad y profesional asignado que muestra el calendario.</p>
+            <p class="mx-auto mt-5 max-w-2xl text-lg text-white/85">Selecciona el servicio y la modalidad. Te mostraremos el siguiente paso adecuado para reservar.</p>
+            <ol class="mx-auto mt-8 grid max-w-3xl gap-3 text-left sm:grid-cols-3" aria-label="Pasos para agendar">
+                <li class="rounded-xl bg-white/10 p-4"><span class="block text-xs font-bold uppercase tracking-wider text-white/65">Paso 1</span><span class="mt-1 block font-bold">Elige tu atención</span></li>
+                <li class="rounded-xl bg-white/10 p-4"><span class="block text-xs font-bold uppercase tracking-wider text-white/65">Paso 2</span><span class="mt-1 block font-bold">Reserva un horario</span></li>
+                <li class="rounded-xl bg-white/10 p-4"><span class="block text-xs font-bold uppercase tracking-wider text-white/65">Paso 3</span><span class="mt-1 block font-bold">Completa tus datos</span></li>
+            </ol>
         </div>
     </section>
 
     <section class="section-space surface-soft">
-        <div class="site-container grid gap-6 sm:gap-8 lg:grid-cols-[0.7fr_1.3fr]">
-            <aside class="space-y-5 lg:sticky lg:top-28 lg:self-start" aria-labelledby="antes-agendar">
+        <div class="site-container grid gap-6 sm:gap-8 lg:grid-cols-[0.72fr_1.28fr]">
+            <aside class="space-y-5 lg:sticky lg:top-28 lg:self-start" aria-labelledby="configurar-cita">
                 <div class="card-brand p-6 sm:p-7">
-                    <h2 id="antes-agendar" class="text-2xl font-bold text-primary">Antes de agendar</h2>
-                    <ol class="mt-6 space-y-5">
-                        <li class="flex gap-3"><span class="font-bold text-accent">01</span><span>Elige la fecha y el horario que más te convengan.</span></li>
-                        <li class="flex gap-3"><span class="font-bold text-accent">02</span><span>Confirma la modalidad y los datos solicitados por el calendario.</span></li>
-                        <li class="flex gap-3"><span class="font-bold text-accent">03</span><span>Recibirás los detalles de la reservación en tu correo.</span></li>
-                    </ol>
+                    <p class="eyebrow">Paso 1</p>
+                    <h2 id="configurar-cita" class="mt-2 text-2xl font-bold text-primary">Elige tu atención</h2>
+                    <div class="mt-6 space-y-5">
+                        <div>
+                            <label for="booking-service" class="block font-bold text-primary">Tipo de terapia</label>
+                            <select id="booking-service" class="mt-2 min-h-12 w-full rounded-xl border border-muted bg-white px-4 py-3 text-body focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30">
+                                <option value="individual">Terapia individual</option>
+                                <option value="pareja-familia">Terapia de pareja o familia</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="booking-modality" class="block font-bold text-primary">Modalidad</label>
+                            <select id="booking-modality" class="mt-2 min-h-12 w-full rounded-xl border border-muted bg-white px-4 py-3 text-body focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30">
+                                <option value="online">En línea</option>
+                                <option value="presencial">Presencial</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="booking-package" class="block font-bold text-primary">Opción de pago</label>
+                            <select id="booking-package" class="mt-2 min-h-12 w-full rounded-xl border border-muted bg-white px-4 py-3 text-body focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"></select>
+                        </div>
+                    </div>
+                    <div class="mt-6 rounded-xl bg-primary-soft p-4" aria-live="polite">
+                        <p class="text-xs font-bold uppercase tracking-wider text-muted">Tu selección</p>
+                        <p id="booking-summary" class="mt-1 font-bold text-primary">Terapia individual · En línea · Sesión única</p>
+                        <p id="booking-duration" class="mt-1 text-sm text-muted">Duración: 45 minutos.</p>
+                    </div>
                 </div>
+
                 <div class="rounded-2xl bg-accent-soft p-6">
-                    <h2 class="font-bold text-primary">¿No encuentras un horario?</h2>
-                    <p class="mt-2 text-sm text-muted">Escríbenos y te ayudaremos a revisar otras opciones.</p>
-                    <a href="https://wa.me/50243605982?text=Hola,%20necesito%20ayuda%20para%20agendar%20una%20cita." target="_blank" rel="noopener noreferrer" class="mt-4 inline-block font-bold text-primary underline underline-offset-4">Consultar por WhatsApp</a>
+                    <h2 class="font-bold text-primary">¿Necesitas ayuda?</h2>
+                    <p class="mt-2 text-sm text-muted">Si no encuentras un horario o no sabes qué servicio elegir, podemos orientarte.</p>
+                    <a id="booking-whatsapp" href="https://wa.me/50243605982?text=Hola,%20necesito%20ayuda%20para%20agendar%20una%20cita." target="_blank" rel="noopener noreferrer" class="mt-4 inline-block font-bold text-primary underline underline-offset-4">Consultar por WhatsApp</a>
                 </div>
             </aside>
 
-            <div class="card-brand overflow-hidden p-4 sm:p-7">
-                <h2 class="text-2xl font-bold text-primary">Horarios disponibles</h2>
-                <p class="mt-2 text-muted">El calendario es administrado mediante Google Calendar.</p>
-                <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3rRJrpsdI8FtsudpZ9fLBU-MQkfYqku6xxE-JIRYY9ChHsV73J9ClP_JMFixCItZjUZd5lz6vM?gv=true" title="Calendario de citas de Mindlife" class="mt-6 min-h-[720px] w-full rounded-xl border border-muted" loading="lazy"></iframe>
-                <p class="mt-5 text-sm text-muted">Al utilizar el calendario, Google puede procesar los datos necesarios para la reservación conforme a sus propias políticas. Evita incluir información clínica sensible en campos de notas.</p>
-                <div class="mt-6 rounded-2xl bg-accent-soft p-5 sm:p-6">
-                    <h3 class="text-xl font-bold text-primary">¿Ya agendaste tu cita?</h3>
-                    <p class="mt-2 text-muted">El siguiente paso es completar el formulario de información previa.</p>
-                    <a href="/formulario" class="button-primary mt-5 w-full sm:w-auto">Llenar formulario de información</a>
-                </div>
+            <div class="space-y-6">
+                <section id="calendar-panel" class="card-brand overflow-hidden" aria-labelledby="horarios-disponibles">
+                    <div class="p-5 sm:p-7 sm:pb-5">
+                        <p class="eyebrow">Paso 2</p>
+                        <h2 id="horarios-disponibles" class="mt-2 text-2xl font-bold text-primary">Reserva un horario</h2>
+                        <p class="mt-2 text-muted">Este calendario corresponde actualmente a terapia individual en línea de 45 minutos.</p>
+                        <a href={calendarUrl} target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex font-bold text-primary underline underline-offset-4">Abrir calendario en otra pestaña</a>
+                    </div>
+                    <div id="calendar-frame-wrapper" class="relative min-h-[760px] border-y border-muted bg-white sm:min-h-[720px]" aria-busy="true">
+                        <div id="calendar-loading" class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-white p-6 text-center" role="status">
+                            <span class="h-11 w-11 animate-spin rounded-full border-4 border-primary-soft border-t-accent" aria-hidden="true"></span>
+                            <p class="mt-4 font-bold text-primary">Cargando horarios disponibles…</p>
+                            <p class="mt-1 text-sm text-muted">El calendario puede tardar unos segundos.</p>
+                        </div>
+                        <iframe id="booking-calendar" data-src={calendarUrl} title="Calendario de citas de Mindlife" class="block min-h-[760px] w-full bg-white sm:min-h-[720px]" loading="eager"></iframe>
+                    </div>
+                    <div id="calendar-delay" class="hidden bg-accent-soft p-5 sm:px-7" role="status">
+                        <p class="font-bold text-primary">El calendario está tardando más de lo esperado.</p>
+                        <p class="mt-1 text-sm text-muted">Puedes esperar un momento o abrirlo directamente en Google Calendar.</p>
+                        <a href={calendarUrl} target="_blank" rel="noopener noreferrer" class="mt-3 inline-block font-bold text-primary underline underline-offset-4">Abrir calendario directamente</a>
+                    </div>
+                    <p class="p-5 text-sm text-muted sm:px-7">Antes de confirmar, verifica la fecha y hora. Google procesará los datos necesarios para la reservación; evita incluir información clínica sensible en campos de texto.</p>
+                    <noscript>
+                        <p class="px-5 pb-5 text-sm text-muted sm:px-7">Para ver el calendario dentro de esta página necesitas activar JavaScript. También puedes usar el enlace para abrirlo en otra pestaña.</p>
+                    </noscript>
+                </section>
+
+                <section id="coordination-panel" class="card-brand hidden p-6 sm:p-8" aria-labelledby="coordinar-cita" aria-hidden="true">
+                    <p class="eyebrow">Paso 2</p>
+                    <h2 id="coordinar-cita" class="mt-2 text-2xl font-bold text-primary">Coordinemos el horario correcto</h2>
+                    <p id="coordination-message" class="mt-3 text-muted">Esta atención necesita un bloque de horario distinto al calendario disponible.</p>
+                    <p class="mt-3 text-muted">Mientras habilitamos estos horarios dentro del calendario, te ayudaremos a reservarlos directamente para evitar una cita con duración o modalidad incorrecta.</p>
+                    <a id="coordination-whatsapp" href="https://wa.me/50243605982?text=Hola,%20deseo%20coordinar%20una%20cita." target="_blank" rel="noopener noreferrer" class="button-primary mt-6 w-full sm:w-auto">Coordinar por WhatsApp</a>
+                </section>
+
+                <section class="rounded-2xl bg-primary p-6 text-white sm:p-8" aria-labelledby="despues-reservar">
+                    <p class="text-sm font-bold uppercase tracking-[0.14em] text-white/70">Paso 3</p>
+                    <h2 id="despues-reservar" class="mt-2 text-2xl font-bold">¿Recibiste el correo de confirmación?</h2>
+                    <p class="mt-3 max-w-2xl text-white/85">Continúa únicamente después de completar la reservación en el calendario. En la siguiente pantalla encontrarás las instrucciones y el formulario previo.</p>
+                    <a id="confirmation-link" href="/cita-confirmada" class="button-secondary mt-6 w-full sm:w-auto">Sí, mi cita está confirmada</a>
+                </section>
             </div>
         </div>
     </section>
@@ -55,3 +115,104 @@ import MainLayout from "../layout/MainLayout.astro";
         </div>
     </section>
 </MainLayout>
+
+<script is:inline>
+    const bookingOptions = {
+        individual: {
+            label: "Terapia individual",
+            duration: "45 minutos",
+            packages: [
+                { value: "sesion-unica", label: "Sesión única · Q250" },
+                { value: "paquete-4", label: "Paquete de 4 sesiones · Q750" },
+                { value: "paquete-6", label: "Paquete de 6 sesiones · Q950" },
+            ],
+        },
+        "pareja-familia": {
+            label: "Terapia de pareja o familia",
+            duration: "90 minutos",
+            packages: [
+                { value: "sesion-unica", label: "Sesión única · Q350" },
+                { value: "paquete-4", label: "Paquete de 4 sesiones · Q1100" },
+                { value: "paquete-6", label: "Paquete de 6 sesiones · Q1500" },
+            ],
+        },
+    };
+
+    const serviceSelect = document.getElementById("booking-service");
+    const modalitySelect = document.getElementById("booking-modality");
+    const packageSelect = document.getElementById("booking-package");
+    const summary = document.getElementById("booking-summary");
+    const duration = document.getElementById("booking-duration");
+    const calendarPanel = document.getElementById("calendar-panel");
+    const coordinationPanel = document.getElementById("coordination-panel");
+    const coordinationMessage = document.getElementById("coordination-message");
+    const whatsappLinks = [document.getElementById("booking-whatsapp"), document.getElementById("coordination-whatsapp")];
+    const confirmationLink = document.getElementById("confirmation-link");
+    const calendarFrame = document.getElementById("booking-calendar");
+    const calendarWrapper = document.getElementById("calendar-frame-wrapper");
+    const calendarLoading = document.getElementById("calendar-loading");
+    const calendarDelay = document.getElementById("calendar-delay");
+    const params = new URLSearchParams(window.location.search);
+    let calendarStarted = false;
+    let calendarDelayTimer;
+
+    const validService = Object.hasOwn(bookingOptions, params.get("servicio")) ? params.get("servicio") : "individual";
+    const validModality = ["online", "presencial"].includes(params.get("modalidad")) ? params.get("modalidad") : "online";
+    serviceSelect.value = validService;
+    modalitySelect.value = validModality;
+
+    const updatePackages = (requestedPackage) => {
+        const config = bookingOptions[serviceSelect.value];
+        packageSelect.replaceChildren(...config.packages.map((item) => {
+            const option = document.createElement("option");
+            option.value = item.value;
+            option.textContent = item.label;
+            return option;
+        }));
+        packageSelect.value = config.packages.some((item) => item.value === requestedPackage) ? requestedPackage : "sesion-unica";
+    };
+
+    const loadCalendar = () => {
+        if (calendarStarted) return;
+        calendarStarted = true;
+        calendarFrame.src = calendarFrame.dataset.src;
+        calendarDelayTimer = window.setTimeout(() => calendarDelay.classList.remove("hidden"), 12000);
+    };
+
+    calendarFrame.addEventListener("load", () => {
+        window.clearTimeout(calendarDelayTimer);
+        calendarLoading.classList.add("hidden");
+        calendarWrapper.setAttribute("aria-busy", "false");
+    });
+
+    const updateBooking = () => {
+        const config = bookingOptions[serviceSelect.value];
+        const selectedPackage = config.packages.find((item) => item.value === packageSelect.value) ?? config.packages[0];
+        const modalityLabel = modalitySelect.value === "online" ? "En línea" : "Presencial";
+        const canUseCalendar = serviceSelect.value === "individual" && modalitySelect.value === "online";
+
+        summary.textContent = `${config.label} · ${modalityLabel} · ${selectedPackage.label}`;
+        duration.textContent = `Duración: ${config.duration}.`;
+        calendarPanel.classList.toggle("hidden", !canUseCalendar);
+        coordinationPanel.classList.toggle("hidden", canUseCalendar);
+        coordinationPanel.setAttribute("aria-hidden", String(canUseCalendar));
+        coordinationMessage.textContent = serviceSelect.value === "pareja-familia"
+            ? "Las sesiones de pareja o familia requieren un bloque de 90 minutos."
+            : "Las citas presenciales requieren confirmar la disponibilidad de consultorio.";
+
+        const query = new URLSearchParams({ servicio: serviceSelect.value, modalidad: modalitySelect.value, paquete: packageSelect.value });
+        window.history.replaceState({}, "", `${window.location.pathname}?${query.toString()}`);
+        confirmationLink.href = `/cita-confirmada?${query.toString()}`;
+
+        if (canUseCalendar) loadCalendar();
+
+        const message = `Hola, deseo coordinar ${config.label.toLowerCase()}, modalidad ${modalityLabel.toLowerCase()}, ${selectedPackage.label}.`;
+        whatsappLinks.forEach((link) => { if (link) link.href = `https://wa.me/50243605982?text=${encodeURIComponent(message)}`; });
+    };
+
+    updatePackages(params.get("paquete"));
+    updateBooking();
+    serviceSelect.addEventListener("change", () => { updatePackages("sesion-unica"); updateBooking(); });
+    modalitySelect.addEventListener("change", updateBooking);
+    packageSelect.addEventListener("change", updateBooking);
+</script>

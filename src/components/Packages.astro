@@ -20,8 +20,8 @@ const therapies = [
     },
 ];
 
-const whatsapp = "50243605982";
-const message = (name: string, price: number, therapy: string) => encodeURIComponent(`Hola, deseo consultar disponibilidad para ${name} de terapia ${therapy} (Q${price}).`);
+const packageSlug = (name: string) => name === "Sesión única" ? "sesion-unica" : name.includes("4") ? "paquete-4" : "paquete-6";
+const bookingUrl = (therapy: string, name: string) => `/agendar?servicio=${therapy}&modalidad=online&paquete=${packageSlug(name)}`;
 ---
 
 <section id="precios" class="section-space bg-primary-soft">
@@ -46,7 +46,7 @@ const message = (name: string, price: number, therapy: string) => encodeURICompo
                             <p class="mt-5 text-4xl font-bold text-primary">Q{pkg.price}</p>
                             <p class="mt-4 text-body">{pkg.detail}</p>
                             <p class="mt-2 text-sm text-muted">{pkg.note}</p>
-                            <a href={`https://wa.me/${whatsapp}?text=${message(pkg.name, pkg.price, therapy.label)}`} target="_blank" rel="noopener noreferrer" class="button-primary mt-7">Consultar disponibilidad</a>
+                            <a href={bookingUrl(therapy.id, pkg.name)} class="button-primary mt-7">Agendar esta opción</a>
                         </article>
                     ))}
                 </div>
