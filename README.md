@@ -1,47 +1,74 @@
-# Astro Starter Kit: Minimal
+# Mindlife — sitio web público
 
-```sh
-npm create astro@latest -- --template minimal
+Sitio web de Mindlife Clínica Psicológica, orientado a presentar los servicios de atención, explicar el proceso terapéutico y facilitar la reserva de citas en Ciudad de Guatemala o en línea.
+
+Está construido con [Astro](https://astro.build/) y [Tailwind CSS](https://tailwindcss.com/), con una interfaz en español, adaptable a dispositivos móviles y con consideraciones básicas de accesibilidad.
+
+## Requisitos
+
+- Node.js 20 o superior
+- npm
+
+## Inicio rápido
+
+Desde esta carpeta (`apps/landing`):
+
+```bash
+npm ci
+npm run dev
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+El servidor de desarrollo se iniciará normalmente en [http://localhost:4321](http://localhost:4321).
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Comandos disponibles
 
-## 🚀 Project Structure
+| Comando | Descripción |
+| --- | --- |
+| `npm run dev` | Inicia el servidor de desarrollo. |
+| `npm run build` | Genera la versión de producción en `dist/`. |
+| `npm run preview` | Sirve localmente la versión compilada. |
+| `npm run astro -- check` | Ejecuta las comprobaciones estáticas de Astro, si están disponibles. |
 
-Inside of your Astro project, you'll see the following folders and files:
+Antes de publicar cambios, ejecuta:
+
+```bash
+npm run build
+```
+
+## Rutas
+
+| Ruta | Propósito |
+| --- | --- |
+| `/` | Página principal con servicios, proceso, enfoque, paquetes y llamada a la acción. |
+| `/agendar` | Reserva de citas mediante el calendario de Google. |
+| `/formulario` | Formulario de información previa, integrado con Google Forms. |
+| `/privacidad` | Información sobre el tratamiento de datos en los canales digitales. |
+| `/*` | Página personalizada de error 404. |
+
+## Estructura del proyecto
 
 ```text
-/
-├── public/
+apps/landing/
+├── public/               # Imágenes, logotipos y fuentes servidos directamente
 ├── src/
-│   └── pages/
-│       └── index.astro
+│   ├── components/       # Secciones y componentes reutilizables
+│   ├── layout/           # Estructura común: metadatos, navegación y pie de página
+│   ├── pages/            # Rutas de Astro
+│   └── styles/           # Estilos globales y utilidades de diseño
+├── astro.config.mjs       # Configuración de Astro y Tailwind
 └── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Integraciones externas
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+La reserva y el formulario previo se muestran mediante contenidos embebidos de Google Calendar y Google Forms. El sitio también ofrece enlaces a WhatsApp y a las redes sociales de la clínica. Si se actualiza cualquiera de estos servicios, verifica que las URL integradas sigan vigentes y que las políticas de privacidad reflejen el cambio.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Recursos visuales
 
-## 🧞 Commands
+Los recursos públicos se alojan en `public/` y se referencian desde el sitio con rutas que comienzan con `/`, por ejemplo: `/logo-nuevo.svg`. Las fuentes MetroSans también se cargan desde esa carpeta.
 
-All commands are run from the root of the project, from a terminal:
+Para cambios de identidad visual, utiliza los materiales de marca aprobados y conserva los estilos y variables definidos en `src/styles/global.css`.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Verificación manual
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Después de compilar, ejecuta `npm run preview` y revisa las rutas modificadas en vista móvil y de escritorio. Confirma especialmente los enlaces de navegación, los embeds de Google, los enlaces a WhatsApp, la carga de imágenes y la página 404.
