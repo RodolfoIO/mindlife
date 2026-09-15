@@ -21,12 +21,10 @@ const packageGroups = [
         ],
     },
 ];
-const apiUrl = import.meta.env.PUBLIC_API_URL ?? "http://localhost:3000";
-const calendarSlug = import.meta.env.PUBLIC_BOOKING_CALENDAR_SLUG ?? "mindlife";
 const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
 ---
 
-<section class="booking-section" data-booking data-api-url={apiUrl} data-calendar-slug={calendarSlug} data-calendar-url={calendarUrl}>
+<section class="booking-section" data-booking data-calendar-url={calendarUrl}>
     <div class="site-container">
         <header class="booking-heading">
             <p class="eyebrow">Reservación</p>
@@ -88,47 +86,53 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                     </fieldset>
                 </article>
 
-                <article class="step-card">
+                <article class="step-card calendar-step" data-calendar-step aria-busy="false">
                     <div class="step-title">
                         <span aria-hidden="true">2</span>
                         <h2>Elija la fecha y hora para la sesión</h2>
                     </div>
                     <!-- <p class="demo-note">Disponibilidad demostrativa. Esta selección no reserva un espacio real.</p> -->
 
-                    <div class="schedule-grid">
-                        <div class="calendar" aria-label="Calendario de disponibilidad demostrativa">
-                            <div class="calendar-header">
-                                <button type="button" data-calendar-prev aria-label="Mes anterior">
-                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
-                                </button>
-                                <strong data-calendar-title></strong>
-                                <button type="button" data-calendar-next aria-label="Mes siguiente">
-                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
-                                </button>
+                    <div class="schedule-shell">
+                        <div class="schedule-grid">
+                            <div class="calendar" aria-label="Calendario de disponibilidad demostrativa">
+                                <div class="calendar-header">
+                                    <button type="button" data-calendar-prev aria-label="Mes anterior">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+                                    </button>
+                                    <strong data-calendar-title></strong>
+                                    <button type="button" data-calendar-next aria-label="Mes siguiente">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+                                    </button>
+                                </div>
+                                <div class="calendar-grid calendar-weekdays" aria-hidden="true">
+                                    {['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá', 'Do'].map((day) => <span>{day}</span>)}
+                                </div>
+                                <div class="calendar-grid calendar-days" data-calendar-days></div>
+                                <div class="calendar-legend">
+                                    <span><i class="available-dot"></i>Disponible</span>
+                                    <span><i class="blocked-dot"></i>No disponible</span>
+                                    <span><i class="selected-dot"></i>Seleccionado</span>
+                                </div>
+                                <input type="hidden" name="appointment-date" data-date-input />
+                                <p class="selection-error" data-date-error aria-live="polite"></p>
                             </div>
-                            <div class="calendar-grid calendar-weekdays" aria-hidden="true">
-                                {['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá', 'Do'].map((day) => <span>{day}</span>)}
-                            </div>
-                            <div class="calendar-grid calendar-days" data-calendar-days></div>
-                            <div class="calendar-legend">
-                                <span><i class="available-dot"></i>Disponible</span>
-                                <span><i class="blocked-dot"></i>No disponible</span>
-                                <span><i class="selected-dot"></i>Seleccionado</span>
-                            </div>
-                            <input type="hidden" name="appointment-date" data-date-input />
-                            <p class="selection-error" data-date-error aria-live="polite"></p>
-                        </div>
 
-                        <div class="time-panel">
-                            <h3>
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
-                                <span data-time-title>Selecciona primero una fecha</span>
-                            </h3>
-                            <div data-time-groups hidden></div>
-                            <input type="hidden" name="appointment-time" data-time-input />
-                            <p class="selection-error" data-time-error aria-live="polite"></p>
-                            <p class="calendar-status" data-calendar-status aria-live="polite"></p>
-                            <button class="calendar-retry" type="button" data-calendar-retry hidden>Reintentar disponibilidad</button>
+                            <div class="time-panel">
+                                <h3>
+                                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
+                                    <span data-time-title>Selecciona primero una fecha</span>
+                                </h3>
+                                <div data-time-groups hidden></div>
+                                <input type="hidden" name="appointment-time" data-time-input />
+                                <p class="selection-error" data-time-error aria-live="polite"></p>
+                                <p class="calendar-status" data-calendar-status aria-live="polite"></p>
+                                <button class="calendar-retry" type="button" data-calendar-retry hidden>Reintentar disponibilidad</button>
+                            </div>
+                        </div>
+                        <div class="calendar-loader" data-calendar-loader hidden role="status" aria-live="polite">
+                            <span class="calendar-loader-spinner" aria-hidden="true"></span>
+                            <span>Consultando disponibilidad…</span>
                         </div>
                     </div>
                 </article>
@@ -207,10 +211,13 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                         Confirmar selección
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 14 0M14 7l5 5-5 5" /></svg>
                     </button>
-                    <label class="consent-check"><input type="checkbox" name="privacy-accepted" required /> <span>Acepto el tratamiento de mis datos según la <a href="/privacidad">política de privacidad</a>.</span></label>
+                    <div class="consent-wrap">
+                        <label class="consent-check"><input id="privacy-accepted" type="checkbox" name="privacy-accepted" aria-describedby="privacy-error" required /> <span>Acepto el tratamiento de mis datos según la <a href="/privacidad">política de privacidad</a>.</span></label>
+                        <p class="consent-error" id="privacy-error" data-consent-error role="alert"></p>
+                    </div>
                     <div class="privacy-note">
                         <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2" /><path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg>
-                        <p>Tus datos se usan para reservar la cita y enviarte el correo de confirmación.</p>
+                        <p>Tus datos se usan para reservar la cita y crear el evento en el calendario de Mindlife.</p>
                     </div>
                     <p class="confirmation-message" data-confirmation role="status" aria-live="polite"></p>
                 </div>
@@ -253,7 +260,12 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
     .package-option small { color: var(--color-muted); font-size: .72rem; line-height: 1.4; margin-top: auto; padding-top: .55rem; }
     .popular-badge { align-self: flex-start; background: var(--color-accent); border-radius: 999px; color: #fff; font-size: .62rem; font-weight: 700; padding: .2rem .5rem; }
     .demo-note { background: var(--color-accent-soft); border-radius: .65rem; color: var(--color-accent-dark); font-size: .82rem; margin: -0.5rem 0 1.5rem; padding: .65rem .8rem; }
+    .schedule-shell { position: relative; }
     .schedule-grid { display: grid; gap: 1.5rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .calendar-loader { align-items: center; background: rgba(255, 255, 255, .88); border: 1px solid var(--color-accent); border-radius: .9rem; color: var(--color-primary); display: grid; gap: .7rem; inset: 0; justify-items: center; padding: 2rem; place-content: center; position: absolute; text-align: center; z-index: 2; }
+    .calendar-loader-spinner { animation: calendar-loader-spin 900ms linear infinite; border: .2rem solid var(--color-primary-soft); border-radius: 50%; border-top-color: var(--color-accent); height: 2rem; width: 2rem; }
+    .calendar-loader > span:last-child { font-size: .82rem; font-weight: 700; }
+    @keyframes calendar-loader-spin { to { transform: rotate(360deg); } }
     .calendar-header { align-items: center; display: flex; justify-content: space-between; margin-bottom: .75rem; }
     .calendar-header strong { color: var(--color-primary); text-transform: capitalize; }
     .calendar-header button { align-items: center; background: transparent; border: 0; border-radius: 50%; color: var(--color-primary); display: flex; height: 2.25rem; justify-content: center; padding: .5rem; width: 2.25rem; }
@@ -319,9 +331,14 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
     .summary-total small { color: rgba(255,255,255,.65); font-size: .68rem; grid-column: 1 / -1; text-align: right; }
     .confirm-button { align-items: center; background: #f3daff; border: 0; border-radius: 999px; color: #2b0b41; cursor: pointer; display: flex; font-weight: 700; gap: .55rem; justify-content: center; min-height: 3.1rem; padding: .75rem 1.25rem; transition: transform 180ms ease, box-shadow 180ms ease; width: 100%; }
     .confirm-button:disabled { cursor: progress; opacity: .65; }
-    .consent-check { align-items: flex-start; color: rgba(255,255,255,.78); display: flex; font-size: .75rem; gap: .55rem; line-height: 1.45; }
+    .consent-wrap { display: grid; gap: .35rem; }
+    .consent-check { align-items: flex-start; border: 1px solid transparent; border-radius: .65rem; color: rgba(255,255,255,.78); display: flex; font-size: .75rem; gap: .55rem; line-height: 1.45; padding: .45rem; transition: background-color 180ms ease, border-color 180ms ease; }
     .consent-check input { accent-color: #f3daff; margin-top: .15rem; }
     .consent-check a { color: #fff; text-decoration: underline; }
+    .consent-check.is-invalid { background: rgba(255, 112, 112, .14); border-color: #ffb8b8; color: #fff; }
+    .consent-check.is-invalid input { outline: 2px solid #ffb8b8; outline-offset: 2px; }
+    .consent-error { color: #ffd1d1; font-size: .72rem; line-height: 1.4; margin: 0 .45rem; }
+    .consent-error:not(.is-visible) { display: none; }
     .confirm-button:hover { box-shadow: 0 8px 20px rgba(0,0,0,.22); transform: translateY(-2px); }
     .confirm-button svg { height: 1.1rem; width: 1.1rem; }
     .privacy-note { align-items: flex-start; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); border-radius: .65rem; display: flex; gap: .5rem; padding: .7rem; }
@@ -332,7 +349,7 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
     .confirmation-message.is-success { background: rgba(196, 255, 209, .13); }
     @media (max-width: 900px) { .booking-layout { grid-template-columns: 1fr; } .booking-summary { position: static; } }
     @media (max-width: 640px) { .choice-grid, .schedule-grid, .patient-grid { grid-template-columns: 1fr; } .package-grid { grid-template-columns: 1fr; } .package-option label { min-height: auto; } .calendar-days :global(.calendar-day) { max-height: 2rem; max-width: 2rem; } }
-    @media (prefers-reduced-motion: reduce) { .package-option label, .confirm-button { transition: none; } }
+    @media (prefers-reduced-motion: reduce) { .package-option label, .confirm-button, .consent-check { transition: none; } .calendar-loader-spinner { animation: none; } }
 </style>
 
 <script is:inline>
@@ -341,10 +358,7 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
         if (!root) return;
 
         const form = root.querySelector("#booking-form");
-        const apiUrl = root.dataset.apiUrl;
-        const calendarSlug = root.dataset.calendarSlug;
         const calendarUrl = root.dataset.calendarUrl;
-        let catalog = null;
         let calendarEvents = [];
         let calendarTimeZone = "America/Guatemala";
         let calendarAvailabilityReady = false;
@@ -352,7 +366,6 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
         let calendarRequestToken = 0;
         let availabilityStartKey = "";
         let availabilityEndKey = "";
-        let requestId = crypto.randomUUID();
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const firstMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -413,10 +426,22 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
         const confirmation = root.querySelector("[data-confirmation]");
         const calendarStatus = root.querySelector("[data-calendar-status]");
         const calendarRetry = root.querySelector("[data-calendar-retry]");
+        const calendarStep = root.querySelector("[data-calendar-step]");
+        const calendarLoader = root.querySelector("[data-calendar-loader]");
+        const consent = root.querySelector(".consent-check");
+        const consentInput = root.querySelector('input[name="privacy-accepted"]');
+        const consentError = root.querySelector("[data-consent-error]");
 
         const clearConfirmation = () => {
             confirmation.textContent = "";
             confirmation.classList.remove("is-visible", "is-success");
+        };
+
+        const clearConsentError = () => {
+            consent?.classList.remove("is-invalid");
+            consentInput?.removeAttribute("aria-invalid");
+            consentError?.classList.remove("is-visible");
+            if (consentError) consentError.textContent = "";
         };
 
         const selectPackage = (input) => {
@@ -426,30 +451,6 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
             summaryDetail.textContent = `${input.dataset.sessions} ${input.dataset.sessions === "1" ? "sesión" : "sesiones"} de ${input.dataset.duration} minutos`;
             summaryPrice.textContent = currency(input.dataset.price);
             clearConfirmation();
-        };
-
-        const loadCatalog = async () => {
-            try {
-                const response = await fetch(`${apiUrl}/v1/public/calendars/${calendarSlug}/catalog`, { headers: { Accept: "application/json" } });
-                if (!response.ok) throw new Error("catalog");
-                catalog = await response.json();
-                catalog.services.forEach((service) => {
-                    const group = root.querySelector(`[data-package-group="${service.slug}"]`);
-                    group?.querySelectorAll("input[name=package]").forEach((input) => {
-                        const pkg = service.packages.find((item) => item.slug === input.dataset.slug || item.slug === input.value);
-                        if (!pkg) return;
-                        input.value = pkg.id;
-                        input.dataset.slug = pkg.slug;
-                        input.dataset.name = pkg.name;
-                        input.dataset.sessions = String(pkg.sessions);
-                        input.dataset.duration = String(service.durationMinutes);
-                        input.dataset.price = String(pkg.priceCents / 100);
-                    });
-                });
-                selectPackage(root.querySelector('input[name="package"]:checked'));
-            } catch {
-                catalog = null;
-            }
         };
 
         root.querySelectorAll('input[name="service"]').forEach((input) => {
@@ -463,10 +464,15 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                     if (active) selectPackage(group.querySelector("input"));
                 });
                 clearDateSelection();
+                renderCalendar();
             });
         });
 
         root.querySelectorAll('input[name="package"]').forEach((input) => input.addEventListener("change", () => selectPackage(input)));
+        consentInput?.addEventListener("change", () => {
+            if (consentInput.checked) clearConsentError();
+            clearConfirmation();
+        });
         const daysContainer = root.querySelector("[data-calendar-days]");
         const calendarTitle = root.querySelector("[data-calendar-title]");
         const previousButton = root.querySelector("[data-calendar-prev]");
@@ -483,6 +489,10 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
             calendarStatus.classList.toggle("is-error", state === "error");
             calendarRetry.hidden = state !== "error";
         };
+        const setCalendarLoading = (loading) => {
+            calendarLoader.hidden = !loading;
+            calendarStep.setAttribute("aria-busy", String(loading));
+        };
         const isValidCalendarTimeZone = (timeZone) => {
             try {
                 new Intl.DateTimeFormat("en-CA", { timeZone }).format();
@@ -492,15 +502,18 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
             }
         };
         const hasOverlap = (slotStart, slotEnd, eventStart, eventEnd) => slotStart < eventEnd && slotEnd > eventStart;
+        const selectedServiceDuration = () => root.querySelector('input[name="service"]:checked')?.value === "pareja-familia" ? 90 : 45;
         const availableSlotsForDate = (date) => {
             if (!calendarAvailabilityReady) return [];
             const key = dateKey(date);
             if (key < availabilityStartKey || key >= availabilityEndKey) return [];
+            const durationMinutes = selectedServiceDuration();
             return Array.from({ length: 12 }, (_, index) => 8 + index).map((hour) => {
                 const start = calendarDateTime(key, hour);
-                const end = new Date(start.getTime() + 60 * 60 * 1000);
-                return { start, end, iso: calendarIso(start), label: timeLabel(start) };
-            }).filter((slot) => !calendarEvents.some((event) => hasOverlap(slot.start, slot.end, event.start, event.end)));
+                const end = new Date(start.getTime() + durationMinutes * 60 * 1000);
+                return { start, end, hour, iso: calendarIso(start), label: timeLabel(start) };
+            }).filter((slot) => slot.hour + durationMinutes / 60 <= 20)
+                .filter((slot) => !calendarEvents.some((event) => hasOverlap(slot.start, slot.end, event.start, event.end)));
         };
         const isAvailable = (date) => availableSlotsForDate(date).length > 0;
         const loadCalendarAvailability = async () => {
@@ -510,7 +523,8 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
             calendarEvents = [];
             availabilityStartKey = "";
             availabilityEndKey = "";
-            setCalendarStatus("Consultando disponibilidad…");
+            setCalendarLoading(true);
+            setCalendarStatus("");
             renderCalendar();
             try {
                 if (!calendarUrl) throw new Error("missing-calendar-url");
@@ -538,6 +552,7 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                 lastMonth = new Date(lastAvailableYear, lastAvailableMonth - 1, 1);
                 calendarAvailabilityReady = true;
                 calendarAvailabilityLoading = false;
+                setCalendarLoading(false);
                 setCalendarStatus("");
                 renderCalendar();
                 if (selectedDate) renderTimeButtons(selectedDate);
@@ -548,6 +563,7 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                 calendarEvents = [];
                 availabilityStartKey = "";
                 availabilityEndKey = "";
+                setCalendarLoading(false);
                 renderCalendar();
                 setCalendarStatus("No pudimos consultar el calendario. Intenta nuevamente.", "error");
             }
@@ -739,30 +755,40 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
             }
             const privacy = root.querySelector('input[name="privacy-accepted"]');
             if (privacy && !privacy.checkValidity()) {
+                consent?.classList.add("is-invalid");
                 privacy.setAttribute("aria-invalid", "true");
+                if (consentError) {
+                    consentError.textContent = "Debes aceptar la política de privacidad para confirmar tu selección.";
+                    consentError.classList.add("is-visible");
+                }
                 if (!firstInvalid) firstInvalid = privacy;
+            } else {
+                clearConsentError();
             }
             if (firstInvalid || !selectedDate || !selectedStart) {
-                confirmation.textContent = "Revisa los campos señalados antes de confirmar.";
-                confirmation.classList.add("is-visible");
-                confirmation.classList.remove("is-success");
+                clearConfirmation();
                 firstInvalid?.focus();
                 return;
             }
-            const service = catalog?.services?.find((item) => item.slug === root.querySelector('input[name="service"]:checked')?.value);
+            const serviceId = root.querySelector('input[name="service"]:checked')?.value;
             const packageInput = root.querySelector('input[name="package"]:checked');
-            if (!service || !packageInput) return;
+            if (!serviceId || !packageInput) return;
+            if (!calendarUrl) {
+                confirmation.textContent = "No se configuró el calendario. Intenta nuevamente más tarde.";
+                confirmation.classList.add("is-visible");
+                return;
+            }
             const button = root.querySelector(".confirm-button");
             button.disabled = true;
             confirmation.textContent = "Reservando tu horario…";
             confirmation.classList.add("is-visible");
-            fetch(`${apiUrl}/v1/public/calendars/${calendarSlug}/bookings`, {
+            fetch(calendarUrl, {
                 method: "POST",
-                headers: { "content-type": "application/json", Accept: "application/json" },
+                headers: { "content-type": "text/plain;charset=UTF-8", Accept: "application/json" },
                 body: JSON.stringify({
-                    requestId,
-                    serviceId: service.id,
+                    serviceId,
                     packageId: packageInput.value,
+                    packageName: packageInput.dataset.name,
                     start: selectedStart,
                     firstName: root.querySelector("#booking-first-name").value,
                     lastName: root.querySelector("#booking-last-name").value,
@@ -773,16 +799,17 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                 }),
             }).then(async (response) => {
                 const payload = await response.json();
-                if (!response.ok) {
-                    if (response.status === 409) {
+                if (!response.ok || payload.ok !== true) {
+                    if (payload.codigo === "SLOT_UNAVAILABLE") {
                         clearDateSelection();
                         void loadCalendarAvailability();
                     }
-                    throw new Error(payload.error?.message || "No se pudo reservar el horario.");
+                    throw new Error(payload.mensaje || "No se pudo reservar el horario.");
                 }
-                confirmation.textContent = "Tu cita quedó reservada. Recibirás un correo 24 horas antes para confirmarla, cancelarla o reprogramarla.";
+                confirmation.textContent = payload.mensaje || "Tu cita quedó reservada correctamente.";
                 confirmation.classList.add("is-success");
-                requestId = crypto.randomUUID();
+                clearDateSelection();
+                void loadCalendarAvailability();
             }).catch((error) => {
                 confirmation.textContent = error.message;
                 confirmation.classList.remove("is-success");
@@ -795,6 +822,5 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
         selectPackage(root.querySelector('input[name="package"]:checked'));
         renderCalendar();
         void loadCalendarAvailability();
-        void loadCatalog();
     })();
 </script>
