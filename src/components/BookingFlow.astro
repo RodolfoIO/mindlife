@@ -21,9 +21,11 @@ const packageGroups = [
         ],
     },
 ];
+const apiUrl = import.meta.env.PUBLIC_API_URL ?? "http://localhost:3000";
+const calendarSlug = import.meta.env.PUBLIC_BOOKING_CALENDAR_SLUG ?? "mindlife";
 ---
 
-<section class="booking-section" data-booking>
+<section class="booking-section" data-booking data-api-url={apiUrl} data-calendar-slug={calendarSlug}>
     <div class="site-container">
         <header class="booking-heading">
             <p class="eyebrow">Reservación</p>
@@ -214,9 +216,10 @@ const packageGroups = [
                         Confirmar selección
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 14 0M14 7l5 5-5 5" /></svg>
                     </button>
+                    <label class="consent-check"><input type="checkbox" name="privacy-accepted" required /> <span>Acepto el tratamiento de mis datos según la <a href="/privacidad">política de privacidad</a>.</span></label>
                     <div class="privacy-note">
                         <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2" /><path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg>
-                        <p>Tus datos permanecen en este navegador y no se envían ni almacenan.</p>
+                        <p>Tus datos se usan para reservar la cita y enviarte el correo de confirmación.</p>
                     </div>
                     <p class="confirmation-message" data-confirmation role="status" aria-live="polite"></p>
                 </div>
@@ -318,6 +321,10 @@ const packageGroups = [
     .summary-total strong { color: #f3daff; font-size: 2rem; line-height: 1; }
     .summary-total small { color: rgba(255,255,255,.65); font-size: .68rem; grid-column: 1 / -1; text-align: right; }
     .confirm-button { align-items: center; background: #f3daff; border: 0; border-radius: 999px; color: #2b0b41; cursor: pointer; display: flex; font-weight: 700; gap: .55rem; justify-content: center; min-height: 3.1rem; padding: .75rem 1.25rem; transition: transform 180ms ease, box-shadow 180ms ease; width: 100%; }
+    .confirm-button:disabled { cursor: progress; opacity: .65; }
+    .consent-check { align-items: flex-start; color: rgba(255,255,255,.78); display: flex; font-size: .75rem; gap: .55rem; line-height: 1.45; }
+    .consent-check input { accent-color: #f3daff; margin-top: .15rem; }
+    .consent-check a { color: #fff; text-decoration: underline; }
     .confirm-button:hover { box-shadow: 0 8px 20px rgba(0,0,0,.22); transform: translateY(-2px); }
     .confirm-button svg { height: 1.1rem; width: 1.1rem; }
     .privacy-note { align-items: flex-start; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); border-radius: .65rem; display: flex; gap: .5rem; padding: .7rem; }
@@ -337,6 +344,11 @@ const packageGroups = [
         if (!root) return;
 
         const form = root.querySelector("#booking-form");
+        const apiUrl = root.dataset.apiUrl;
+        const calendarSlug = root.dataset.calendarSlug;
+        let catalog = null;
+        let availabilitySlots = [];
+        let requestId = crypto.randomUUID();
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const firstMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -344,6 +356,7 @@ const packageGroups = [
         let visibleMonth = new Date(firstMonth);
         let selectedDate = null;
         let selectedTime = "";
+        let selectedStart = "";
 
         const currency = (value) => `Q${Number(value).toLocaleString("en-US")}`;
         const longDate = (date) => new Intl.DateTimeFormat("es-GT", { weekday: "long", day: "numeric", month: "long" }).format(date);
@@ -372,6 +385,32 @@ const packageGroups = [
             clearConfirmation();
         };
 
+        const loadCatalog = async () => {
+            try {
+                const response = await fetch(`${apiUrl}/v1/public/calendars/${calendarSlug}/catalog`, { headers: { Accept: "application/json" } });
+                if (!response.ok) throw new Error("catalog");
+                catalog = await response.json();
+                catalog.services.forEach((service) => {
+                    const group = root.querySelector(`[data-package-group="${service.slug}"]`);
+                    group?.querySelectorAll("input[name=package]").forEach((input) => {
+                        const pkg = service.packages.find((item) => item.slug === input.dataset.slug || item.slug === input.value);
+                        if (!pkg) return;
+                        input.value = pkg.id;
+                        input.dataset.slug = pkg.slug;
+                        input.dataset.name = pkg.name;
+                        input.dataset.sessions = String(pkg.sessions);
+                        input.dataset.duration = String(service.durationMinutes);
+                        input.dataset.price = String(pkg.priceCents / 100);
+                    });
+                });
+                selectPackage(root.querySelector('input[name="package"]:checked'));
+                await loadAvailability();
+            } catch {
+                confirmation.textContent = "No pudimos cargar la configuración de reservas. Intenta nuevamente.";
+                confirmation.classList.add("is-visible");
+            }
+        };
+
         root.querySelectorAll('input[name="service"]').forEach((input) => {
             input.addEventListener("change", () => {
                 const service = input.value;
@@ -382,6 +421,9 @@ const packageGroups = [
                     group.querySelectorAll("input").forEach((packageInput) => { packageInput.disabled = !active; });
                     if (active) selectPackage(group.querySelector("input"));
                 });
+                selectedDate = null;
+                resetTime();
+                void loadAvailability();
             });
         });
 
@@ -397,7 +439,32 @@ const packageGroups = [
         const timeTitle = root.querySelector("[data-time-title]");
         const timeGroups = root.querySelector("[data-time-groups]");
 
-        const isAvailable = (date) => date >= today && [2, 4, 6].includes(date.getDay());
+        const dateKey = (date) => new Intl.DateTimeFormat("sv-SE", { timeZone: catalog?.calendar?.timezone || "America/Guatemala" }).format(date);
+        const isAvailable = (date) => availabilitySlots.some((slot) => dateKey(new Date(slot.start)) === dateKey(date));
+        const visibleRange = () => {
+            const from = `${visibleMonth.getFullYear()}-${String(visibleMonth.getMonth() + 1).padStart(2, "0")}-01`;
+            const toDate = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() + 1, 0);
+            const to = `${toDate.getFullYear()}-${String(toDate.getMonth() + 1).padStart(2, "0")}-${String(toDate.getDate()).padStart(2, "0")}`;
+            return { from, to };
+        };
+        const loadAvailability = async () => {
+            const service = catalog?.services?.find((item) => item.slug === root.querySelector('input[name="service"]:checked')?.value);
+            if (!service) return;
+            const range = visibleRange();
+            try {
+                const response = await fetch(`${apiUrl}/v1/public/calendars/${calendarSlug}/availability?serviceId=${encodeURIComponent(service.id)}&from=${range.from}&to=${range.to}`, { headers: { Accept: "application/json" } });
+                if (!response.ok) throw new Error("availability");
+                const payload = await response.json();
+                availabilitySlots = payload.slots || [];
+                renderCalendar();
+                if (selectedDate) renderTimeButtons(selectedDate);
+            } catch {
+                availabilitySlots = [];
+                renderCalendar();
+                confirmation.textContent = "No pudimos cargar los horarios. Intenta nuevamente.";
+                confirmation.classList.add("is-visible");
+            }
+        };
         const resetTime = () => {
             selectedTime = "";
             timeInput.value = "";
@@ -414,8 +481,48 @@ const packageGroups = [
             timeGroups.hidden = false;
             dateError.textContent = "";
             resetTime();
+            renderTimeButtons(date);
             renderCalendar();
             clearConfirmation();
+        };
+
+        const bindTimeButtons = () => {
+            root.querySelectorAll("[data-time]").forEach((button) => {
+                button.onclick = () => {
+                    selectedTime = button.dataset.time || "";
+                    selectedStart = button.dataset.slotStart || "";
+                    timeInput.value = selectedStart;
+                    summaryTime.textContent = `${button.textContent} hrs`;
+                    root.querySelectorAll("[data-time]").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+                    timeError.textContent = "";
+                    clearConfirmation();
+                };
+            });
+        };
+
+        const renderTimeButtons = (date) => {
+            const key = dateKey(date);
+            const slots = availabilitySlots.filter((slot) => dateKey(new Date(slot.start)) === key);
+            const groups = timeGroups.querySelectorAll(".time-group");
+            groups.forEach((group) => group.remove());
+            const group = document.createElement("div");
+            group.className = "time-group";
+            const label = document.createElement("span");
+            label.textContent = slots.length ? "Horarios disponibles" : "Sin horarios disponibles";
+            const buttons = document.createElement("div");
+            slots.forEach((slot) => {
+                const button = document.createElement("button");
+                button.type = "button";
+                button.dataset.time = slot.start;
+                button.dataset.slotStart = slot.start;
+                button.setAttribute("aria-pressed", "false");
+                button.textContent = new Intl.DateTimeFormat("es-GT", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: catalog?.calendar?.timezone || "America/Guatemala" }).format(new Date(slot.start));
+                buttons.append(button);
+            });
+            group.append(label, buttons);
+            timeGroups.append(group);
+            timeGroups.hidden = false;
+            bindTimeButtons();
         };
 
         const renderCalendar = () => {
@@ -458,24 +565,15 @@ const packageGroups = [
         previousButton.addEventListener("click", () => {
             if (visibleMonth <= firstMonth) return;
             visibleMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() - 1, 1);
-            renderCalendar();
+            void loadAvailability();
         });
         nextButton.addEventListener("click", () => {
             if (visibleMonth >= lastMonth) return;
             visibleMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() + 1, 1);
-            renderCalendar();
+            void loadAvailability();
         });
 
-        root.querySelectorAll("[data-time]").forEach((button) => {
-            button.addEventListener("click", () => {
-                selectedTime = button.dataset.time;
-                timeInput.value = selectedTime;
-                summaryTime.textContent = `${selectedTime} hrs`;
-                root.querySelectorAll("[data-time]").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
-                timeError.textContent = "";
-                clearConfirmation();
-            });
-        });
+        bindTimeButtons();
 
         const phone = root.querySelector("#booking-phone");
         phone.addEventListener("input", () => { phone.value = phone.value.replace(/\D/g, "").slice(0, 8); });
@@ -510,23 +608,68 @@ const packageGroups = [
                 dateError.textContent = "Selecciona una fecha disponible.";
                 if (!firstInvalid) firstInvalid = root.querySelector("[data-calendar-days] button");
             }
-            if (!selectedTime) {
+            if (!selectedTime || !selectedStart) {
                 timeError.textContent = selectedDate ? "Selecciona un horario." : "";
                 if (selectedDate && !firstInvalid) firstInvalid = root.querySelector("[data-time]");
             }
-            if (firstInvalid || !selectedDate || !selectedTime) {
+            const privacy = root.querySelector('input[name="privacy-accepted"]');
+            if (privacy && !privacy.checkValidity()) {
+                privacy.setAttribute("aria-invalid", "true");
+                if (!firstInvalid) firstInvalid = privacy;
+            }
+            if (firstInvalid || !selectedDate || !selectedStart) {
                 confirmation.textContent = "Revisa los campos señalados antes de confirmar.";
                 confirmation.classList.add("is-visible");
                 confirmation.classList.remove("is-success");
                 firstInvalid?.focus();
                 return;
             }
-            confirmation.textContent = "Demostración completada. Tu selección no fue enviada ni se registró una cita real.";
-            confirmation.classList.add("is-visible", "is-success");
-            confirmation.focus?.();
+            const service = catalog?.services?.find((item) => item.slug === root.querySelector('input[name="service"]:checked')?.value);
+            const packageInput = root.querySelector('input[name="package"]:checked');
+            if (!service || !packageInput) return;
+            const button = root.querySelector(".confirm-button");
+            button.disabled = true;
+            confirmation.textContent = "Reservando tu horario…";
+            confirmation.classList.add("is-visible");
+            fetch(`${apiUrl}/v1/public/calendars/${calendarSlug}/bookings`, {
+                method: "POST",
+                headers: { "content-type": "application/json", Accept: "application/json" },
+                body: JSON.stringify({
+                    requestId,
+                    serviceId: service.id,
+                    packageId: packageInput.value,
+                    start: selectedStart,
+                    firstName: root.querySelector("#booking-first-name").value,
+                    lastName: root.querySelector("#booking-last-name").value,
+                    email: root.querySelector("#booking-email").value,
+                    phone: root.querySelector("#booking-phone").value,
+                    privacyAccepted: true,
+                    website: "",
+                }),
+            }).then(async (response) => {
+                const payload = await response.json();
+                if (!response.ok) {
+                    if (response.status === 409) {
+                        selectedDate = null;
+                        resetTime();
+                        void loadAvailability();
+                    }
+                    throw new Error(payload.error?.message || "No se pudo reservar el horario.");
+                }
+                confirmation.textContent = "Tu cita quedó reservada. Recibirás un correo 24 horas antes para confirmarla, cancelarla o reprogramarla.";
+                confirmation.classList.add("is-success");
+                requestId = crypto.randomUUID();
+            }).catch((error) => {
+                confirmation.textContent = error.message;
+                confirmation.classList.remove("is-success");
+            }).finally(() => {
+                button.disabled = false;
+                confirmation.focus?.();
+            });
         });
 
         selectPackage(root.querySelector('input[name="package"]:checked'));
         renderCalendar();
+        void loadCatalog();
     })();
 </script>
