@@ -23,9 +23,10 @@ const packageGroups = [
 ];
 const apiUrl = import.meta.env.PUBLIC_API_URL ?? "http://localhost:3000";
 const calendarSlug = import.meta.env.PUBLIC_BOOKING_CALENDAR_SLUG ?? "mindlife";
+const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
 ---
 
-<section class="booking-section" data-booking data-api-url={apiUrl} data-calendar-slug={calendarSlug}>
+<section class="booking-section" data-booking data-api-url={apiUrl} data-calendar-slug={calendarSlug} data-calendar-url={calendarUrl}>
     <div class="site-container">
         <header class="booking-heading">
             <p class="eyebrow">Reservación</p>
@@ -90,7 +91,7 @@ const calendarSlug = import.meta.env.PUBLIC_BOOKING_CALENDAR_SLUG ?? "mindlife";
                 <article class="step-card">
                     <div class="step-title">
                         <span aria-hidden="true">2</span>
-                        <h2>Fecha y hora de la primera sesión</h2>
+                        <h2>Elija la fecha y hora para la sesión</h2>
                     </div>
                     <!-- <p class="demo-note">Disponibilidad demostrativa. Esta selección no reserva un espacio real.</p> -->
 
@@ -111,6 +112,7 @@ const calendarSlug = import.meta.env.PUBLIC_BOOKING_CALENDAR_SLUG ?? "mindlife";
                             <div class="calendar-grid calendar-days" data-calendar-days></div>
                             <div class="calendar-legend">
                                 <span><i class="available-dot"></i>Disponible</span>
+                                <span><i class="blocked-dot"></i>No disponible</span>
                                 <span><i class="selected-dot"></i>Seleccionado</span>
                             </div>
                             <input type="hidden" name="appointment-date" data-date-input />
@@ -122,22 +124,11 @@ const calendarSlug = import.meta.env.PUBLIC_BOOKING_CALENDAR_SLUG ?? "mindlife";
                                 <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
                                 <span data-time-title>Selecciona primero una fecha</span>
                             </h3>
-                            <div data-time-groups hidden>
-                                <div class="time-group">
-                                    <span>Mañana</span>
-                                    <div>
-                                        {['09:00', '10:30', '11:00'].map((time) => <button type="button" data-time={time} aria-pressed="false">{time}</button>)}
-                                    </div>
-                                </div>
-                                <div class="time-group">
-                                    <span>Tarde</span>
-                                    <div>
-                                        {['14:00', '16:30', '18:00'].map((time) => <button type="button" data-time={time} aria-pressed="false">{time}</button>)}
-                                    </div>
-                                </div>
-                            </div>
+                            <div data-time-groups hidden></div>
                             <input type="hidden" name="appointment-time" data-time-input />
                             <p class="selection-error" data-time-error aria-live="polite"></p>
+                            <p class="calendar-status" data-calendar-status aria-live="polite"></p>
+                            <button class="calendar-retry" type="button" data-calendar-retry hidden>Reintentar disponibilidad</button>
                         </div>
                     </div>
                 </article>
@@ -274,24 +265,30 @@ const calendarSlug = import.meta.env.PUBLIC_BOOKING_CALENDAR_SLUG ?? "mindlife";
     .calendar-weekdays { color: var(--color-muted); font-size: .74rem; margin-bottom: .35rem; }
     .calendar-weekdays span { padding: .35rem 0; }
     .calendar-days { gap: .2rem 0; }
-    .calendar-days > span, .calendar-days button { align-items: center; aspect-ratio: 1; background: transparent; border: 0; border-radius: 50%; color: var(--color-muted); display: flex; font-size: .82rem; justify-content: center; margin: auto; max-height: 2.25rem; max-width: 2.25rem; padding: 0; width: 100%; }
-    .calendar-days button { background: var(--color-accent-soft); color: var(--color-primary); cursor: pointer; font-weight: 600; }
-    .calendar-days button:hover { background: #e5d6ec; }
-    .calendar-days button[aria-pressed="true"] { background: var(--color-primary); box-shadow: 0 4px 10px rgba(31, 51, 97, .25); color: #fff; }
+    .calendar-days :global(.calendar-day) { align-items: center; aspect-ratio: 1; background: transparent; border: 0; border-radius: 50%; color: var(--color-muted); display: flex; font-size: .82rem; justify-content: center; margin: auto; max-height: 2.25rem; max-width: 2.25rem; padding: 0; width: 100%; }
+    .calendar-days :global(.calendar-day.is-available) { background: var(--color-accent-soft); color: var(--color-primary); cursor: pointer; font-weight: 600; }
+    .calendar-days :global(.calendar-day.is-available:hover), .calendar-days :global(.calendar-day.is-available:focus-visible) { background: #e5d6ec; }
+    .calendar-days :global(.calendar-day.is-blocked) { color: #a6a9b2; cursor: not-allowed; opacity: .68; }
+    .calendar-days :global(.calendar-day[aria-pressed="true"]) { background: var(--color-primary); box-shadow: 0 4px 10px rgba(31, 51, 97, .25); color: #fff; }
     .calendar-legend { color: var(--color-muted); display: flex; flex-wrap: wrap; font-size: .72rem; gap: 1rem; margin-top: .8rem; }
     .calendar-legend span { align-items: center; display: inline-flex; gap: .35rem; }
     .calendar-legend i { border-radius: 50%; height: .65rem; width: .65rem; }
     .available-dot { background: var(--color-accent-soft); }
+    .blocked-dot { background: #c7c9d0; }
     .selected-dot { background: var(--color-primary); }
+    .calendar-status { color: var(--color-muted); font-size: .75rem; line-height: 1.45; margin: .8rem 0 0; min-height: 1.1rem; }
+    .calendar-status.is-error { color: #9e2424; }
+    .calendar-retry { background: transparent; border: 1px solid var(--color-primary); border-radius: 999px; color: var(--color-primary); cursor: pointer; font-size: .75rem; margin-top: .55rem; padding: .45rem .75rem; }
+    .calendar-retry:hover { background: var(--color-primary-soft); }
     .time-panel { background: var(--color-surface); border-radius: .9rem; min-height: 18rem; padding: 1.25rem; }
     .time-panel h3 { align-items: center; color: var(--color-primary); display: flex; font-size: .93rem; gap: .45rem; margin: 0 0 1.25rem; }
     .time-panel h3 svg { height: 1.1rem; width: 1.1rem; }
-    .time-group + .time-group { margin-top: 1.25rem; }
-    .time-group > span { color: var(--color-muted); display: block; font-size: .75rem; margin-bottom: .5rem; }
-    .time-group > div { display: flex; flex-wrap: wrap; gap: .45rem; }
-    .time-group button { background: #fff; border: 1px solid var(--color-border); border-radius: 999px; color: var(--color-primary); cursor: pointer; font-size: .82rem; padding: .45rem .75rem; }
-    .time-group button:hover, .time-group button[aria-pressed="true"] { background: var(--color-accent-soft); border-color: var(--color-accent); }
-    .time-group button[aria-pressed="true"] { box-shadow: 0 0 0 2px rgba(142, 107, 165, .14); font-weight: 700; }
+    .time-panel :global(.time-group + .time-group) { margin-top: 1.25rem; }
+    .time-panel :global(.time-group > span) { color: var(--color-muted); display: block; font-size: .75rem; margin-bottom: .5rem; }
+    .time-panel :global(.time-group > div) { display: flex; flex-wrap: wrap; gap: .45rem; }
+    .time-panel :global(.time-group button) { background: #fff; border: 1px solid var(--color-border); border-radius: 999px; color: var(--color-primary); cursor: pointer; font-size: .82rem; padding: .45rem .75rem; }
+    .time-panel :global(.time-group button:hover), .time-panel :global(.time-group button:focus-visible), .time-panel :global(.time-group button[aria-pressed="true"]) { background: var(--color-accent-soft); border-color: var(--color-accent); }
+    .time-panel :global(.time-group button[aria-pressed="true"]) { box-shadow: 0 0 0 2px rgba(142, 107, 165, .14); font-weight: 700; }
     .selection-error, .form-field > p { color: #9e2424; font-size: .75rem; margin: .35rem 0 0; min-height: 1.1rem; }
     .patient-grid { display: grid; gap: .9rem 1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .form-field { display: flex; flex-direction: column; }
@@ -334,7 +331,7 @@ const calendarSlug = import.meta.env.PUBLIC_BOOKING_CALENDAR_SLUG ?? "mindlife";
     .confirmation-message.is-visible { display: block; }
     .confirmation-message.is-success { background: rgba(196, 255, 209, .13); }
     @media (max-width: 900px) { .booking-layout { grid-template-columns: 1fr; } .booking-summary { position: static; } }
-    @media (max-width: 640px) { .choice-grid, .schedule-grid, .patient-grid { grid-template-columns: 1fr; } .package-grid { grid-template-columns: 1fr; } .package-option label { min-height: auto; } .calendar-days > span, .calendar-days button { max-height: 2rem; max-width: 2rem; } }
+    @media (max-width: 640px) { .choice-grid, .schedule-grid, .patient-grid { grid-template-columns: 1fr; } .package-grid { grid-template-columns: 1fr; } .package-option label { min-height: auto; } .calendar-days :global(.calendar-day) { max-height: 2rem; max-width: 2rem; } }
     @media (prefers-reduced-motion: reduce) { .package-option label, .confirm-button { transition: none; } }
 </style>
 
@@ -346,22 +343,66 @@ const calendarSlug = import.meta.env.PUBLIC_BOOKING_CALENDAR_SLUG ?? "mindlife";
         const form = root.querySelector("#booking-form");
         const apiUrl = root.dataset.apiUrl;
         const calendarSlug = root.dataset.calendarSlug;
+        const calendarUrl = root.dataset.calendarUrl;
         let catalog = null;
-        let availabilitySlots = [];
+        let calendarEvents = [];
+        let calendarTimeZone = "America/Guatemala";
+        let calendarAvailabilityReady = false;
+        let calendarAvailabilityLoading = false;
+        let calendarRequestToken = 0;
+        let availabilityStartKey = "";
+        let availabilityEndKey = "";
         let requestId = crypto.randomUUID();
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const firstMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-        const lastMonth = new Date(today.getFullYear(), today.getMonth() + 3, 1);
+        let lastMonth = new Date(firstMonth);
         let visibleMonth = new Date(firstMonth);
         let selectedDate = null;
         let selectedTime = "";
         let selectedStart = "";
 
         const currency = (value) => `Q${Number(value).toLocaleString("en-US")}`;
-        const longDate = (date) => new Intl.DateTimeFormat("es-GT", { weekday: "long", day: "numeric", month: "long" }).format(date);
-        const monthLabel = (date) => `${new Intl.DateTimeFormat("es-GT", { month: "long" }).format(date)} ${date.getFullYear()}`;
-        const sameDay = (a, b) => a && b && a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+        const calendarDateParts = (date) => Object.fromEntries(
+            new Intl.DateTimeFormat("en-CA", {
+                timeZone: calendarTimeZone,
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hourCycle: "h23",
+                timeZoneName: "longOffset",
+            }).formatToParts(date).filter(({ type }) => type !== "literal").map(({ type, value }) => [type, value]),
+        );
+        const dateKey = (date) => {
+            const parts = calendarDateParts(date);
+            return `${parts.year}-${parts.month}-${parts.day}`;
+        };
+        const calendarDateFromKey = (key, days = 0) => {
+            const [year, month, day] = key.split("-").map(Number);
+            const date = new Date(Date.UTC(year, month - 1, day + days, 12, 0, 0));
+            return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}-${String(date.getUTCDate()).padStart(2, "0")}`;
+        };
+        const calendarDateTime = (key, hour) => {
+            const [year, month, day] = key.split("-").map(Number);
+            const utcGuess = Date.UTC(year, month - 1, day, hour, 0, 0);
+            const guessedParts = calendarDateParts(new Date(utcGuess));
+            const asUtc = Date.UTC(Number(guessedParts.year), Number(guessedParts.month) - 1, Number(guessedParts.day), Number(guessedParts.hour), Number(guessedParts.minute), Number(guessedParts.second));
+            return new Date(utcGuess - (asUtc - utcGuess));
+        };
+        const calendarIso = (date) => {
+            const parts = calendarDateParts(date);
+            const offset = parts.timeZoneName === "GMT"
+                ? "+00:00"
+                : parts.timeZoneName.replace("GMT", "").replace(/^([+-])(\d{1,2})(?::?(\d{2}))?$/, (_, sign, hours, minutes = "00") => `${sign}${hours.padStart(2, "0")}:${minutes}`);
+            return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}:${parts.second}${offset}`;
+        };
+        const longDate = (date) => new Intl.DateTimeFormat("es-GT", { weekday: "long", day: "numeric", month: "long", timeZone: calendarTimeZone }).format(date);
+        const monthLabel = (date) => `${new Intl.DateTimeFormat("es-GT", { month: "long", timeZone: calendarTimeZone }).format(new Date(Date.UTC(date.getFullYear(), date.getMonth(), 15, 12)))} ${date.getFullYear()}`;
+        const timeLabel = (date) => new Intl.DateTimeFormat("es-GT", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: calendarTimeZone }).format(date);
+        const sameDay = (a, b) => a && b && dateKey(a) === dateKey(b);
 
         const summaryService = root.querySelector("[data-summary-service]");
         const summaryPackage = root.querySelector("[data-summary-package]");
@@ -370,6 +411,8 @@ const calendarSlug = import.meta.env.PUBLIC_BOOKING_CALENDAR_SLUG ?? "mindlife";
         const summaryTime = root.querySelector("[data-summary-time]");
         const summaryPrice = root.querySelector("[data-summary-price]");
         const confirmation = root.querySelector("[data-confirmation]");
+        const calendarStatus = root.querySelector("[data-calendar-status]");
+        const calendarRetry = root.querySelector("[data-calendar-retry]");
 
         const clearConfirmation = () => {
             confirmation.textContent = "";
@@ -404,10 +447,8 @@ const calendarSlug = import.meta.env.PUBLIC_BOOKING_CALENDAR_SLUG ?? "mindlife";
                     });
                 });
                 selectPackage(root.querySelector('input[name="package"]:checked'));
-                await loadAvailability();
             } catch {
-                confirmation.textContent = "No pudimos cargar la configuración de reservas. Intenta nuevamente.";
-                confirmation.classList.add("is-visible");
+                catalog = null;
             }
         };
 
@@ -421,9 +462,7 @@ const calendarSlug = import.meta.env.PUBLIC_BOOKING_CALENDAR_SLUG ?? "mindlife";
                     group.querySelectorAll("input").forEach((packageInput) => { packageInput.disabled = !active; });
                     if (active) selectPackage(group.querySelector("input"));
                 });
-                selectedDate = null;
-                resetTime();
-                void loadAvailability();
+                clearDateSelection();
             });
         });
 
@@ -439,45 +478,105 @@ const calendarSlug = import.meta.env.PUBLIC_BOOKING_CALENDAR_SLUG ?? "mindlife";
         const timeTitle = root.querySelector("[data-time-title]");
         const timeGroups = root.querySelector("[data-time-groups]");
 
-        const dateKey = (date) => new Intl.DateTimeFormat("sv-SE", { timeZone: catalog?.calendar?.timezone || "America/Guatemala" }).format(date);
-        const isAvailable = (date) => availabilitySlots.some((slot) => dateKey(new Date(slot.start)) === dateKey(date));
-        const visibleRange = () => {
-            const from = `${visibleMonth.getFullYear()}-${String(visibleMonth.getMonth() + 1).padStart(2, "0")}-01`;
-            const toDate = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() + 1, 0);
-            const to = `${toDate.getFullYear()}-${String(toDate.getMonth() + 1).padStart(2, "0")}-${String(toDate.getDate()).padStart(2, "0")}`;
-            return { from, to };
+        const setCalendarStatus = (message, state = "") => {
+            calendarStatus.textContent = message;
+            calendarStatus.classList.toggle("is-error", state === "error");
+            calendarRetry.hidden = state !== "error";
         };
-        const loadAvailability = async () => {
-            const service = catalog?.services?.find((item) => item.slug === root.querySelector('input[name="service"]:checked')?.value);
-            if (!service) return;
-            const range = visibleRange();
+        const isValidCalendarTimeZone = (timeZone) => {
             try {
-                const response = await fetch(`${apiUrl}/v1/public/calendars/${calendarSlug}/availability?serviceId=${encodeURIComponent(service.id)}&from=${range.from}&to=${range.to}`, { headers: { Accept: "application/json" } });
-                if (!response.ok) throw new Error("availability");
+                new Intl.DateTimeFormat("en-CA", { timeZone }).format();
+                return true;
+            } catch {
+                return false;
+            }
+        };
+        const hasOverlap = (slotStart, slotEnd, eventStart, eventEnd) => slotStart < eventEnd && slotEnd > eventStart;
+        const availableSlotsForDate = (date) => {
+            if (!calendarAvailabilityReady) return [];
+            const key = dateKey(date);
+            if (key < availabilityStartKey || key >= availabilityEndKey) return [];
+            return Array.from({ length: 12 }, (_, index) => 8 + index).map((hour) => {
+                const start = calendarDateTime(key, hour);
+                const end = new Date(start.getTime() + 60 * 60 * 1000);
+                return { start, end, iso: calendarIso(start), label: timeLabel(start) };
+            }).filter((slot) => !calendarEvents.some((event) => hasOverlap(slot.start, slot.end, event.start, event.end)));
+        };
+        const isAvailable = (date) => availableSlotsForDate(date).length > 0;
+        const loadCalendarAvailability = async () => {
+            const token = ++calendarRequestToken;
+            calendarAvailabilityLoading = true;
+            calendarAvailabilityReady = false;
+            calendarEvents = [];
+            availabilityStartKey = "";
+            availabilityEndKey = "";
+            setCalendarStatus("Consultando disponibilidad…");
+            renderCalendar();
+            try {
+                if (!calendarUrl) throw new Error("missing-calendar-url");
+                const requestUrl = new URL(calendarUrl, window.location.origin);
+                const response = await fetch(requestUrl, { headers: { Accept: "application/json" }, cache: "no-store" });
+                if (!response.ok) throw new Error("calendar-response");
                 const payload = await response.json();
-                availabilitySlots = payload.slots || [];
+                if (payload.ok !== true || typeof payload.zonaHoraria !== "string" || !isValidCalendarTimeZone(payload.zonaHoraria) || !Array.isArray(payload.eventos) || !payload.rango || typeof payload.rango.inicio !== "string" || typeof payload.rango.fin !== "string") throw new Error("calendar-payload");
+                const events = payload.eventos.map((event) => {
+                    const start = new Date(event.inicio);
+                    const end = new Date(event.fin);
+                    if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime()) || end <= start) throw new Error("calendar-event");
+                    return { start, end };
+                });
+                const rangeStart = new Date(payload.rango.inicio);
+                const rangeEnd = new Date(payload.rango.fin);
+                if (Number.isNaN(rangeStart.getTime()) || Number.isNaN(rangeEnd.getTime()) || rangeEnd <= rangeStart) throw new Error("calendar-range");
+                if (token !== calendarRequestToken) return;
+                calendarTimeZone = payload.zonaHoraria;
+                calendarEvents = events;
+                availabilityStartKey = calendarDateFromKey(dateKey(rangeStart), 1);
+                availabilityEndKey = dateKey(rangeEnd);
+                const lastAvailableKey = calendarDateFromKey(availabilityEndKey, -1);
+                const [lastAvailableYear, lastAvailableMonth] = lastAvailableKey.split("-").map(Number);
+                lastMonth = new Date(lastAvailableYear, lastAvailableMonth - 1, 1);
+                calendarAvailabilityReady = true;
+                calendarAvailabilityLoading = false;
+                setCalendarStatus("");
                 renderCalendar();
                 if (selectedDate) renderTimeButtons(selectedDate);
             } catch {
-                availabilitySlots = [];
+                if (token !== calendarRequestToken) return;
+                calendarAvailabilityLoading = false;
+                calendarAvailabilityReady = false;
+                calendarEvents = [];
+                availabilityStartKey = "";
+                availabilityEndKey = "";
                 renderCalendar();
-                confirmation.textContent = "No pudimos cargar los horarios. Intenta nuevamente.";
-                confirmation.classList.add("is-visible");
+                setCalendarStatus("No pudimos consultar el calendario. Intenta nuevamente.", "error");
             }
         };
         const resetTime = () => {
             selectedTime = "";
+            selectedStart = "";
             timeInput.value = "";
             summaryTime.textContent = "Elige un horario disponible";
+            timeGroups.hidden = true;
             root.querySelectorAll("[data-time]").forEach((button) => button.setAttribute("aria-pressed", "false"));
             timeError.textContent = "";
         };
 
+        const clearDateSelection = () => {
+            selectedDate = null;
+            dateInput.value = "";
+            summaryDate.textContent = "Por seleccionar";
+            timeTitle.textContent = "Selecciona primero una fecha";
+            timeGroups.hidden = true;
+            dateError.textContent = "";
+            resetTime();
+        };
+
         const chooseDate = (date) => {
             selectedDate = date;
-            dateInput.value = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+            dateInput.value = dateKey(date);
             summaryDate.textContent = longDate(date);
-            timeTitle.textContent = `Horarios para ${new Intl.DateTimeFormat("es-GT", { day: "numeric", month: "long" }).format(date)}`;
+            timeTitle.textContent = `Horarios para ${new Intl.DateTimeFormat("es-GT", { day: "numeric", month: "long", timeZone: calendarTimeZone }).format(date)}`;
             timeGroups.hidden = false;
             dateError.textContent = "";
             resetTime();
@@ -501,26 +600,47 @@ const calendarSlug = import.meta.env.PUBLIC_BOOKING_CALENDAR_SLUG ?? "mindlife";
         };
 
         const renderTimeButtons = (date) => {
-            const key = dateKey(date);
-            const slots = availabilitySlots.filter((slot) => dateKey(new Date(slot.start)) === key);
+            const slots = availableSlotsForDate(date);
             const groups = timeGroups.querySelectorAll(".time-group");
             groups.forEach((group) => group.remove());
-            const group = document.createElement("div");
-            group.className = "time-group";
-            const label = document.createElement("span");
-            label.textContent = slots.length ? "Horarios disponibles" : "Sin horarios disponibles";
-            const buttons = document.createElement("div");
-            slots.forEach((slot) => {
-                const button = document.createElement("button");
-                button.type = "button";
-                button.dataset.time = slot.start;
-                button.dataset.slotStart = slot.start;
-                button.setAttribute("aria-pressed", "false");
-                button.textContent = new Intl.DateTimeFormat("es-GT", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: catalog?.calendar?.timezone || "America/Guatemala" }).format(new Date(slot.start));
-                buttons.append(button);
+            if (calendarAvailabilityLoading) {
+                const loadingGroup = document.createElement("div");
+                loadingGroup.className = "time-group";
+                loadingGroup.innerHTML = "<span>Consultando disponibilidad…</span>";
+                timeGroups.append(loadingGroup);
+                timeGroups.hidden = false;
+                return;
+            }
+            const slotGroups = [
+                { label: "Mañana", slots: slots.filter((slot) => Number(calendarDateParts(slot.start).hour) < 12) },
+                { label: "Tarde", slots: slots.filter((slot) => Number(calendarDateParts(slot.start).hour) >= 12) },
+            ];
+            slotGroups.forEach(({ label, slots: groupSlots }) => {
+                if (!groupSlots.length) return;
+                const group = document.createElement("div");
+                group.className = "time-group";
+                const groupLabel = document.createElement("span");
+                groupLabel.textContent = label;
+                const buttons = document.createElement("div");
+                groupSlots.forEach((slot) => {
+                    const button = document.createElement("button");
+                    button.type = "button";
+                    button.className = "time-slot";
+                    button.dataset.time = slot.iso;
+                    button.dataset.slotStart = slot.iso;
+                    button.setAttribute("aria-pressed", "false");
+                    button.textContent = slot.label;
+                    buttons.append(button);
+                });
+                group.append(groupLabel, buttons);
+                timeGroups.append(group);
             });
-            group.append(label, buttons);
-            timeGroups.append(group);
+            if (!slots.length) {
+                const emptyGroup = document.createElement("div");
+                emptyGroup.className = "time-group";
+                emptyGroup.innerHTML = "<span>Sin horarios disponibles</span>";
+                timeGroups.append(emptyGroup);
+            }
             timeGroups.hidden = false;
             bindTimeButtons();
         };
@@ -530,25 +650,26 @@ const calendarSlug = import.meta.env.PUBLIC_BOOKING_CALENDAR_SLUG ?? "mindlife";
             daysContainer.replaceChildren();
             const year = visibleMonth.getFullYear();
             const month = visibleMonth.getMonth();
-            const firstWeekday = (new Date(year, month, 1).getDay() + 6) % 7;
-            const dayCount = new Date(year, month + 1, 0).getDate();
+            const firstWeekday = (new Date(Date.UTC(year, month, 1, 12)).getUTCDay() + 6) % 7;
+            const dayCount = new Date(Date.UTC(year, month + 1, 0, 12)).getUTCDate();
             for (let index = 0; index < firstWeekday; index += 1) {
                 const spacer = document.createElement("span");
                 spacer.setAttribute("aria-hidden", "true");
                 daysContainer.append(spacer);
             }
             for (let day = 1; day <= dayCount; day += 1) {
-                const date = new Date(year, month, day);
+                const date = new Date(Date.UTC(year, month, day, 12));
                 const available = isAvailable(date);
-                const element = document.createElement(available ? "button" : "span");
+                const element = document.createElement("button");
+                element.className = `calendar-day ${available ? "is-available" : "is-blocked"}`;
+                element.type = "button";
+                element.disabled = !available;
                 element.textContent = String(day);
+                element.setAttribute("aria-label", `${longDate(date)}${available ? " disponible" : " no disponible"}`);
+                element.setAttribute("aria-pressed", String(available && sameDay(date, selectedDate)));
+                element.setAttribute("aria-disabled", String(!available));
                 if (available) {
-                    element.type = "button";
-                    element.setAttribute("aria-label", longDate(date));
-                    element.setAttribute("aria-pressed", String(sameDay(date, selectedDate)));
                     element.addEventListener("click", () => chooseDate(date));
-                } else {
-                    element.setAttribute("aria-disabled", "true");
                 }
                 daysContainer.append(element);
             }
@@ -558,20 +679,24 @@ const calendarSlug = import.meta.env.PUBLIC_BOOKING_CALENDAR_SLUG ?? "mindlife";
                 spacer.setAttribute("aria-hidden", "true");
                 daysContainer.append(spacer);
             }
-            previousButton.disabled = visibleMonth <= firstMonth;
-            nextButton.disabled = visibleMonth >= lastMonth;
+            previousButton.disabled = !calendarAvailabilityReady || visibleMonth <= firstMonth;
+            nextButton.disabled = !calendarAvailabilityReady || visibleMonth >= lastMonth;
         };
 
         previousButton.addEventListener("click", () => {
             if (visibleMonth <= firstMonth) return;
             visibleMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() - 1, 1);
-            void loadAvailability();
+            clearDateSelection();
+            renderCalendar();
         });
         nextButton.addEventListener("click", () => {
             if (visibleMonth >= lastMonth) return;
             visibleMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() + 1, 1);
-            void loadAvailability();
+            clearDateSelection();
+            renderCalendar();
         });
+
+        calendarRetry.addEventListener("click", () => { void loadCalendarAvailability(); });
 
         bindTimeButtons();
 
@@ -650,9 +775,8 @@ const calendarSlug = import.meta.env.PUBLIC_BOOKING_CALENDAR_SLUG ?? "mindlife";
                 const payload = await response.json();
                 if (!response.ok) {
                     if (response.status === 409) {
-                        selectedDate = null;
-                        resetTime();
-                        void loadAvailability();
+                        clearDateSelection();
+                        void loadCalendarAvailability();
                     }
                     throw new Error(payload.error?.message || "No se pudo reservar el horario.");
                 }
@@ -670,6 +794,7 @@ const calendarSlug = import.meta.env.PUBLIC_BOOKING_CALENDAR_SLUG ?? "mindlife";
 
         selectPackage(root.querySelector('input[name="package"]:checked'));
         renderCalendar();
+        void loadCalendarAvailability();
         void loadCatalog();
     })();
 </script>
