@@ -30,7 +30,7 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
             <p class="eyebrow">Reservación</p>
             <h1>Reserva tu sesión</h1>
             <p>Selecciona el servicio, paquete y horario que mejor se adapten a ti.</p>
-            <span>Configuración · Fecha y hora · Datos de contacto</span>
+            <span>Elige tu paquete · Datos de contacto· Fecha y hora</span>
         </header>
 
         <form id="booking-form" class="booking-layout" novalidate>
@@ -38,7 +38,7 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                 <article class="step-card">
                     <div class="step-title">
                         <span aria-hidden="true">1</span>
-                        <h2>Configura tu servicio</h2>
+                        <h2>Elige tu servicio</h2>
                     </div>
 
                     <div class="choice-grid">
@@ -86,9 +86,41 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                     </fieldset>
                 </article>
 
-                <article class="step-card calendar-step" data-calendar-step aria-busy="false">
+                <article class="step-card">
                     <div class="step-title">
                         <span aria-hidden="true">2</span>
+                        <h2>Tus datos</h2>
+                    </div>
+                    <div class="patient-grid">
+                        <div class="form-field">
+                            <label for="booking-first-name">Nombres</label>
+                            <input id="booking-first-name" name="first-name" type="text" autocomplete="given-name" placeholder="Ingresa tus nombres" required />
+                            <p data-error-for="booking-first-name"></p>
+                        </div>
+                        <div class="form-field">
+                            <label for="booking-last-name">Apellidos</label>
+                            <input id="booking-last-name" name="last-name" type="text" autocomplete="family-name" placeholder="Ingresa tus apellidos" required />
+                            <p data-error-for="booking-last-name"></p>
+                        </div>
+                        <div class="form-field">
+                            <label for="booking-email">Correo electrónico</label>
+                            <input id="booking-email" name="email" type="email" autocomplete="email" placeholder="ejemplo@correo.com" required />
+                            <p data-error-for="booking-email"></p>
+                        </div>
+                        <div class="form-field phone-field">
+                            <label for="booking-phone">Teléfono</label>
+                            <div class="phone-control">
+                                <span>+502</span>
+                                <input id="booking-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" pattern="[0-9]{8}" maxlength="8" placeholder="55555555" required />
+                            </div>
+                            <p data-error-for="booking-phone"></p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="step-card calendar-step" data-calendar-step aria-busy="false">
+                    <div class="step-title">
+                        <span aria-hidden="true">3</span>
                         <h2>Elija la fecha y hora para la sesión</h2>
                     </div>
                     <!-- <p class="demo-note">Disponibilidad demostrativa. Esta selección no reserva un espacio real.</p> -->
@@ -137,37 +169,7 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                     </div>
                 </article>
 
-                <article class="step-card">
-                    <div class="step-title">
-                        <span aria-hidden="true">3</span>
-                        <h2>Tus datos</h2>
-                    </div>
-                    <div class="patient-grid">
-                        <div class="form-field">
-                            <label for="booking-first-name">Nombres</label>
-                            <input id="booking-first-name" name="first-name" type="text" autocomplete="given-name" placeholder="Ingresa tus nombres" required />
-                            <p data-error-for="booking-first-name"></p>
-                        </div>
-                        <div class="form-field">
-                            <label for="booking-last-name">Apellidos</label>
-                            <input id="booking-last-name" name="last-name" type="text" autocomplete="family-name" placeholder="Ingresa tus apellidos" required />
-                            <p data-error-for="booking-last-name"></p>
-                        </div>
-                        <div class="form-field">
-                            <label for="booking-email">Correo electrónico</label>
-                            <input id="booking-email" name="email" type="email" autocomplete="email" placeholder="ejemplo@correo.com" required />
-                            <p data-error-for="booking-email"></p>
-                        </div>
-                        <div class="form-field phone-field">
-                            <label for="booking-phone">Teléfono</label>
-                            <div class="phone-control">
-                                <span>+502</span>
-                                <input id="booking-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" pattern="[0-9]{8}" maxlength="8" placeholder="12345678" required />
-                            </div>
-                            <p data-error-for="booking-phone"></p>
-                        </div>
-                    </div>
-                </article>
+                
             </div>
 
             <aside class="booking-summary" aria-labelledby="summary-title">
@@ -205,20 +207,19 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                     <div class="summary-total">
                         <span>Total del paquete</span>
                         <strong data-summary-price>Q250</strong>
-                        <small>Pago coordinado con la clínica</small>
+                    </div>
+                    <div class="consent-wrap">
+                        <label class="consent-check"><input id="privacy-accepted" type="checkbox" name="privacy-accepted" aria-describedby="privacy-error" required /> <span>Acepto el tratamiento de mis datos según la <a href="/privacidad">política de privacidad</a>.</span></label>
+                        <p class="consent-error" id="privacy-error" data-consent-error role="alert"></p>
                     </div>
                     <button class="confirm-button" type="submit">
                         Confirmar selección
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 14 0M14 7l5 5-5 5" /></svg>
                     </button>
-                    <div class="consent-wrap">
-                        <label class="consent-check"><input id="privacy-accepted" type="checkbox" name="privacy-accepted" aria-describedby="privacy-error" required /> <span>Acepto el tratamiento de mis datos según la <a href="/privacidad">política de privacidad</a>.</span></label>
-                        <p class="consent-error" id="privacy-error" data-consent-error role="alert"></p>
-                    </div>
-                    <div class="privacy-note">
+                    <!-- <div class="privacy-note">
                         <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2" /><path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg>
                         <p>Tus datos se usan para reservar la cita y crear el evento en el calendario de Mindlife.</p>
-                    </div>
+                    </div> -->
                     <p class="confirmation-message" data-confirmation role="status" aria-live="polite"></p>
                 </div>
             </aside>
@@ -798,7 +799,17 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                     website: "",
                 }),
             }).then(async (response) => {
-                const payload = await response.json();
+                const responseBody = await response.text();
+                let payload;
+
+                try {
+                    payload = JSON.parse(responseBody);
+                } catch {
+                    throw new Error(
+                        "El servicio de agenda respondió en un formato inesperado. Intenta nuevamente más tarde."
+                    );
+                }
+
                 if (!response.ok || payload.ok !== true) {
                     if (payload.codigo === "SLOT_UNAVAILABLE") {
                         clearDateSelection();
