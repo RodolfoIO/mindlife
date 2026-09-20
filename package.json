@@ -1,5 +1,5 @@
 {
-  "name": "pagina-web",
+  "name": "@clinicasmindlife/landing",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.5",
-    "astro": "^7.2.2",
+    "astro": "^7.2.9",
     "tailwindcss": "^4.1.5"
   }
 }
