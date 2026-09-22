@@ -209,11 +209,10 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                         <strong data-summary-price>Q250</strong>
                     </div>
                     <div class="consent-wrap">
-                        <label class="consent-check"><input id="privacy-accepted" type="checkbox" name="privacy-accepted" aria-describedby="privacy-error" required /> <span>Acepto el tratamiento de mis datos según la <a href="/privacidad">política de privacidad</a>.</span></label>
-                        <p class="consent-error" id="privacy-error" data-consent-error role="alert"></p>
+                        <p class="consent-text">Al agendar tu cita, aceptas los términos de tratamiento de datos según nuestra <a href="/privacidad">política de privacidad</a>.</p>
                     </div>
                     <button class="confirm-button" type="submit">
-                        Confirmar selección
+                        Agendar cita
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 14 0M14 7l5 5-5 5" /></svg>
                     </button>
                     <!-- <div class="privacy-note">
@@ -333,13 +332,8 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
     .confirm-button { align-items: center; background: #f3daff; border: 0; border-radius: 999px; color: #2b0b41; cursor: pointer; display: flex; font-weight: 700; gap: .55rem; justify-content: center; min-height: 3.1rem; padding: .75rem 1.25rem; transition: transform 180ms ease, box-shadow 180ms ease; width: 100%; }
     .confirm-button:disabled { cursor: progress; opacity: .65; }
     .consent-wrap { display: grid; gap: .35rem; }
-    .consent-check { align-items: flex-start; border: 1px solid transparent; border-radius: .65rem; color: rgba(255,255,255,.78); display: flex; font-size: .75rem; gap: .55rem; line-height: 1.45; padding: .45rem; transition: background-color 180ms ease, border-color 180ms ease; }
-    .consent-check input { accent-color: #f3daff; margin-top: .15rem; }
-    .consent-check a { color: #fff; text-decoration: underline; }
-    .consent-check.is-invalid { background: rgba(255, 112, 112, .14); border-color: #ffb8b8; color: #fff; }
-    .consent-check.is-invalid input { outline: 2px solid #ffb8b8; outline-offset: 2px; }
-    .consent-error { color: #ffd1d1; font-size: .72rem; line-height: 1.4; margin: 0 .45rem; }
-    .consent-error:not(.is-visible) { display: none; }
+    .consent-text { color: rgba(255,255,255,.78); font-size: .75rem; line-height: 1.45; margin: 0; }
+    .consent-text a { color: #fff; text-decoration: underline; }
     .confirm-button:hover { box-shadow: 0 8px 20px rgba(0,0,0,.22); transform: translateY(-2px); }
     .confirm-button svg { height: 1.1rem; width: 1.1rem; }
     .privacy-note { align-items: flex-start; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); border-radius: .65rem; display: flex; gap: .5rem; padding: .7rem; }
@@ -350,7 +344,7 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
     .confirmation-message.is-success { background: rgba(196, 255, 209, .13); }
     @media (max-width: 900px) { .booking-layout { grid-template-columns: 1fr; } .booking-summary { position: static; } }
     @media (max-width: 640px) { .choice-grid, .schedule-grid, .patient-grid { grid-template-columns: 1fr; } .package-grid { grid-template-columns: 1fr; } .package-option label { min-height: auto; } .calendar-days :global(.calendar-day) { max-height: 2rem; max-width: 2rem; } }
-    @media (prefers-reduced-motion: reduce) { .package-option label, .confirm-button, .consent-check { transition: none; } .calendar-loader-spinner { animation: none; } }
+    @media (prefers-reduced-motion: reduce) { .package-option label, .confirm-button { transition: none; } .calendar-loader-spinner { animation: none; } }
 </style>
 
 <script is:inline>
@@ -429,20 +423,9 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
         const calendarRetry = root.querySelector("[data-calendar-retry]");
         const calendarStep = root.querySelector("[data-calendar-step]");
         const calendarLoader = root.querySelector("[data-calendar-loader]");
-        const consent = root.querySelector(".consent-check");
-        const consentInput = root.querySelector('input[name="privacy-accepted"]');
-        const consentError = root.querySelector("[data-consent-error]");
-
         const clearConfirmation = () => {
             confirmation.textContent = "";
             confirmation.classList.remove("is-visible", "is-success");
-        };
-
-        const clearConsentError = () => {
-            consent?.classList.remove("is-invalid");
-            consentInput?.removeAttribute("aria-invalid");
-            consentError?.classList.remove("is-visible");
-            if (consentError) consentError.textContent = "";
         };
 
         const selectPackage = (input) => {
@@ -753,18 +736,6 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
             if (!selectedTime || !selectedStart) {
                 timeError.textContent = selectedDate ? "Selecciona un horario." : "";
                 if (selectedDate && !firstInvalid) firstInvalid = root.querySelector("[data-time]");
-            }
-            const privacy = root.querySelector('input[name="privacy-accepted"]');
-            if (privacy && !privacy.checkValidity()) {
-                consent?.classList.add("is-invalid");
-                privacy.setAttribute("aria-invalid", "true");
-                if (consentError) {
-                    consentError.textContent = "Debes aceptar la política de privacidad para confirmar tu selección.";
-                    consentError.classList.add("is-visible");
-                }
-                if (!firstInvalid) firstInvalid = privacy;
-            } else {
-                clearConsentError();
             }
             if (firstInvalid || !selectedDate || !selectedStart) {
                 clearConfirmation();
