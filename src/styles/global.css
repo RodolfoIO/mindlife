@@ -1,9 +1,21 @@
 @import "tailwindcss";
 
-@font-face { font-family: "Metro Sans"; src: url("/fonts/MetroSans-Book.ttf") format("truetype"); font-weight: 400; font-style: normal; font-display: swap; }
-@font-face { font-family: "Metro Sans"; src: url("/fonts/MetroSans-Medium.ttf") format("truetype"); font-weight: 500; font-style: normal; font-display: swap; }
-@font-face { font-family: "Metro Sans"; src: url("/fonts/MetroSans-SemiBold.ttf") format("truetype"); font-weight: 600; font-style: normal; font-display: swap; }
-@font-face { font-family: "Metro Sans"; src: url("/fonts/MetroSans-Bold.ttf") format("truetype"); font-weight: 700; font-style: normal; font-display: swap; }
+/* The fallback keeps text metrics close to Metro Sans while the web font loads. */
+@font-face {
+    font-family: "Metro Sans Fallback";
+    src: local("Arial"), local("Liberation Sans"), local("Noto Sans");
+    font-weight: 100 900;
+    font-style: normal;
+    size-adjust: 97.9%;
+    ascent-override: 100%;
+    descent-override: 20%;
+    line-gap-override: 0%;
+}
+
+@font-face { font-family: "Metro Sans"; src: url("/fonts/MetroSans-Book.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Metro Sans"; src: url("/fonts/MetroSans-Medium.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Metro Sans"; src: url("/fonts/MetroSans-SemiBold.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Metro Sans"; src: url("/fonts/MetroSans-Bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
 
 :root {
     --color-primary: #1f3361;
@@ -22,7 +34,7 @@
     --shadow-card: 0 8px 24px rgba(31, 51, 97, 0.08);
     --radius-md: 16px;
     --radius-lg: 28px;
-    --font-primary: "Metro Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-primary: "Metro Sans", "Metro Sans Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 * { box-sizing: border-box; }
