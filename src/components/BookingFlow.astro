@@ -453,10 +453,6 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
         });
 
         root.querySelectorAll('input[name="package"]').forEach((input) => input.addEventListener("change", () => selectPackage(input)));
-        consentInput?.addEventListener("change", () => {
-            if (consentInput.checked) clearConsentError();
-            clearConfirmation();
-        });
         const daysContainer = root.querySelector("[data-calendar-days]");
         const calendarTitle = root.querySelector("[data-calendar-title]");
         const previousButton = root.querySelector("[data-calendar-prev]");
