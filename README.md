@@ -41,7 +41,7 @@ npm run build
 | --- | --- |
 | `/` | Página principal con servicios, proceso, enfoque, paquetes y llamada a la acción. |
 | `/agendar` | Reserva de citas mediante el calendario de Google. |
-| `/formulario` | Formulario de información previa, integrado con Google Forms. |
+| `/formulario` | Registro de paciente y admisión clínica conectado con Supabase. |
 | `/privacidad` | Información sobre el tratamiento de datos en los canales digitales. |
 | `/*` | Página personalizada de error 404. |
 
@@ -61,7 +61,7 @@ apps/landing/
 
 ## Integraciones externas
 
-La reserva y el formulario previo se muestran mediante contenidos embebidos de Google Calendar y Google Forms. El sitio también ofrece enlaces a WhatsApp y a las redes sociales de la clínica. Si se actualiza cualquiera de estos servicios, verifica que las URL integradas sigan vigentes y que las políticas de privacidad reflejen el cambio.
+La reserva continúa utilizando Google Calendar mediante Apps Script. El registro previo se envía a la Edge Function `submit-patient-intake` de Supabase, que valida y guarda pacientes y admisiones con RLS habilitado. `SUPABASE_URL` y `SUPABASE_ANON_KEY` deben estar disponibles en el entorno de compilación; la segunda variable contiene una clave publicable.
 
 ## Recursos visuales
 

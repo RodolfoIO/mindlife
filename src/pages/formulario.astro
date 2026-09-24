@@ -1,37 +1,221 @@
 ---
 import MainLayout from "../layout/MainLayout.astro";
+const supabaseUrl = import.meta.env.SUPABASE_URL ?? "";
+const supabaseAnonKey = import.meta.env.SUPABASE_ANON_KEY ?? "";
 ---
+<MainLayout title="Registro de paciente | Mindlife" description="Completa de forma confidencial la información previa a tu proceso terapéutico en Mindlife.">
+<section class="intake-page" data-intake data-supabase-url={supabaseUrl} data-supabase-key={supabaseAnonKey}><div class="site-container">
+<header class="intake-heading"><p class="eyebrow">Ingreso a clínica</p><h1>Registro de paciente</h1><p>Estás a punto de comenzar un proceso para alcanzar una vida plena. Esta información nos ayudará a preparar mejor tu atención y será tratada con estricta confidencialidad.</p></header>
+<form id="patient-intake-form" class="intake-layout" novalidate>
+<div class="intake-main">
+<div class="confidentiality-card"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><div><h2>Información confidencial</h2><p>Para iniciar necesitamos algunos datos personales y clínicos. La información se utilizará únicamente para preparar y dar seguimiento a tu atención, conforme a nuestra <a href="/privacidad">política de privacidad</a>.</p></div></div>
+<section class="intake-card" role="group" aria-labelledby="personal-info-title"><h2 id="personal-info-title" class="intake-card-heading"><span>1</span> Datos personales</h2><div class="field-grid">
+<div class="field field-wide"><label for="full-name">Nombre completo <b>*</b></label><input id="full-name" name="fullName" type="text" autocomplete="name" placeholder="Ej. Ana García Méndez" maxlength="160" required/><p data-error-for="full-name"></p></div>
+<div class="field"><label for="email">Correo electrónico <b>*</b></label><input id="email" name="email" type="email" autocomplete="email" placeholder="tu@correo.com" maxlength="254" required/><p data-error-for="email"></p></div>
+<div class="field"><label for="phone">Número de teléfono <b>*</b></label><div class="phone-control"><span>+502</span><input id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="55555555" maxlength="8" pattern="[0-9]{8}" required/></div><p data-error-for="phone"></p></div>
+<div class="field"><label for="birth-date">Fecha de nacimiento <b>*</b></label><input id="birth-date" name="birthDate" type="date" autocomplete="bday" required/><p data-error-for="birth-date"></p></div>
+<div class="field"><label for="age">Edad calculada</label><input id="age" type="number" placeholder="Se calcula automáticamente" readonly/><small>Se determinará con tu fecha de nacimiento.</small></div><div class="field"><label for="sex">Sexo <b>*</b></label><select id="sex" name="sex" required><option value="" selected disabled>Elige una opción</option><option value="masculino">Masculino</option><option value="femenino">Femenino</option></select><p data-error-for="sex"></p></div>
+<div class="field field-wide"><label>Estado civil <b>*</b></label><div class="radio-grid">{[["soltero","Soltero (a)"],["casado","Casado (a)"],["unido","Unido (a)"],["separado","Separado (a)"],["divorciado","Divorciado (a)"],["viudo","Viudo (a)"],["relacion","En una relación"]].map(([value,label])=><label class="radio-option"><input type="radio" name="maritalStatus" value={value} required/><span>{label}</span></label>)}</div><p data-error-for="maritalStatus"></p></div>
+<div class="field field-wide"><label for="address">Dirección <b>*</b></label><input id="address" name="address" type="text" autocomplete="street-address" placeholder="Residencia actual" maxlength="300" required/><p data-error-for="address"></p></div><div class="field"><label for="department">Departamento <b>*</b></label><select id="department" name="department" required><option value="" selected disabled>Elige un departamento</option>{["Alta Verapaz","Baja Verapaz","Chimaltenango","Chiquimula","El Progreso","Escuintla","Guatemala","Huehuetenango","Izabal","Jalapa","Jutiapa","Petén","Quetzaltenango","Quiché","Retalhuleu","Sacatepéquez","San Marcos","Santa Rosa","Sololá","Suchitepéquez","Totonicapán","Zacapa"].map((department)=><option value={department}>{department}</option>)}</select><p data-error-for="department"></p></div>
+<div class="field"><label for="education">Escolaridad <b>*</b></label><select id="education" name="education" required><option value="" selected disabled>Elige una opción</option><option value="primaria">Primaria</option><option value="secundaria">Secundaria / Básicos</option><option value="diversificado">Diversificado</option><option value="universidad_incompleta">Universidad incompleta</option><option value="universidad_completa">Universidad completa</option><option value="postgrado">Postgrado / Maestría</option></select><p data-error-for="education"></p></div>
+<div class="field"><label for="occupation">Ocupación <b>*</b></label><input id="occupation" name="occupation" type="text" placeholder="Ocupación actual" maxlength="160" required/><p data-error-for="occupation"></p></div></div></section>
+<section class="intake-card" role="group" aria-labelledby="clinical-info-title"><h2 id="clinical-info-title" class="intake-card-heading"><span>2</span> Información clínica inicial</h2><div class="field-stack"><div class="field"><label for="chronic-conditions">Enfermedades crónicas diagnosticadas <em>(si aplica)</em></label><input id="chronic-conditions" name="chronicConditions" type="text" maxlength="1000" placeholder="Ej. Hipertensión, diabetes, asma…"/></div><div class="field"><label for="medications">Medicamentos recetados actualmente <em>(si aplica)</em></label><input id="medications" name="medications" type="text" maxlength="1000" placeholder="Nombre del medicamento y dosis"/></div><div class="field"><label for="consultation-reason">Motivo de consulta <b>*</b></label><small>Explica brevemente tu situación actual y los aspectos que deseas abordar.</small><textarea id="consultation-reason" name="consultationReason" rows="5" maxlength="4000" placeholder="Describe brevemente el motivo por el cual buscas acompañamiento…" required></textarea><p data-error-for="consultation-reason"></p></div></div></section>
+<section class="intake-card" role="group" aria-labelledby="additional-info-title"><h2 id="additional-info-title" class="intake-card-heading"><span>3</span> Información adicional</h2><div class="field"><label>¿Cómo supiste de Mindlife? <b>*</b></label><div class="source-grid">{[["facebook","Facebook"],["instagram","Instagram"],["spotify","Spotify"],["google","Búsqueda de Google"],["referencia","Referencia de amigo/familiar"]].map(([value,label])=><label class="source-option"><input type="radio" name="referralSource" value={value} required/><span>{label}</span></label>)}</div><p data-error-for="referralSource"></p></div></section>
+<section class="guardian-card" data-guardian hidden aria-live="polite"><div class="guardian-heading"><span>!</span><div><h2>Información del tutor</h2><p>Como la persona registrada es menor de edad, necesitamos los datos del adulto responsable.</p></div></div><div class="field-grid"><div class="field"><label for="guardian-full-name">Nombre del tutor <b>*</b></label><input id="guardian-full-name" name="guardianFullName" type="text" maxlength="160" placeholder="Nombre completo"/><p data-error-for="guardian-full-name"></p></div><div class="field"><label for="guardian-relationship">Parentesco <b>*</b></label><select id="guardian-relationship" name="guardianRelationship"><option value="" selected disabled>Elige una opción</option><option value="padre">Padre</option><option value="madre">Madre</option><option value="tutor">Tutor</option></select><p data-error-for="guardian-relationship"></p></div><div class="field"><label for="guardian-email">Correo del tutor <b>*</b></label><input id="guardian-email" name="guardianEmail" type="email" maxlength="254" placeholder="correo@ejemplo.com"/><p data-error-for="guardian-email"></p></div><div class="field"><label for="guardian-phone">Teléfono del tutor <b>*</b></label><div class="phone-control"><span>+502</span><input id="guardian-phone" name="guardianPhone" type="tel" inputmode="numeric" maxlength="8" pattern="[0-9]{8}" placeholder="55555555"/></div><p data-error-for="guardian-phone"></p></div><label class="check-option field-wide"><input id="guardian-authority" name="guardianAuthority" type="checkbox"/><span>Declaro que tengo autoridad legal para completar este formulario y consentir el proceso terapéutico del paciente. <b>*</b></span></label><p class="field-wide" data-error-for="guardian-authority"></p></div></section>
+</div>
+<aside class="contract-card"><div class="contract-top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h10l3 3v15H6z"/><path d="M16 3v4h4M9 12h6M9 16h6M9 8h3"/></svg><h2>Contrato terapéutico</h2><p>Lee cuidadosamente los documentos antes de enviar tu información.</p></div><div class="contract-copy"><section><h3>1. Objeto</h3><p>Este contrato establece las condiciones del servicio de atención psicológica prestado por Mindlife al paciente.</p></section><section><h3>2. Naturaleza del servicio</h3><p>La terapia es un proceso colaborativo. Los resultados dependen del compromiso y la participación activa del paciente durante y entre las sesiones.</p></section><section><h3>3. Agenda y puntualidad</h3><p>Las sesiones tienen la duración correspondiente al servicio reservado. Se requiere puntualidad; una sesión que inicia tarde terminará a la hora programada.</p></section><section><h3>4. Cancelaciones</h3><p>Toda cancelación o reprogramación debe notificarse con al menos 24 horas de anticipación. Las cancelaciones tardías o inasistencias pueden estar sujetas al cobro de la sesión.</p></section><section><h3>5. Confidencialidad</h3><p>La información compartida se manejará de forma confidencial, salvo las excepciones legales y éticas aplicables, incluyendo un riesgo inminente para el paciente o terceros.</p></section></div><div class="contract-submit"><p class="consent-notice">Al enviar este formulario, confirmas que has leído y aceptado el <strong>contrato terapéutico</strong> y la <a href="/privacidad" target="_blank">política de privacidad</a> de Mindlife.</p><input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="honeypot"/><button class="submit-button" type="submit"><span data-submit-label>Enviar formulario e iniciar proceso</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><p class="form-status" data-status role="status" aria-live="polite"></p></div></aside>
+</form></div></section></MainLayout>
+<style>
+.intake-page { background: var(--color-surface); padding: clamp(3rem, 7vw, 6rem) 0; }
+.intake-page svg { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2; }
+.intake-heading { margin-bottom: 3rem; max-width: 44rem; }
+.intake-heading h1 { color: var(--color-primary); font-size: clamp(2.25rem, 5vw, 3.75rem); margin: .6rem 0 1rem; }
+.intake-heading > p:last-child { color: var(--color-muted); font-size: 1.125rem; }
+.intake-layout { align-items: start; display: grid; gap: 3rem; grid-template-columns: minmax(0, 7fr) minmax(19rem, 5fr); }
+.intake-main { display: grid; gap: 1.25rem; }
+.confidentiality-card, .intake-card, .guardian-card { background: #fff; border: 0; border-radius: var(--radius-lg); box-shadow: var(--shadow-card); padding: clamp(1.25rem, 3vw, 2rem); }
+.confidentiality-card { align-items: flex-start; display: flex; gap: 1rem; }
+.confidentiality-card svg { color: var(--color-primary); flex: 0 0 1.5rem; height: 1.5rem; margin-top: .15rem; width: 1.5rem; }
+.confidentiality-card h2, .guardian-card h2 { color: var(--color-primary); font-size: 1.15rem; margin: 0 0 .4rem; }
+.confidentiality-card p, .guardian-card p { color: var(--color-muted); font-size: .9rem; margin: 0; }
+.confidentiality-card a { color: var(--color-primary); font-weight: 700; text-decoration: underline; }
+.intake-card { min-inline-size: 0; }
+.intake-card-heading { align-items: center; border-bottom: 1px solid rgba(197, 198, 208, .45); box-sizing: border-box; color: var(--color-primary); display: flex; font-size: 1.1rem; font-weight: 700; gap: .75rem; margin: 0 0 1.5rem; padding: 0 0 1rem; width: 100%; }
+.intake-card-heading span { align-items: center; background: var(--color-primary-soft); border-radius: 50%; display: inline-flex; flex: 0 0 2rem; height: 2rem; justify-content: center; width: 2rem; }
+.field-grid { display: grid; gap: 1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.field-stack { display: grid; gap: 1.25rem; }
+.field { display: flex; flex-direction: column; min-width: 0; }
+.field-wide { grid-column: 1 / -1; }
+.field label { color: var(--color-muted); font-size: .72rem; font-weight: 700; letter-spacing: .1em; margin-bottom: .5rem; text-transform: uppercase; }
+.field label b, .check-option b { color: #ba1a1a; }
+.field label em { font-size: .72rem; font-style: normal; font-weight: 400; letter-spacing: 0; text-transform: none; }
+.field input, .field select, .field textarea { background: #fff; border: 1px solid var(--color-border); border-radius: .75rem; color: var(--color-text); min-height: 3rem; padding: .7rem .85rem; width: 100%; }
+.field textarea { min-height: 8rem; resize: vertical; }
+.field input::placeholder, .field textarea::placeholder { color: #9298a4; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(142, 107, 165, .16); outline: 0; }
+.field input[readonly] { background: var(--color-surface); color: var(--color-muted); }
+.field small { color: var(--color-muted); font-size: .75rem; margin: -.2rem 0 .4rem; }
+.field > p, .guardian-card [data-error-for], .contract-submit > p { color: #9e2424; font-size: .75rem; margin: .35rem 0 0; min-height: 1rem; }
+.phone-control { display: flex; }
+.phone-control > span { align-items: center; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: .75rem 0 0 .75rem; color: var(--color-muted); display: flex; padding: 0 .8rem; }
+.phone-control input { border-radius: 0 .75rem .75rem 0; }
+.radio-grid, .source-grid { display: grid; gap: .65rem 1rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.source-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.radio-option, .source-option { align-items: center; color: var(--color-text); display: flex; gap: .5rem; font-size: .86rem; }
+.source-option { border: 1px solid var(--color-border); border-radius: .75rem; cursor: pointer; padding: .85rem; }
+.source-option:has(input:checked) { background: var(--color-primary-soft); border-color: var(--color-primary); }
+.radio-option input, .source-option input, .check-option input { accent-color: var(--color-primary); flex: 0 0 auto; height: 1.1rem; width: 1.1rem; }
+.guardian-card { background: var(--color-accent-soft); }
+.guardian-heading { align-items: flex-start; display: flex; gap: .75rem; margin-bottom: 1.25rem; }
+.guardian-heading > span { align-items: center; background: var(--color-accent); border-radius: 50%; color: #fff; display: inline-flex; flex: 0 0 1.75rem; font-weight: 700; height: 1.75rem; justify-content: center; }
+.check-option { align-items: flex-start; color: var(--color-muted); display: flex; font-size: .8rem; gap: .65rem; line-height: 1.5; }
+.contract-card { background: var(--color-primary); border-radius: var(--radius-lg); box-shadow: var(--shadow-soft); color: #fff; display: flex; flex-direction: column; max-height: calc(100vh - 7rem); min-height: 42rem; position: sticky; top: 6rem; }
+.contract-top { padding: 2rem 2rem 1.25rem; }
+.contract-top svg { color: #fff; height: 2rem; margin-bottom: 1rem; width: 2rem; }
+.contract-top h2 { color: #fff; font-size: 1.25rem; margin: 0 0 .4rem; }
+.contract-top p { color: rgba(255, 255, 255, .75); font-size: .8rem; margin: 0; }
+.contract-copy { display: flex; flex: 1 1 auto; flex-direction: column; gap: 1.3rem; min-height: 0; overflow-y: auto; padding: 0 2rem 1.5rem; }
+.contract-copy h3 { color: #fff; font-size: .85rem; margin: 0 0 .25rem; }
+.contract-copy p { color: rgba(255, 255, 255, .76); font-size: .78rem; line-height: 1.5; margin: 0; }
+.contract-submit { border-top: 1px solid rgba(255, 255, 255, .2); margin-top: auto; padding: 1.25rem 2rem 2rem; }
+.contract-submit .check-option { color: rgba(255, 255, 255, .9); }
+.contract-submit .check-option a { color: #fff; font-weight: 700; text-decoration: underline; }
+.contract-submit .consent-notice { color: rgba(255, 255, 255, .9); font-size: .8rem; line-height: 1.5; margin: 0; }
+.contract-submit .consent-notice a { color: #fff; font-weight: 700; text-decoration: underline; }
+.submit-button { align-items: center; background: #fff; border: 0; border-radius: 999px; color: var(--color-primary); cursor: pointer; display: flex; font-weight: 700; gap: .5rem; justify-content: center; margin-top: 1rem; min-height: 3.5rem; padding: .8rem 1.2rem; width: 100%; }
+.submit-button svg { height: 1.1rem; width: 1.1rem; }
+.form-status { background: rgba(255, 255, 255, .1); border-radius: .6rem; color: #fff !important; display: none; font-size: .78rem !important; padding: .7rem; }
+.form-status.is-visible { display: block; }
+.form-status.is-success { background: rgba(196, 255, 209, .14); }
+.honeypot { height: 1px; left: -9999px; opacity: 0; position: absolute; width: 1px; }
+@media (max-width: 900px) { .intake-layout { grid-template-columns: 1fr; } .contract-card { max-height: none; min-height: auto; position: static; } }
+@media (max-width: 640px) { .field-grid, .radio-grid, .source-grid { grid-template-columns: 1fr; } .intake-heading { margin-bottom: 2rem; } .contract-top, .contract-copy, .contract-submit { padding-left: 1.25rem; padding-right: 1.25rem; } }
+</style>
+<script>
+import { createClient } from "@supabase/supabase-js";
 
-<MainLayout title="Formulario de información | Mindlife" description="Completa la información previa para tu sesión en Mindlife.">
-    <section class="section-space bg-primary text-white">
-        <div class="site-container max-w-4xl text-center">
-            <p class="text-sm font-bold uppercase tracking-[0.14em] text-white/75">Antes de tu sesión</p>
-            <h1 class="mt-3 text-4xl font-bold sm:text-5xl">Formulario de información previa</h1>
-            <p class="mx-auto mt-5 max-w-2xl text-lg text-white/85">Completa este formulario después de agendar tu cita para que podamos preparar mejor tu atención.</p>
-        </div>
-    </section>
-    <section class="section-space surface-soft">
-        <div class="site-container max-w-5xl">
-            <div class="card-brand p-4 sm:p-8">
-                <div class="mx-auto max-w-3xl text-center">
-                    <h2 class="text-2xl font-bold text-primary">Completa tus datos con calma</h2>
-                    <p class="mt-3 text-muted">Los campos marcados como obligatorios deben completarse antes de enviar el formulario.</p>
-                </div>
-                <div class="mt-7 overflow-hidden rounded-xl border border-muted bg-white">
-                    <iframe
-                        src="https://docs.google.com/forms/d/e/1FAIpQLSfvqis7nOKCFuR6bdJJSR_t3P1EmCJYwEdj_jin7moZoUaArw/viewform?embedded=true"
-                        title="Formulario de información previa de Mindlife"
-                        width="640"
-                        height="3032"
-                        frameborder="0"
-                        marginheight="0"
-                        marginwidth="0"
-                        class="block h-[3032px] w-full border-0"
-                        loading="lazy"
-                    >Cargando…</iframe>
-                </div>
-                <p class="mx-auto mt-5 max-w-3xl text-center text-sm text-muted">Este formulario es administrado por Google Forms. Al completarlo, Google y Mindlife tratarán la información proporcionada conforme a sus políticas aplicables.</p>
-            </div>
-        </div>
-    </section>
-</MainLayout>
+const root = document.querySelector<HTMLElement>("[data-intake]");
+const form = root?.querySelector<HTMLFormElement>("#patient-intake-form");
+
+if (root && form) {
+    const supabaseUrl = root.dataset.supabaseUrl ?? "";
+    const supabaseKey = root.dataset.supabaseKey ?? "";
+    const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
+    const birth = form.querySelector<HTMLInputElement>("#birth-date");
+    const age = form.querySelector<HTMLInputElement>("#age");
+    const guardian = form.querySelector<HTMLElement>("[data-guardian]");
+    const status = form.querySelector<HTMLElement>("[data-status]");
+    const button = form.querySelector<HTMLButtonElement>(".submit-button");
+    const buttonLabel = form.querySelector<HTMLElement>("[data-submit-label]");
+
+    if (!birth || !age || !guardian || !status || !button || !buttonLabel) throw new Error("No se pudo inicializar el formulario.");
+
+    const setError = (id: string, message: string) => {
+        form.querySelector<HTMLElement>("#" + id)?.setAttribute("aria-invalid", String(Boolean(message)));
+        const target = form.querySelector<HTMLElement>('[data-error-for="' + id + '"]');
+        if (target) target.textContent = message;
+    };
+    const clearStatus = () => {
+        status.textContent = "";
+        status.classList.remove("is-visible", "is-success");
+    };
+    const updateAge = () => {
+        if (!birth.value) {
+            age.value = "";
+            guardian.hidden = true;
+            return;
+        }
+        const date = new Date(birth.value + "T00:00:00");
+        const today = new Date();
+        let years = today.getFullYear() - date.getFullYear();
+        if (today.getMonth() < date.getMonth() || (today.getMonth() === date.getMonth() && today.getDate() < date.getDate())) years--;
+        age.value = years >= 0 ? String(years) : "";
+        guardian.hidden = years >= 18 || years < 0;
+        ["guardian-full-name", "guardian-relationship", "guardian-email", "guardian-phone", "guardian-authority"].forEach((id) => {
+            form.querySelector<HTMLInputElement | HTMLSelectElement>("#" + id)?.toggleAttribute("required", !guardian.hidden);
+        });
+    };
+    const normalizePhone = (input: HTMLInputElement) => {
+        input.value = input.value.replace(/\D/g, "").slice(0, 8);
+    };
+    form.querySelectorAll<HTMLInputElement>("#phone, #guardian-phone").forEach((input) => input.addEventListener("input", () => normalizePhone(input)));
+    birth.addEventListener("change", () => {
+        updateAge();
+        clearStatus();
+    });
+    form.addEventListener("input", clearStatus);
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        clearStatus();
+        let firstInvalid: HTMLElement | null = null;
+        form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>("input[required], select[required], textarea[required]").forEach((input) => {
+            input.removeAttribute("aria-invalid");
+            if (!input.checkValidity() && !firstInvalid) firstInvalid = input;
+        });
+        if (!form.querySelector('input[name="maritalStatus"]:checked')) {
+            setError("maritalStatus", "Selecciona un estado civil.");
+            firstInvalid ??= form.querySelector<HTMLElement>('input[name="maritalStatus"]');
+        }
+        if (!form.querySelector('input[name="referralSource"]:checked')) {
+            setError("referralSource", "Selecciona una opción.");
+            firstInvalid ??= form.querySelector<HTMLElement>('input[name="referralSource"]');
+        }
+        if (!supabase) {
+            status.textContent = "El formulario no está disponible temporalmente. Escríbenos para continuar.";
+            status.classList.add("is-visible");
+            return;
+        }
+        if (firstInvalid) {
+            firstInvalid.focus();
+            status.textContent = "Revisa los campos marcados antes de enviar.";
+            status.classList.add("is-visible");
+            return;
+        }
+
+        const data = new FormData(form);
+        const value = (name: string) => String(data.get(name) ?? "");
+        const minor = Number(age.value) < 18;
+        const payload = {
+            submissionId: crypto.randomUUID(),
+            website: value("website"),
+            patient: { fullName: value("fullName"), sex: value("sex"), email: value("email"), phone: "+502" + value("phone"), birthDate: value("birthDate") },
+            intake: { maritalStatus: value("maritalStatus"), address: value("address"), department: value("department"), education: value("education"), occupation: value("occupation"), chronicConditions: value("chronicConditions"), medications: value("medications"), consultationReason: value("consultationReason"), referralSource: value("referralSource") },
+            guardian: minor ? { fullName: value("guardianFullName"), relationship: value("guardianRelationship"), email: value("guardianEmail"), phone: "+502" + value("guardianPhone"), hasAuthority: value("guardianAuthority") === "on" } : null,
+            consent: { accepted: true, actor: minor ? "guardian" : "patient", version: "therapeutic-contract-and-privacy-v1" },
+        };
+
+        button.disabled = true;
+        buttonLabel.textContent = "Enviando…";
+        const { data: response, error } = await supabase.functions.invoke<{ ok?: boolean }>("submit-patient-intake", { body: payload });
+        button.disabled = false;
+        buttonLabel.textContent = "Enviar formulario e iniciar proceso";
+        if (error || !response?.ok) {
+            type EdgeFailure = { fieldErrors?: Record<string, string> };
+            const failureResponse = error ? (error as unknown as { context?: Response }).context : undefined;
+            const failure = failureResponse
+                ? await failureResponse.clone().json().catch(() => null) as EdgeFailure | null
+                : null;
+            const fieldErrors = failure?.fieldErrors ?? {};
+            Object.entries(fieldErrors).forEach(([id, message]) => setError(id, message));
+            console.error("No se pudo enviar el formulario.", {
+                error,
+                response,
+                validation: fieldErrors,
+            });
+            status.textContent = Object.keys(fieldErrors).length
+                ? Object.values(fieldErrors).join(" ")
+                : "No pudimos enviar tu información. Revisa los datos e inténtalo nuevamente.";
+            status.classList.add("is-visible");
+            return;
+        }
+        status.textContent = "Recibimos tu información. El equipo de Mindlife dará seguimiento a tu proceso.";
+        status.classList.add("is-visible", "is-success");
+        form.reset();
+        age.value = "";
+        guardian.hidden = true;
+        form.querySelectorAll<HTMLElement>("[aria-invalid]").forEach((input) => input.removeAttribute("aria-invalid"));
+    });
+    updateAge();
+}
+</script>
