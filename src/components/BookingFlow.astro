@@ -106,24 +106,24 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                     <div class="patient-grid">
                         <div class="form-field">
                             <label for="booking-first-name">Nombres</label>
-                            <input id="booking-first-name" name="first-name" type="text" autocomplete="given-name" placeholder="Ingresa tus nombres" required />
+                            <input id="booking-first-name" name="first-name" type="text" autocomplete="given-name" placeholder="Ingresa tus nombres" data-persisted-field="firstName" required />
                             <p data-error-for="booking-first-name"></p>
                         </div>
                         <div class="form-field">
                             <label for="booking-last-name">Apellidos</label>
-                            <input id="booking-last-name" name="last-name" type="text" autocomplete="family-name" placeholder="Ingresa tus apellidos" required />
+                            <input id="booking-last-name" name="last-name" type="text" autocomplete="family-name" placeholder="Ingresa tus apellidos" data-persisted-field="lastName" required />
                             <p data-error-for="booking-last-name"></p>
                         </div>
                         <div class="form-field">
                             <label for="booking-email">Correo electrónico</label>
-                            <input id="booking-email" name="email" type="email" autocomplete="email" placeholder="ejemplo@correo.com" required />
+                            <input id="booking-email" name="email" type="email" autocomplete="email" placeholder="ejemplo@correo.com" data-persisted-field="email" required />
                             <p data-error-for="booking-email"></p>
                         </div>
                         <div class="form-field phone-field">
                             <label for="booking-phone">Teléfono</label>
                             <div class="phone-control">
                                 <span>+502</span>
-                                <input id="booking-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" pattern="[0-9]{8}" maxlength="8" placeholder="55555555" required />
+                                <input id="booking-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" pattern="[0-9]{8}" maxlength="8" placeholder="55555555" data-persisted-field="phone" required />
                             </div>
                             <p data-error-for="booking-phone"></p>
                         </div>
@@ -509,9 +509,35 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
         const stepDots = Array.from(root.querySelectorAll("[data-step-dot]"));
         const stepLines = Array.from(root.querySelectorAll(".mobile-step-line"));
         const stepStatus = root.querySelector("[data-step-status]");
+        const personalInfoStorageKey = "mindlife-booking-personal-info";
+        const personalFields = Array.from(root.querySelectorAll("[data-persisted-field]"));
         const clearConfirmation = () => {
             confirmation.textContent = "";
             confirmation.classList.remove("is-visible", "is-success");
+        };
+
+        const persistPersonalInfo = () => {
+            try {
+                const personalInfo = Object.fromEntries(
+                    personalFields.map((field) => [field.dataset.persistedField, field.value]),
+                );
+                localStorage.setItem(personalInfoStorageKey, JSON.stringify(personalInfo));
+            } catch {
+                // El flujo continúa aunque el navegador no permita usar localStorage.
+            }
+        };
+
+        const restorePersonalInfo = () => {
+            try {
+                const storedInfo = JSON.parse(localStorage.getItem(personalInfoStorageKey) || "{}");
+                if (!storedInfo || typeof storedInfo !== "object") return;
+                personalFields.forEach((field) => {
+                    const value = storedInfo[field.dataset.persistedField];
+                    if (typeof value === "string") field.value = value;
+                });
+            } catch {
+                // Ignora datos guardados inválidos o restricciones del navegador.
+            }
         };
 
         const isMobileStepFlow = () => window.matchMedia("(max-width: 640px)").matches;
@@ -840,6 +866,7 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                 input.removeAttribute("aria-invalid");
                 const error = root.querySelector(`[data-error-for="${input.id}"]`);
                 if (error) error.textContent = "";
+                persistPersonalInfo();
                 clearConfirmation();
             });
         });
@@ -944,6 +971,7 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
             });
         });
 
+        restorePersonalInfo();
         setStep(currentStep, { focus: false });
         selectPackage(root.querySelector('input[name="package"]:checked'));
         renderCalendar();
