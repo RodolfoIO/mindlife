@@ -31,14 +31,22 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
             <h1>Reserva tu sesión</h1>
             <p>Selecciona el servicio, paquete y horario que mejor se adapten a ti.</p>
             <span>Elige tu paquete · Datos de contacto· Fecha y hora</span>
+            <div class="mobile-step-indicator" data-step-indicator role="group" aria-label="Progreso de la reservación">
+                <span class="mobile-step-dot" data-step-dot="1" aria-current="step">1</span>
+                <span class="mobile-step-line" aria-hidden="true"></span>
+                <span class="mobile-step-dot" data-step-dot="2">2</span>
+                <span class="mobile-step-line" aria-hidden="true"></span>
+                <span class="mobile-step-dot" data-step-dot="3">3</span>
+                <span class="mobile-step-status" data-step-status aria-live="polite">Paso 1 de 3</span>
+            </div>
         </header>
 
-        <form id="booking-form" class="booking-layout" novalidate>
+        <form id="booking-form" class="booking-layout" data-booking-form novalidate>
             <div class="booking-flow">
-                <article class="step-card">
+                <article class="step-card" data-step-panel="1" aria-labelledby="booking-step-1-title">
                     <div class="step-title">
                         <span aria-hidden="true">1</span>
-                        <h2>Elige tu servicio</h2>
+                        <h2 id="booking-step-1-title">Elige tu servicio y paquete</h2>
                     </div>
 
                     <div class="choice-grid">
@@ -84,12 +92,16 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                             </div>
                         ))}
                     </fieldset>
+                    <button class="mobile-next-button" type="button" data-next-step="2">
+                        Siguiente
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 14 0M14 7l5 5-5 5" /></svg>
+                    </button>
                 </article>
 
-                <article class="step-card">
+                <article class="step-card" data-step-panel="2" aria-labelledby="booking-step-2-title">
                     <div class="step-title">
                         <span aria-hidden="true">2</span>
-                        <h2>Tus datos</h2>
+                        <h2 id="booking-step-2-title">Tus datos</h2>
                     </div>
                     <div class="patient-grid">
                         <div class="form-field">
@@ -116,12 +128,16 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                             <p data-error-for="booking-phone"></p>
                         </div>
                     </div>
+                    <button class="mobile-next-button" type="button" data-next-step="3">
+                        Siguiente
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 14 0M14 7l5 5-5 5" /></svg>
+                    </button>
                 </article>
 
-                <article class="step-card calendar-step" data-calendar-step aria-busy="false">
+                <article class="step-card calendar-step" data-step-panel="3" data-calendar-step aria-labelledby="booking-step-3-title" aria-busy="false">
                     <div class="step-title">
                         <span aria-hidden="true">3</span>
-                        <h2>Elija la fecha y hora para la sesión</h2>
+                        <h2 id="booking-step-3-title">Elige el día y la hora</h2>
                     </div>
                     <!-- <p class="demo-note">Disponibilidad demostrativa. Esta selección no reserva un espacio real.</p> -->
 
@@ -167,6 +183,17 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                             <span>Consultando disponibilidad…</span>
                         </div>
                     </div>
+
+                    <div class="calendar-actions">
+                        <div class="consent-wrap">
+                            <p class="consent-text">Al agendar tu cita, aceptas los términos de tratamiento de datos según nuestra <a href="/privacidad">política de privacidad</a>.</p>
+                        </div>
+                        <button class="confirm-button" type="submit">
+                            Agendar cita
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 14 0M14 7l5 5-5 5" /></svg>
+                        </button>
+                        <p class="confirmation-message" data-confirmation role="status" aria-live="polite"></p>
+                    </div>
                 </article>
 
                 
@@ -208,21 +235,28 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                         <span>Total del paquete</span>
                         <strong data-summary-price>Q250</strong>
                     </div>
-                    <div class="consent-wrap">
-                        <p class="consent-text">Al agendar tu cita, aceptas los términos de tratamiento de datos según nuestra <a href="/privacidad">política de privacidad</a>.</p>
-                    </div>
-                    <button class="confirm-button" type="submit">
-                        Agendar cita
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 14 0M14 7l5 5-5 5" /></svg>
-                    </button>
                     <!-- <div class="privacy-note">
                         <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2" /><path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg>
                         <p>Tus datos se usan para reservar la cita y crear el evento en el calendario de Mindlife.</p>
                     </div> -->
-                    <p class="confirmation-message" data-confirmation role="status" aria-live="polite"></p>
                 </div>
             </aside>
         </form>
+
+        <section class="booking-success" data-booking-success hidden tabindex="-1" aria-labelledby="booking-success-title">
+            <div class="booking-success-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" /></svg>
+            </div>
+            <p class="eyebrow">Reservación confirmada</p>
+            <h2 id="booking-success-title">¡Tu cita quedó agendada!</h2>
+            <p class="booking-success-message">La información de tu reservación fue enviada por correo electrónico.</p>
+            <p class="booking-success-email" data-success-email></p>
+            <dl class="booking-success-details">
+                <div><dt>Paquete</dt><dd data-success-package></dd></div>
+                <div><dt>Fecha</dt><dd data-success-date></dd></div>
+                <div><dt>Hora</dt><dd data-success-time></dd></div>
+            </dl>
+        </section>
     </div>
 </section>
 
@@ -232,6 +266,7 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
     .booking-heading h1 { color: var(--color-primary); font-size: clamp(2.25rem, 5vw, 3.75rem); margin: .6rem 0 0; }
     .booking-heading > p:not(.eyebrow) { color: var(--color-muted); font-size: 1.125rem; margin: 1rem 0 .35rem; }
     .booking-heading > span { color: var(--color-accent-dark); font-size: .875rem; font-weight: 600; }
+    .mobile-step-indicator { display: none; }
     .booking-layout { align-items: start; display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr); }
     .booking-flow { display: grid; gap: 1.5rem; }
     .step-card { background: #fff; border: 1px solid var(--color-border); border-radius: var(--radius-md); box-shadow: var(--shadow-card); padding: clamp(1.25rem, 3vw, 2rem); }
@@ -261,7 +296,11 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
     .popular-badge { align-self: flex-start; background: var(--color-accent); border-radius: 999px; color: #fff; font-size: .62rem; font-weight: 700; padding: .2rem .5rem; }
     .demo-note { background: var(--color-accent-soft); border-radius: .65rem; color: var(--color-accent-dark); font-size: .82rem; margin: -0.5rem 0 1.5rem; padding: .65rem .8rem; }
     .schedule-shell { position: relative; }
-    .schedule-grid { display: grid; gap: 1.5rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .calendar-actions { display: grid; gap: .9rem; margin-top: 1.5rem; }
+    .calendar-step .consent-text { color: var(--color-muted); }
+    .calendar-step .consent-text a { color: var(--color-primary); }
+    .calendar-step .confirmation-message { background: var(--color-primary-soft); color: var(--color-primary); }
+    .schedule-grid { align-items: start; display: grid; gap: 1.5rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .calendar-loader { align-items: center; background: rgba(255, 255, 255, .88); border: 1px solid var(--color-accent); border-radius: .9rem; color: var(--color-primary); display: grid; gap: .7rem; inset: 0; justify-items: center; padding: 2rem; place-content: center; position: absolute; text-align: center; z-index: 2; }
     .calendar-loader-spinner { animation: calendar-loader-spin 900ms linear infinite; border: .2rem solid var(--color-primary-soft); border-radius: 50%; border-top-color: var(--color-accent); height: 2rem; width: 2rem; }
     .calendar-loader > span:last-child { font-size: .82rem; font-weight: 700; }
@@ -292,9 +331,11 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
     .calendar-status.is-error { color: #9e2424; }
     .calendar-retry { background: transparent; border: 1px solid var(--color-primary); border-radius: 999px; color: var(--color-primary); cursor: pointer; font-size: .75rem; margin-top: .55rem; padding: .45rem .75rem; }
     .calendar-retry:hover { background: var(--color-primary-soft); }
-    .time-panel { background: var(--color-surface); border-radius: .9rem; min-height: 18rem; padding: 1.25rem; }
+    .time-panel { align-self: start; background: var(--color-surface); border-radius: .9rem; padding: 1.25rem; }
     .time-panel h3 { align-items: center; color: var(--color-primary); display: flex; font-size: .93rem; gap: .45rem; margin: 0 0 1.25rem; }
     .time-panel h3 svg { height: 1.1rem; width: 1.1rem; }
+    .time-panel .selection-error, .time-panel .calendar-status { min-height: 0; }
+    .time-panel .selection-error:empty, .time-panel .calendar-status:empty { display: none; }
     .time-panel :global(.time-group + .time-group) { margin-top: 1.25rem; }
     .time-panel :global(.time-group > span) { color: var(--color-muted); display: block; font-size: .75rem; margin-bottom: .5rem; }
     .time-panel :global(.time-group > div) { display: flex; flex-wrap: wrap; gap: .45rem; }
@@ -342,8 +383,43 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
     .confirmation-message { background: rgba(255,255,255,.1); border-radius: .65rem; color: #fff; display: none; font-size: .78rem; margin: 0; padding: .75rem; }
     .confirmation-message.is-visible { display: block; }
     .confirmation-message.is-success { background: rgba(196, 255, 209, .13); }
+    .mobile-next-button { display: none; }
+    .booking-success { background: #fff; border: 1px solid var(--color-border); border-radius: var(--radius-md); box-shadow: var(--shadow-card); margin-inline: auto; max-width: 42rem; padding: clamp(2rem, 5vw, 3rem); text-align: center; }
+    .booking-success-icon { align-items: center; background: var(--color-accent-soft); border-radius: 50%; color: var(--color-accent-dark); display: flex; height: 4rem; justify-content: center; margin: 0 auto 1.25rem; width: 4rem; }
+    .booking-success-icon svg { height: 2rem; width: 2rem; }
+    .booking-success h2 { color: var(--color-primary); font-size: clamp(1.6rem, 4vw, 2.2rem); margin: .5rem 0 .75rem; }
+    .booking-success-message { color: var(--color-text); margin: 0 auto; max-width: 30rem; }
+    .booking-success-email { color: var(--color-muted); font-size: .9rem; margin: .5rem 0 0; }
+    .booking-success-details { background: var(--color-surface); border-radius: .9rem; display: grid; gap: .8rem; margin: 1.75rem 0 0; padding: 1rem; text-align: left; }
+    .booking-success-details div { display: grid; gap: .1rem; }
+    .booking-success-details dt { color: var(--color-muted); font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    .booking-success-details dd { color: var(--color-primary); font-size: .95rem; font-weight: 700; margin: 0; }
     @media (max-width: 900px) { .booking-layout { grid-template-columns: 1fr; } .booking-summary { position: static; } }
-    @media (max-width: 640px) { .choice-grid, .schedule-grid, .patient-grid { grid-template-columns: 1fr; } .package-grid { grid-template-columns: 1fr; } .package-option label { min-height: auto; } .calendar-days :global(.calendar-day) { max-height: 2rem; max-width: 2rem; } }
+    @media (max-width: 640px) {
+        .choice-grid, .schedule-grid, .patient-grid { grid-template-columns: 1fr; }
+        .package-grid { grid-template-columns: 1fr; }
+        .package-option label { min-height: auto; }
+        .calendar-days :global(.calendar-day) { max-height: 2rem; max-width: 2rem; }
+        .mobile-step-indicator { align-items: center; display: flex; gap: .45rem; margin-top: 1.4rem; max-width: 18rem; }
+        .mobile-step-dot { align-items: center; background: var(--color-primary-soft); border-radius: 50%; color: var(--color-primary); display: inline-flex; flex: 0 0 1.8rem; font-size: .78rem; font-weight: 700; height: 1.8rem; justify-content: center; }
+        .mobile-step-dot[aria-current="step"] { background: var(--color-primary); color: #fff; }
+        .mobile-step-dot.is-complete { background: var(--color-accent); color: #fff; }
+        .mobile-step-line { background: var(--color-border); flex: 1; height: 1px; min-width: 1.2rem; }
+        .mobile-step-line.is-complete { background: var(--color-accent); }
+        .mobile-step-status { color: var(--color-accent-dark); font-size: .78rem; font-weight: 700; margin-left: .3rem; white-space: nowrap; }
+        [data-booking][data-current-step="1"] [data-step-panel="2"],
+        [data-booking][data-current-step="1"] [data-step-panel="3"],
+        [data-booking][data-current-step="2"] [data-step-panel="1"],
+        [data-booking][data-current-step="2"] [data-step-panel="3"],
+        [data-booking][data-current-step="3"] [data-step-panel="1"],
+        [data-booking][data-current-step="3"] [data-step-panel="2"] { display: none; }
+        .mobile-next-button { align-items: center; background: var(--color-primary); border: 0; border-radius: 999px; color: #fff; cursor: pointer; display: flex; font-weight: 700; gap: .55rem; justify-content: center; margin-top: 1.5rem; min-height: 3.1rem; padding: .75rem 1.25rem; width: 100%; }
+        .mobile-next-button:hover { box-shadow: var(--shadow-card); transform: translateY(-2px); }
+        .mobile-next-button svg { height: 1.1rem; width: 1.1rem; }
+        [data-booking][data-current-step="1"] .confirm-button,
+        [data-booking][data-current-step="2"] .confirm-button { display: none; }
+        .booking-success { padding: 2rem 1.25rem; }
+    }
     @media (prefers-reduced-motion: reduce) { .package-option label, .confirm-button { transition: none; } .calendar-loader-spinner { animation: none; } }
 </style>
 
@@ -369,6 +445,7 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
         let selectedDate = null;
         let selectedTime = "";
         let selectedStart = "";
+        let currentStep = 1;
 
         const currency = (value) => `Q${Number(value).toLocaleString("en-US")}`;
         const calendarDateParts = (date) => Object.fromEntries(
@@ -423,10 +500,46 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
         const calendarRetry = root.querySelector("[data-calendar-retry]");
         const calendarStep = root.querySelector("[data-calendar-step]");
         const calendarLoader = root.querySelector("[data-calendar-loader]");
+        const bookingSuccess = root.querySelector("[data-booking-success]");
+        const successEmail = root.querySelector("[data-success-email]");
+        const successPackage = root.querySelector("[data-success-package]");
+        const successDate = root.querySelector("[data-success-date]");
+        const successTime = root.querySelector("[data-success-time]");
+        const stepPanels = Array.from(root.querySelectorAll("[data-step-panel]"));
+        const stepDots = Array.from(root.querySelectorAll("[data-step-dot]"));
+        const stepLines = Array.from(root.querySelectorAll(".mobile-step-line"));
+        const stepStatus = root.querySelector("[data-step-status]");
         const clearConfirmation = () => {
             confirmation.textContent = "";
             confirmation.classList.remove("is-visible", "is-success");
         };
+
+        const isMobileStepFlow = () => window.matchMedia("(max-width: 640px)").matches;
+        const setStep = (step, { focus = true } = {}) => {
+            currentStep = Math.min(3, Math.max(1, step));
+            const mobile = isMobileStepFlow();
+            root.dataset.currentStep = String(currentStep);
+            stepPanels.forEach((panel) => {
+                const active = Number(panel.dataset.stepPanel) === currentStep;
+                panel.setAttribute("aria-hidden", mobile ? String(!active) : "false");
+                panel.inert = mobile && !active;
+                const heading = panel.querySelector(".step-title h2");
+                if (heading) heading.setAttribute("tabindex", "-1");
+                if (mobile && active && focus) heading?.focus();
+            });
+            stepDots.forEach((dot) => {
+                const dotStep = Number(dot.dataset.stepDot);
+                if (dotStep === currentStep) dot.setAttribute("aria-current", "step");
+                else dot.removeAttribute("aria-current");
+                dot.classList.toggle("is-complete", dotStep < currentStep);
+            });
+            stepLines.forEach((line, index) => line.classList.toggle("is-complete", index < currentStep - 1));
+            if (stepStatus) stepStatus.textContent = `Paso ${currentStep} de 3`;
+        };
+
+        const syncStepFlowMode = () => setStep(currentStep, { focus: false });
+        const stepFlowMediaQuery = window.matchMedia("(max-width: 640px)");
+        stepFlowMediaQuery.addEventListener?.("change", syncStepFlowMode);
 
         const selectPackage = (input) => {
             if (!input) return;
@@ -706,6 +819,22 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
             return "Revisa el valor ingresado.";
         };
 
+        const validatePatientFields = () => {
+            let firstInvalid = null;
+            form.querySelectorAll(".form-field input").forEach((input) => {
+                const valid = input.checkValidity();
+                input.setAttribute("aria-invalid", String(!valid));
+                const error = root.querySelector(`[data-error-for="${input.id}"]`);
+                if (error) error.textContent = valid ? "" : fieldMessage(input);
+                if (!valid && !firstInvalid) firstInvalid = input;
+            });
+            if (firstInvalid) {
+                firstInvalid.focus();
+                return false;
+            }
+            return true;
+        };
+
         form.querySelectorAll(".form-field input").forEach((input) => {
             input.addEventListener("input", () => {
                 input.removeAttribute("aria-invalid");
@@ -714,6 +843,26 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                 clearConfirmation();
             });
         });
+
+        root.querySelectorAll("[data-next-step]").forEach((button) => {
+            button.addEventListener("click", () => {
+                const nextStep = Number(button.dataset.nextStep);
+                if (nextStep === 3 && !validatePatientFields()) return;
+                if (nextStep === 2 && !root.querySelector('input[name="package"]:checked')) return;
+                clearConfirmation();
+                setStep(nextStep);
+            });
+        });
+
+        const showBookingSuccess = () => {
+            successEmail.textContent = `Enviamos los detalles a ${root.querySelector("#booking-email").value}.`;
+            successPackage.textContent = summaryPackage.textContent;
+            successDate.textContent = summaryDate.textContent;
+            successTime.textContent = summaryTime.textContent;
+            form.hidden = true;
+            bookingSuccess.hidden = false;
+            bookingSuccess.focus();
+        };
 
         form.addEventListener("submit", (event) => {
             event.preventDefault();
@@ -784,9 +933,7 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                     }
                     throw new Error(payload.mensaje || "No se pudo reservar el horario.");
                 }
-                confirmation.textContent = payload.mensaje || "Tu cita quedó reservada correctamente.";
-                confirmation.classList.add("is-success");
-                clearDateSelection();
+                showBookingSuccess();
                 void loadCalendarAvailability();
             }).catch((error) => {
                 confirmation.textContent = error.message;
@@ -797,6 +944,7 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
             });
         });
 
+        setStep(currentStep, { focus: false });
         selectPackage(root.querySelector('input[name="package"]:checked'));
         renderCalendar();
         void loadCalendarAvailability();
