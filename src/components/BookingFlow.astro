@@ -26,7 +26,7 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
 
 <section class="booking-section" data-booking data-calendar-url={calendarUrl}>
     <div class="site-container">
-        <header class="booking-heading">
+        <header class="booking-heading flow-heading">
             <p class="eyebrow">Reservación</p>
             <h1>Reserva tu sesión</h1>
             <p>Selecciona el servicio, paquete y horario que mejor se adapten a ti.</p>
@@ -35,8 +35,8 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
 
         <form id="booking-form" class="booking-layout" novalidate>
             <div class="booking-flow">
-                <article class="step-card">
-                    <div class="step-title">
+                <article class="step-card flow-card">
+                    <div class="step-title flow-card-heading">
                         <span aria-hidden="true">1</span>
                         <h2>Elige tu servicio</h2>
                     </div>
@@ -58,7 +58,7 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                         {packageGroups.map((group, groupIndex) => (
                             <div class={`package-grid ${groupIndex > 0 ? "is-hidden" : ""}`} data-package-group={group.id}>
                                 {group.packages.map((pkg, packageIndex) => (
-                                    <div class="package-option">
+                                    <div class="package-option flow-option">
                                         <input
                                             class="package-input"
                                             type="radio"
@@ -86,8 +86,8 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                     </fieldset>
                 </article>
 
-                <article class="step-card">
-                    <div class="step-title">
+                <article class="step-card flow-card">
+                    <div class="step-title flow-card-heading">
                         <span aria-hidden="true">2</span>
                         <h2>Tus datos</h2>
                     </div>
@@ -118,8 +118,8 @@ const calendarUrl = import.meta.env.CALENDAR_URL ?? "";
                     </div>
                 </article>
 
-                <article class="step-card calendar-step" data-calendar-step aria-busy="false">
-                    <div class="step-title">
+                <article class="step-card flow-card calendar-step" data-calendar-step aria-busy="false">
+                    <div class="step-title flow-card-heading">
                         <span aria-hidden="true">3</span>
                         <h2>Elija la fecha y hora para la sesión</h2>
                     </div>
